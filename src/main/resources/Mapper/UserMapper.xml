@@ -31,7 +31,7 @@
 
     <select id="login" resultMap="user">
         select * from user
-        where status="0" and password=#{password} and username=#{username} or email=#{username}
+        where status='0' and password=#{password} and (username=#{username} or email=#{username})
     </select>
 
     <insert id="insertUser" useGeneratedKeys="true" keyColumn="user_id" keyProperty="userId"

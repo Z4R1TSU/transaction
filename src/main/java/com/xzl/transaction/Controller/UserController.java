@@ -45,16 +45,25 @@ public class UserController {
                 User login = userService.login(username, password);
                 if (login != null) {
                     session.getSession().setAttribute("user", login);
-                    if (login.getRole().equals(role)&& login.getRole().equals("0")) {
+                    // Check if the role provided in the request matches the user's actual role
+                    if (!login.getRole().equals(role)) {
+                        return new ResultMessage(ERROR_ROLE);
+                    }
+
+                    // At this point, login.getRole() matches the requested 'role'
+                    if (role.equals("0")) {
                         CommonUser commonUserById = userService.getCommonUserById(login.getUserId());
                         return new ResultMessage(LOGIN_SUCCESS, commonUserById);
-                    } else if (login.getRole().equals(role) && login.getRole().equals("1")) {
+                    } else if (role.equals("1")) {
                         BusinessUser businessUser = userService.getBusinessUserById(login.getUserId());
                         return new ResultMessage(LOGIN_SUCCESS, businessUser);
-                    } else if (login.getRole().equals(role) && login.getRole().equals("2")) {
-                        return new ResultMessage(LOGIN_SUCCESS, login);
-                    } else
+                    } else if (role.equals("2")) {
+                        return new ResultMessage(LOGIN_SUCCESS, login); // Admin user
+                    } else {
+                        // This case should ideally not be reached if 'role' is validated upstream
+                        // or if role values are strictly "0", "1", "2"
                         return new ResultMessage(ERROR_ROLE);
+                    }
                 }
                 return new ResultMessage(ERROR_NOFOUND_USER);
             }
