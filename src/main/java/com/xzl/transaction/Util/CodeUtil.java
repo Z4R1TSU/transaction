@@ -29,16 +29,10 @@ public class CodeUtil {
     }
 
     public static String codeUpper(String str){
-        StringBuffer sb = new StringBuffer();
-        if(str!=null){
-            for(int i=0;i<str.length();i++){
-                char c = str.charAt(i);
-                if(Character.isLowerCase(c)){
-                    sb.append(Character.toUpperCase(c));
-                }
-            }
+        if (str == null) {
+            return null; // 或者根据需要返回 "" 
         }
-        return sb.toString();
+        return str.toUpperCase();
     }
 
 }
