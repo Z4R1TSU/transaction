@@ -2,14 +2,14 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.srx.transaction.Mapper.ShopCarMapper">
-    <resultMap id="shopCar" type="com.srx.transaction.Entities.ShopCar">
+<mapper namespace="com.xzl.transaction.Mapper.ShopCarMapper">
+    <resultMap id="shopCar" type="com.xzl.transaction.Entities.ShopCar">
         <result column="goods_uuid" property="goodsUUID"/>
         <result column="common_id" property="commonId"/>
         <result column="goods_count" property="goodsCount"/>
         <result column="status" property="status"/>
     </resultMap>
-    <insert id="insertGoodsToCar" parameterType="com.srx.transaction.Entities.ShopCar">
+    <insert id="insertGoodsToCar" parameterType="com.xzl.transaction.Entities.ShopCar">
         insert into shop_car(goods_uuid,common_id,goods_count) values(#{goodsUUID},#{commonId},#{goodsCount})
     </insert>
 

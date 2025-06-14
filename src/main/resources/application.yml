@@ -15,7 +15,7 @@ spring:
 
 mybatis:
   mapper-locations: classpath:Mapper/*.xml
-  type-aliases-package: com.srx.transaction.Entities
+  type-aliases-package: com.xzl.transaction.Entities
 
 
 logging:

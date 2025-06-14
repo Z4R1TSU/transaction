@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.srx.transaction.Mapper.ShopMapper">
+<mapper namespace="com.xzl.transaction.Mapper.ShopMapper">
     <!--    shop_id  shop_uuid  shop_name  business_id   level  praise_rate  praise_count  deal_count  create_time  status-->
-    <resultMap id="shop" type="com.srx.transaction.Entities.Shop">
+    <resultMap id="shop" type="com.xzl.transaction.Entities.Shop">
         <id property="shopId" column="shop_id"/>
         <result property="shopUUID" column="shop_uuid"/>
         <result property="shopName" column="shop_name"/>
@@ -21,7 +21,7 @@
     </sql>
 
     <insert id="insertShop" useGeneratedKeys="true" keyColumn="shop_id" keyProperty="shopId"
-            parameterType="com.srx.transaction.Entities.Shop">
+            parameterType="com.xzl.transaction.Entities.Shop">
         insert into shop(shop_uuid,shop_name,business_id) values(#{shopUUID},#{shopName},#{businessId})
     </insert>
 

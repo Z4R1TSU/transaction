@@ -2,8 +2,8 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.srx.transaction.Mapper.UserMapper">
-    <resultMap id="user" type="com.srx.transaction.Entities.User">
+<mapper namespace="com.xzl.transaction.Mapper.UserMapper">
+    <resultMap id="user" type="com.xzl.transaction.Entities.User">
         <id column="user_id" property="userId"/>
         <result column="username" property="username"/>
         <result column="password" property="password"/>
@@ -12,14 +12,14 @@
         <result column="status" property="status"/>
     </resultMap>
 
-    <resultMap id="commonUser" type="com.srx.transaction.Entities.CommonUser" extends="user">
+    <resultMap id="commonUser" type="com.xzl.transaction.Entities.CommonUser" extends="user">
         <result column="name" property="name"/>
         <result column="phone" property="phone"/>
         <result column="sex" property="sex"/>
         <result column="city" property="city"/>
         <result column="account" property="account"/>
     </resultMap>
-    <resultMap id="businessUser" type="com.srx.transaction.Entities.BusinessUser" extends="user">
+    <resultMap id="businessUser" type="com.xzl.transaction.Entities.BusinessUser" extends="user">
         <result column="name" property="name"/>
         <result column="phone" property="phone"/>
         <result column="sex" property="sex"/>
@@ -35,14 +35,14 @@
     </select>
 
     <insert id="insertUser" useGeneratedKeys="true" keyColumn="user_id" keyProperty="userId"
-            parameterType="com.srx.transaction.Entities.User">
+            parameterType="com.xzl.transaction.Entities.User">
         insert into user(username,password,email,role) values (#{username},#{password},#{email},#{role})
     </insert>
-    <insert id="insertCommonUser" parameterType="com.srx.transaction.Entities.CommonUser">
+    <insert id="insertCommonUser" parameterType="com.xzl.transaction.Entities.CommonUser">
         insert into common_user(user_id,name,phone,sex,city,account) values (#{commonUserId},#{name},#{phone},#{sex},#{city},#{account})
     </insert>
 
-    <insert id="insertBusinessUser" parameterType="com.srx.transaction.Entities.BusinessUser">
+    <insert id="insertBusinessUser" parameterType="com.xzl.transaction.Entities.BusinessUser">
         insert into business_user(user_id,name,phone,sex,identification_front,identification_back,account,license) values (#{businessUserId},#{name},#{phone},#{sex},#{identificationFront},#{identificationBack},#{account},#{license})
     </insert>
 

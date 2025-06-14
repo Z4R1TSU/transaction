@@ -2,8 +2,8 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.srx.transaction.Mapper.DealMapper">
-    <resultMap id="deal" type="com.srx.transaction.Entities.Deal">
+<mapper namespace="com.xzl.transaction.Mapper.DealMapper">
+    <resultMap id="deal" type="com.xzl.transaction.Entities.Deal">
         <id property="dealUUID" column="deal_uuid"/>
         <result property="goodsUUID" column="goods_uuid"/>
         <result property="shopUUID" column="shop_uuid"/>
