@@ -91,7 +91,7 @@
         },
         methods: {
             findIdleTiem(page, findValue) {
-                this.$api.findIdleTiem({
+                this.$api.findIdleItem({
                     page: page,
                     nums: 8,
                     findValue: findValue

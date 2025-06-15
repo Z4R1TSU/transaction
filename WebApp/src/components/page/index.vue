@@ -87,7 +87,7 @@
             };
         },
         created() {
-            this.findIdleTiem(1)
+            this.findIdleItem(1)
         },
         watch:{
             $route(to,from){
@@ -97,19 +97,19 @@
                 // val=parseInt(val%totalPage);
                 // val=val===0?totalPage:val;
                 this.currentPage=parseInt(to.query.page)?parseInt(to.query.page):1;
-                this.findIdleTiem(val);
+                this.findIdleItem(val);
             }
         },
         methods: {
-            findIdleTiem(page){
+            findIdleItem(page){
                 const loading = this.$loading({
                     lock: true,
                     text: '加载数据中',
                     spinner: 'el-icon-loading',
                     background: 'rgba(0, 0, 0, 0)'
                 });
-                if(this.labelName>0){
-                    this.$api.findIdleTiemByLable({
+                if(this.labelName > 0){
+                    this.$api.findIdleItemByLabel({
                         idleLabel:this.labelName,
                         page: page,
                         nums: 8
@@ -130,22 +130,21 @@
                         loading.close();
                     })
                 }else{
-                    this.$api.findIdleTiem({
-                        page: page,
-                        nums: 8
+                    this.$api.findIdleItem({
+                      page: page,
+                      nums: 8,
                     }).then(res => {
-                        console.log(res);
-                        let list = res.data.list;
-                        for (let i = 0; i < list.length; i++) {
-                            list[i].timeStr = list[i].releaseTime.substring(0, 10) + " " + list[i].releaseTime.substring(11, 19);
-                            let pictureList = list[i].pictureList ? JSON.parse(list[i].pictureList) : [];
-                            list[i].imgUrl = pictureList.length > 0 && pictureList[0] ? (pictureList[0].startsWith('data:image') ? pictureList[0] : `data:image/jpeg;base64,${pictureList[0]}`) : '';
-                        }
-                        this.idleList = list;
-                        this.totalItem=res.data.count;
-                        console.log(this.totalItem);
+                      console.log(res);
+                      let list = res.data.list;
+                      for (let i = 0; i < list.length; i++) {
+                        list[i].timeStr = list[i].releaseTime.substring(0, 10) + " " + list[i].releaseTime.substring(11, 19);
+                        let pictureList = list[i].pictureList ? JSON.parse(list[i].pictureList) : [];
+                        list[i].imgUrl = pictureList.length > 0 && pictureList[0] ? (pictureList[0].startsWith('data:image') ? pictureList[0] : `data:image/jpeg;base64,${pictureList[0]}`) : '';
+                      }
+                      this.idleList = list;
+                      this.totalItem=res.data.count;
                     }).catch(e => {
-                        console.log(e)
+                      console.log(e)
                     }).finally(()=>{
                         loading.close();
                     })

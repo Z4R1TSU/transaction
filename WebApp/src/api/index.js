@@ -92,16 +92,16 @@ const api = {
             params: query
         });
     },
-    findIdleTiem(query) {
+    findIdleItem(query) {
         return request({
             url: '/idle/find',
             method: 'get',
             params: query
         });
     },
-    findIdleTiemByLable(query) {
+    findIdleItemByLabel(query) {
         return request({
-            url: '/idle/lable',
+            url: '/idle/label',
             method: 'get',
             params: query
         });

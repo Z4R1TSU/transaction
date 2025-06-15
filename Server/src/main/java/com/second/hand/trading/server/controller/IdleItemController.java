@@ -62,10 +62,10 @@ public class IdleItemController {
         return ResultVo.success(idleItemService.findIdleItem(findValue,p,n));
     }
 
-    @GetMapping("lable")
-    public ResultVo findIdleItemByLable(@RequestParam(value = "idleLabel",required = true) Integer idleLabel,
-                                 @RequestParam(value = "page",required = false) Integer page,
-                                 @RequestParam(value = "nums",required = false) Integer nums){
+    @GetMapping("label")
+    public ResultVo findIdleItemByLabel(@RequestParam(value = "idleLabel",required = true) Integer idleLabel,
+                                        @RequestParam(value = "page",required = false) Integer page,
+                                        @RequestParam(value = "nums",required = false) Integer nums){
         int p=1;
         int n=8;
         if(null!=page){
