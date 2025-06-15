@@ -118,8 +118,8 @@
                         let list = res.data.list;
                         for (let i = 0; i < list.length; i++) {
                             list[i].timeStr = list[i].releaseTime.substring(0, 10) + " " + list[i].releaseTime.substring(11, 19);
-                            let pictureList = JSON.parse(list[i].pictureList);
-                            list[i].imgUrl = pictureList.length > 0 ? pictureList[0] : '';
+                            let pictureList = list[i].pictureList ? JSON.parse(list[i].pictureList) : [];
+                            list[i].imgUrl = pictureList.length > 0 && pictureList[0] ? (pictureList[0].startsWith('data:image') ? pictureList[0] : `data:image/jpeg;base64,${pictureList[0]}`) : '';
                         }
                         this.idleList = list;
                         this.totalItem=res.data.count;
@@ -138,8 +138,8 @@
                         let list = res.data.list;
                         for (let i = 0; i < list.length; i++) {
                             list[i].timeStr = list[i].releaseTime.substring(0, 10) + " " + list[i].releaseTime.substring(11, 19);
-                            let pictureList = JSON.parse(list[i].pictureList);
-                            list[i].imgUrl = pictureList.length > 0 ? pictureList[0] : '';
+                            let pictureList = list[i].pictureList ? JSON.parse(list[i].pictureList) : [];
+                            list[i].imgUrl = pictureList.length > 0 && pictureList[0] ? (pictureList[0].startsWith('data:image') ? pictureList[0] : `data:image/jpeg;base64,${pictureList[0]}`) : '';
                         }
                         this.idleList = list;
                         this.totalItem=res.data.count;

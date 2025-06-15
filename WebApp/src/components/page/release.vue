@@ -51,7 +51,7 @@
                     <div class="release-idle-container-picture">
                         <div class="release-idle-container-picture-title">上传闲置照片</div>
                         <el-upload
-                                action="http://localhost:8080/file/"
+                                action="http://localhost:8040/file/upload-base64"
                                 :on-preview="fileHandlePreview"
                                 :on-remove="fileHandleRemove"
                                 :on-success="fileHandleSuccess"
@@ -137,20 +137,30 @@
             },
             fileHandleRemove(file, fileList) {
                 console.log(file, fileList);
-                for(let i=0;i<this.imgList.length;i++){
-                    if(this.imgList[i]===file.response.data){
-                        this.imgList.splice(i,1);
+                let removedUrl = file.response && file.response.status_code === 1 ? (file.response.data.startsWith('data:image') ? file.response.data : `data:image/jpeg;base64,${file.response.data}`) : file.url; // file.url might be used if it's an already uploaded image shown in the list
+                if (removedUrl) {
+                    const index = this.imgList.indexOf(removedUrl);
+                    if (index !== -1) {
+                        this.imgList.splice(index, 1);
                     }
                 }
             },
             fileHandlePreview(file) {
                 console.log(file);
-                this.dialogImageUrl=file.response.data;
-                this.imgDialogVisible=true;
+                // file.response.data should be the base64 string
+                this.dialogImageUrl = file.response && file.response.status_code === 1 ? (file.response.data.startsWith('data:image') ? file.response.data : `data:image/jpeg;base64,${file.response.data}`) : file.url;
+                this.imgDialogVisible = true;
             },
             fileHandleSuccess(response, file, fileList){
                 console.log("file:",response,file,fileList);
-                this.imgList.push(response.data);
+                if (response.status_code === 1 && response.data) {
+                    // Assuming response.data is the Base64 string
+                    // Prepend with data URI scheme if not already present
+                    const base64Image = response.data.startsWith('data:image') ? response.data : `data:image/jpeg;base64,${response.data}`;
+                    this.imgList.push(base64Image);
+                } else {
+                    this.$message.error(response.msg || '图片上传失败');
+                }
             },
             releaseButton(){
                 this.idleItemInfo.pictureList=JSON.stringify(this.imgList);

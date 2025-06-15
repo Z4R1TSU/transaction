@@ -8,7 +8,7 @@
                     <div class="user-info-details">
 
                         <el-upload
-                                action="http://localhost:8080/file/"
+                                action="http://localhost:8040/file/upload-base64"
                                 :on-success="fileHandleSuccess"
                                 :file-list="imgFileList"
                                 accept="image/*"
@@ -524,15 +524,26 @@
             },
             fileHandleSuccess(response, file, fileList) {
                 console.log("file:", response, file, fileList);
-                let imgUrl = response.data;
-                this.imgFileList = [];
-                this.$api.updateUserPublicInfo({
-                    avatar: imgUrl
-                }).then(res => {
-                    console.log(res);
-                    this.userInfo.avatar = imgUrl;
-                    this.$globalData.userInfo.avatar = imgUrl;
-                })
+                if (response.status_code === 1 && response.data) {
+                    const base64Image = response.data.startsWith('data:image') ? response.data : `data:image/jpeg;base64,${response.data}`;
+                    this.imgFileList = []; // Clear file list for next upload
+                    this.$api.updateUserPublicInfo({
+                        avatar: base64Image // Send Base64 string to backend
+                    }).then(res => {
+                        if (res.status_code === 1) {
+                            this.userInfo.avatar = base64Image;
+                            this.$globalData.userInfo.avatar = base64Image;
+                            this.$message.success('头像更新成功！');
+                        } else {
+                            this.$message.error(res.msg || '头像更新失败');
+                        }
+                    }).catch(e => {
+                        this.$message.error('网络异常，头像更新失败！');
+                        console.error(e);
+                    });
+                } else {
+                    this.$message.error(response.msg || '图片上传失败');
+                }
             },
             update(data) {
                 this.$api.updateAddress(data).then(res => {

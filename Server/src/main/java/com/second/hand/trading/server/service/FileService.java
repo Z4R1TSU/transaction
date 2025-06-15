@@ -7,11 +7,10 @@ import java.io.IOException;
 public interface FileService {
 
     /**
-     * 上传文件
+     * 上传文件并转换为Base64字符串
      * @param multipartFile
-     * @param fileName
-     * @return
+     * @return Base64 encoded string of the file
      * @throws IOException
      */
-    boolean uploadFile(MultipartFile multipartFile,String fileName)throws IOException;
+    String uploadFile(MultipartFile multipartFile) throws IOException;
 }

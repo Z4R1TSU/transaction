@@ -5,7 +5,7 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="idle_name" jdbcType="VARCHAR" property="idleName" />
     <result column="idle_details" jdbcType="VARCHAR" property="idleDetails" />
-    <result column="picture_list" jdbcType="VARCHAR" property="pictureList" />
+    <result column="picture_list" jdbcType="LONGVARCHAR" property="pictureList" />
     <result column="idle_price" jdbcType="DECIMAL" property="idlePrice" />
     <result column="idle_place" jdbcType="VARCHAR" property="idlePlace" />
     <result column="idle_label" jdbcType="INTEGER" property="idleLabel" />
@@ -77,7 +77,7 @@
       idle_price, idle_place, idle_label, 
       release_time, idle_status, user_id
       )
-    values (#{idleName,jdbcType=VARCHAR}, #{idleDetails,jdbcType=VARCHAR}, #{pictureList,jdbcType=VARCHAR}, 
+    values (#{idleName,jdbcType=VARCHAR}, #{idleDetails,jdbcType=VARCHAR}, #{pictureList,jdbcType=LONGVARCHAR}, 
       #{idlePrice,jdbcType=DECIMAL}, #{idlePlace,jdbcType=VARCHAR}, #{idleLabel,jdbcType=INTEGER}, 
       #{releaseTime,jdbcType=TIMESTAMP}, #{idleStatus,jdbcType=TINYINT}, #{userId,jdbcType=BIGINT}
       )
@@ -121,7 +121,7 @@
         #{idleDetails,jdbcType=VARCHAR},
       </if>
       <if test="pictureList != null">
-        #{pictureList,jdbcType=VARCHAR},
+        #{pictureList,jdbcType=LONGVARCHAR},
       </if>
       <if test="idlePrice != null">
         #{idlePrice,jdbcType=DECIMAL},
@@ -153,7 +153,7 @@
         idle_details = #{idleDetails,jdbcType=VARCHAR},
       </if>
       <if test="pictureList != null">
-        picture_list = #{pictureList,jdbcType=VARCHAR},
+        picture_list = #{pictureList,jdbcType=LONGVARCHAR},
       </if>
       <if test="idlePrice != null">
         idle_price = #{idlePrice,jdbcType=DECIMAL},
@@ -177,7 +177,7 @@
     update sh_idle_item
     set idle_name = #{idleName,jdbcType=VARCHAR},
       idle_details = #{idleDetails,jdbcType=VARCHAR},
-      picture_list = #{pictureList,jdbcType=VARCHAR},
+      picture_list = #{pictureList,jdbcType=LONGVARCHAR},
       idle_price = #{idlePrice,jdbcType=DECIMAL},
       idle_place = #{idlePlace,jdbcType=VARCHAR},
       idle_label = #{idleLabel,jdbcType=INTEGER},

@@ -1,38 +1,21 @@
 package com.second.hand.trading.server.service.impl;
 
 import com.second.hand.trading.server.service.FileService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.Base64;
 
 @Service
 public class FileServiceImpl implements FileService {
 
-    @Value("${userFilePath}")
-    private String userFilePath;
-
-    public boolean uploadFile(MultipartFile multipartFile,String fileName)throws IOException {
-        File fileDir = new File(userFilePath);
-        if (!fileDir.exists()) {
-            if (!fileDir.mkdirs()) {
-                return false;
-            }
+    @Override
+    public String uploadFile(MultipartFile multipartFile) throws IOException {
+        if (multipartFile.isEmpty()) {
+            throw new IOException("Cannot upload an empty file.");
         }
-//        System.out.println(fileDir.getAbsolutePath() +"/"+fileName);
-        File file = new File(fileDir.getAbsolutePath() +"/"+fileName);
-        if (file.exists()) {
-            if (!file.delete()) {
-                return false;
-            }
-        }
-        if (file.createNewFile()) {
-            multipartFile.transferTo(file);
-            return true;
-        }
-        return false;
+        byte[] bytes = multipartFile.getBytes();
+        return Base64.getEncoder().encodeToString(bytes);
     }
 }
