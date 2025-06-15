@@ -2,10 +2,23 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true # 建议添加，有助于在某些网络环境下正确解析服务地址
+
 spring:
   application:
     name: service-zuul
-zuul:
-  routes:
+
 server:
   port: 8040
+
+zuul:
+  routes:
+    # 将所有请求转发到名为 "second-hand-trading-server" 的服务
+    # 这个服务名应该与 Server 模块在 Eureka 中注册的 spring.application.name 一致
+    backend-server: # 这是一个自定义的路由ID，您可以根据喜好命名
+      path: /**   # 匹配所有进入Zuul的请求路径
+      serviceId: second-hand-trading-server # 后端服务在Eureka注册的名称
+  # 清空 sensitiveHeaders 允许 Cookie, Set-Cookie 等头信息通过 Zuul 转发
+  # 这对于依赖 Cookie 进行会话管理的场景（如 shUserId）非常重要
+  sensitiveHeaders:
