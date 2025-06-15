@@ -4,10 +4,6 @@ import com.second.hand.trading.server.model.AddressModel;
 
 import java.util.List;
 
-/**
- * @author myl
- * @create 2020-12-21  8:52
- */
 public interface AddressService {
     /**
      * 获取一个用户的所有地址信息

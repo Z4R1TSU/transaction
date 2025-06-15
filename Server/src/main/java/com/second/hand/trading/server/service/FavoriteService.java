@@ -4,10 +4,6 @@ import com.second.hand.trading.server.model.FavoriteModel;
 
 import java.util.List;
 
-/**
- * @author myl
- * @create 2020-12-26  20:23
- */
 public interface FavoriteService {
 
     /**

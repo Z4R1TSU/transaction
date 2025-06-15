@@ -11,10 +11,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-/**
- * @author myl
- * @create 2020-12-23  17:44
- */
 @RestController
 @RequestMapping("idle")
 public class IdleItemController {

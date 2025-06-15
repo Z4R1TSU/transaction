@@ -17,8 +17,6 @@ import java.util.Map;
 /**
  * 闲置信息的增删改查
  * user_id建索引
- * @author myl
- * @create 2020-12-23  17:46
  */
 @Service
 public class IdleItemServiceImpl implements IdleItemService {

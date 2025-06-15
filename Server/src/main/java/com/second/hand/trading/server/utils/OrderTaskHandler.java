@@ -37,8 +37,6 @@ import java.util.concurrent.DelayQueue;
  * 消息队列？Redis有序集合？
  * 分布式场景时可用MQ和Redis有序集合代替jdk延时队列，然后与方案3相同；
  * 没必要将全部订单都放中间件；
- * @author myl
- * @create 2021-01-28  0:06
  */
 public class OrderTaskHandler {
 

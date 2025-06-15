@@ -13,10 +13,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-/**
- * @author myl
- * @create 2020-12-25  14:12
- */
 @RestController
 @RequestMapping("/order")
 public class OrderController {

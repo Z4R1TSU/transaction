@@ -5,7 +5,6 @@ import java.util.Date;
 
 /**
  * sh_favorite
- * @author 
  */
 public class FavoriteModel implements Serializable {
     /**

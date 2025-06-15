@@ -11,10 +11,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-/**
- * @author myl
- * @create 2020-12-27  11:19
- */
 @RestController
 @RequestMapping("/message")
 public class MessageController {

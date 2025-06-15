@@ -18,8 +18,6 @@ import java.util.Map;
 /**
  * 收藏的增删改查
  * user_id建索引
- * @author myl
- * @create 2020-12-26  20:23
  */
 @Service
 public class FavoriteServiceImpl implements FavoriteService {

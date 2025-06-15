@@ -3,10 +3,6 @@ package com.second.hand.trading.server.vo;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author myl
- * @create 2020-12-23  22:56
- */
 public class PageVo <E>{
     private List<E> list;
     private int count;

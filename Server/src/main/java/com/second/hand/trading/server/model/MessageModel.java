@@ -5,7 +5,6 @@ import java.util.Date;
 
 /**
  * sh_message
- * @author 
  */
 public class MessageModel implements Serializable {
     /**

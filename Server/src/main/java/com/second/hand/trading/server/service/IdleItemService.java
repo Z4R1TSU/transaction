@@ -5,10 +5,6 @@ import com.second.hand.trading.server.vo.PageVo;
 
 import java.util.List;
 
-/**
- * @author myl
- * @create 2020-12-23  17:46
- */
 public interface IdleItemService {
 
     /**

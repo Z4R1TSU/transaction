@@ -11,10 +11,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-/**
- * @author myl
- * @create 2020-12-26  20:36
- */
 @RestController
 @RequestMapping("/favorite")
 public class FavoriteController {

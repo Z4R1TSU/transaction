@@ -7,10 +7,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
-/**
- * @author myl
- * @create 2020-12-26  16:05
- */
 @Service
 public class OrderAddressServiceImpl implements OrderAddressService {
 

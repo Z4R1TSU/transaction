@@ -24,8 +24,6 @@ import java.util.concurrent.locks.ReentrantLock;
  * 订单表
  * user_id建索引
  * idle_id建索引
- * @author myl
- * @create 2020-12-25  14:07
  */
 @Service
 public class OrderServiceImpl implements OrderService {

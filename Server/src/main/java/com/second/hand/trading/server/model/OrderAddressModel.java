@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 /**
  * sh_order_address
- * @author 
  */
 public class OrderAddressModel implements Serializable {
     private Long id;

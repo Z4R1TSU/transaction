@@ -7,10 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
-/**
- * @author myl
- * @create 2020-12-26  19:57
- */
 public class LogCostInterceptor implements HandlerInterceptor {
     private long start = System.currentTimeMillis();
 

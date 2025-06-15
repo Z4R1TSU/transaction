@@ -13,10 +13,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
-/**
- * @author myl
- * @create 2020-12-17  10:06
- */
 @RestController
 @RequestMapping("user")
 public class UserController {

@@ -9,11 +9,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 
-/**
- * @author myl
- * @create 2020-12-17  10:21
- */
-
 @Service
 public class UserServiceImpl implements UserService {
 

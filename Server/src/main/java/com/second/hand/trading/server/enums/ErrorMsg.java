@@ -2,7 +2,6 @@ package com.second.hand.trading.server.enums;
 
 
 /**
- * @author myl
  * 错误信息枚举类
  */
 public enum ErrorMsg {

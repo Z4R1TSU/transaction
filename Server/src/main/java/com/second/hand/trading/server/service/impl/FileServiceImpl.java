@@ -9,10 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * @author myl
- * @create 2020-12-20  20:39
- */
 @Service
 public class FileServiceImpl implements FileService {
 

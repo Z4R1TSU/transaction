@@ -6,10 +6,6 @@ import com.second.hand.trading.server.model.OrderModel;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.TimeUnit;
 
-/**
- * @author myl
- * @create 2021-01-27  23:59
- */
 public class OrderTask implements Delayed {
     /**
      * 延迟时间

@@ -16,10 +16,6 @@ import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-/**
- * @author myl
- * @create 2021-02-08  15:43
- */
 @RestController
 @RequestMapping("admin")
 public class AdminController {

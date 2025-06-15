@@ -9,10 +9,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 
-/**
- * @author myl
- * @create 2021-02-07  22:00
- */
 @Service
 public class AdminServiceImpl implements AdminService {
 

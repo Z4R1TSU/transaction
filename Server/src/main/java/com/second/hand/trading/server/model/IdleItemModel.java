@@ -6,7 +6,6 @@ import java.util.Date;
 
 /**
  * sh_idle_item
- * @author 
  */
 public class IdleItemModel implements Serializable {
     /**

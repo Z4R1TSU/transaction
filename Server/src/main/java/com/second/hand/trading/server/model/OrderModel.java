@@ -6,7 +6,6 @@ import java.util.Date;
 
 /**
  * sh_order
- * @author myl
  */
 public class OrderModel implements Serializable {
     /**

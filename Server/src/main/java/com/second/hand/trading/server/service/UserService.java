@@ -5,10 +5,6 @@ import com.second.hand.trading.server.vo.PageVo;
 
 import java.util.List;
 
-/**
- * @author myl
- * @create 2020-12-17  10:15
- */
 public interface UserService {
 
     /**

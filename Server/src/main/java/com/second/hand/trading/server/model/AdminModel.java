@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 /**
  * sh_admin
- * @author 
  */
 public class AdminModel implements Serializable {
     /**
