@@ -70,11 +70,16 @@
         align-items: center;
         height: 100vh;
         width: 100%;
-        background-color: #f1f1f1;
+        background: linear-gradient(to right, #74ebd5, #ACB6E5); /* Modern gradient background */
+    }
+
+    .box-card {
+        border-radius: 15px; /* Rounded corners for the card */
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Softer shadow */
     }
 
     .login-body {
-        padding: 30px;
+        padding: 40px; /* Increased padding */
         width: 400px;
         height: 100%;
     }
@@ -83,18 +88,25 @@
         padding-bottom: 30px;
         text-align: center;
         font-weight: 600;
-        font-size: 20px;
-        color: #409EFF;
+        font-size: 24px; /* Slightly larger title */
+        color: #303133; /* Darker color for better contrast */
         cursor: pointer;
     }
 
     .login-input {
-        margin-bottom: 20px;
+        margin-bottom: 25px; /* Increased margin */
     }
 
     .login-submit {
         display: flex;
         justify-content: center;
+        margin-top: 10px; /* Added margin top */
+    }
+
+    .login-submit .el-button {
+        width: 100%; /* Full width button */
+        padding: 12px 20px; /* Larger button padding */
+        font-size: 16px; /* Larger button font size */
     }
 
     .sign-in-container {
@@ -103,13 +115,13 @@
 
     .sign-in-text {
         color: #409EFF;
-        font-size: 16px;
+        font-size: 14px; /* Adjusted font size */
         text-decoration: none;
         line-height:28px;
     }
     .other-submit{
         display:flex;
         justify-content: space-between;
-        margin-top: 10px;
+        margin-top: 20px; /* Increased margin top */
     }
 </style>

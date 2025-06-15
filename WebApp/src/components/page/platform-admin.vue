@@ -99,69 +99,76 @@
 </script>
 
 <style scoped>
+    .admin-layout {
+        background-color: #f0f2f5; /* Consistent background */
+        min-height: 100vh;
+    }
     .header {
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
-        min-width: 100vw;
-        height: 58px;
+        height: 60px; /* Consistent header height */
         background: #ffffff;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-bottom: #eeeeee solid 2px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Consistent shadow */
         z-index: 1000;
+        padding: 0 20px;
     }
     .app-name {
         display: flex;
-        justify-content: center;
         align-items: center;
-        min-width: 10vw;
-        flex: 1;
         height: 100%;
-        border-right:1px solid #e5e5e5;
     }
     .app-name a {
-        color: #409EFF;
-        font-size: 18px;
-        font-weight: 800;
+        color: #303133; /* Darker text */
+        font-size: 20px; /* Adjusted font size */
+        font-weight: 600;
         text-decoration: none;
-        padding:0 20px;
     }
-    .app-title {
+    .admin-info {
         display: flex;
-        justify-content: center;
-        flex: 8;
-    }
-    .app-logOut{
-        display:flex;
-        flex: 1;
-        justify-content: flex-end;
         align-items: center;
+        color: #555;
     }
+    .admin-info .app-title {
+        margin-right: 20px;
+        font-size: 16px;
+    }
+
+    .el-container.is-vertical {
+        padding-top: 60px; /* Account for fixed header */
+    }
+
     .mainBody {
         display: flex;
         width: 100%;
+        padding-top: 1px; /* Fix potential overlap issue */
     }
-    aside {
-        flex: 1;
-        box-sizing:content-box;
-        min-width: 10vw;
-        min-height:calc(100vh - 120px);
-        background-color: rgb(255, 255, 255);
-        border-bottom: 1px solid #e5e5e5;
-        border-right: 1px solid #e5e5e5;
+    .el-aside {
+        width: 220px !important; /* Fixed width for aside */
+        background-color: #ffffff;
+        box-shadow: 2px 0 6px rgba(0,21,41,.08);
+        min-height: calc(100vh - 60px); /* Full height minus header */
     }
-    main {
-        flex: 9;
+    .el-menu {
+        border-right: none; /* Remove default border */
+    }
+    .el-menu-item i {
+        margin-right: 10px;
+    }
+    .el-main {
+        padding: 20px;
+        background-color: #f0f2f5;
     }
     .foot {
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        height: 58px;
+        /* Removed fixed positioning for simplicity, assuming AppFoot handles its own styling */
+        text-align: center;
+        padding: 15px 0;
         background-color: #ffffff;
+        border-top: 1px solid #e8e8e8;
+        color: #888;
     }
 </style>
