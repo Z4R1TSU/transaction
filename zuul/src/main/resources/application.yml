@@ -5,7 +5,5 @@ eureka:
 spring:
   application:
     name: service-zuul
-server:
-  port: 8040
 zuul:
   routes:
