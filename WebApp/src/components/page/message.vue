@@ -52,7 +52,8 @@
                 if(res.status_code===1){
                     for(let i=0;i<res.data.length;i++){
                         let imgList = res.data[i].idle.pictureList ? JSON.parse(res.data[i].idle.pictureList) : [];
-                        res.data[i].idle.imgUrl = imgList.length > 0 && imgList[0] ? (imgList[0].startsWith('data:image') ? imgList[0] : `data:image/jpeg;base64,${imgList[0]}`) : '';
+                        const first = imgList[0] || '';
+                        res.data[i].idle.imgUrl = first.startsWith('data:image') || /^(https?:)?\/\//.test(first) || first.startsWith('blob:') ? first : (first ? `data:image/jpeg;base64,${first}` : '');
                         let contentList=res.data[i].content.split('<br>');
                         let contenHtml=contentList[0];
                         for(let i=1;i<contentList.length;i++){
@@ -78,14 +79,14 @@
         padding: 0 20px;
     }
     .message-container-title{
-        font-size: 16px;
+        font-size: 18px;
         padding: 20px 0;
-        font-weight: 600;
+        font-weight: 700;
     }
     .message-container-list{
         cursor:pointer;
         height: 110px;
-        border-top: 1px solid #eeeeee;
+        border-top: 1px solid var(--card-border);
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -102,23 +103,23 @@
     }
     .message-nickname{
         font-weight: 600;
-        font-size: 18px;
+        font-size: 16px;
         padding-bottom: 5px;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
     }
     .message-content{
-        font-size: 16px;
+        font-size: 14px;
         padding-bottom: 15px;
-        color: #555555;
+        color: var(--text-secondary);
         width: 710px;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
     }
     .message-time{
-        font-size: 13px;
-        color: #555555;
+        font-size: 12px;
+        color: var(--text-muted);
     }
 </style>

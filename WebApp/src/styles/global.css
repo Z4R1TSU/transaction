@@ -1,0 +1,115 @@
+/* Subtle techy background with radial glows */
+body {
+  background:
+    radial-gradient(1200px 600px at 10% -20%, rgba(255,255,255, 0.85), transparent 60%),
+    radial-gradient(1000px 500px at 90% -10%, rgba(199, 180, 255, 0.45), transparent 55%),
+    var(--brand-gradient);
+}
+
+:root[data-theme="dark"] body {
+  background:
+    radial-gradient(1200px 600px at 10% -20%, rgba(139, 92, 246, 0.15), transparent 60%),
+    radial-gradient(1000px 500px at 90% -10%, rgba(167,139,250, 0.18), transparent 55%),
+    linear-gradient(160deg, #0f0a1f 0%, #140f2b 40%, #1a133a 100%);
+}
+
+/* Animated background subtle drift */
+@keyframes bgFloat {
+  0% { background-position: 0% 0%, 100% 0%, 0 0; }
+  50% { background-position: 20% 10%, 80% 5%, 0 0; }
+  100% { background-position: 0% 0%, 100% 0%, 0 0; }
+}
+
+body { animation: bgFloat 28s ease-in-out infinite; }
+
+/* Focus ring */
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: 8px;
+}
+
+/* Page container helpers */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Route transition */
+.fade-slide-enter-active, .fade-slide-leave-active {
+  transition: opacity 260ms ease, transform 260ms ease;
+}
+.fade-slide-enter {
+  opacity: 0;
+  transform: translateY(8px);
+}
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+/* Card shine effect */
+.ui-card {
+  position: relative;
+  overflow: hidden;
+}
+.ui-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.25) 50%, transparent 100%);
+  transform: translateX(-150%) skewX(-15deg);
+}
+.ui-card:hover::before {
+  transition: transform 800ms ease;
+  transform: translateX(450%) skewX(-15deg);
+}
+
+/* Skeleton */
+.skeleton {
+  background: linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.12), rgba(255,255,255,0.04));
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease infinite;
+  border-radius: var(--radius-md);
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton.dark {
+  background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.16), rgba(255,255,255,0.06));
+}
+
+/* Reveal animation */
+.reveal { opacity: 0; transform: translateY(12px) scale(0.98); transition: opacity 520ms ease, transform 520ms ease; }
+.reveal.is-visible { opacity: 1; transform: translateY(0) scale(1); }
+
+/* Particle canvas */
+.particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+/* Flowing gradient on buttons */
+.btn-glow {
+  position: relative;
+  overflow: hidden;
+}
+.btn-glow::after {
+  content: '';
+  position: absolute; inset: -2px;
+  background: linear-gradient(120deg, rgba(255,255,255,.35), rgba(193,169,255,.35), rgba(255,255,255,.35));
+  filter: blur(12px); opacity: .0; transition: opacity 240ms ease;
+}
+.btn-glow:hover::after { opacity: .7; }
+
+
+

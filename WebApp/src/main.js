@@ -5,6 +5,10 @@ import ElementUI from 'element-ui';
 import $ from 'jquery'
 import 'element-ui/lib/theme-chalk/index.css';
 import 'babel-polyfill';
+import './styles/tokens.css';
+import './styles/global.css';
+import { initTheme } from './utils/theme';
+import Reveal from './directives/reveal';
 
 import api from './api/index.js';
 Vue.prototype.$api = api;
@@ -28,6 +32,11 @@ Vue.use(ElementUI, {
     size: 'medium'
 });
 
+// Initialize theme before app renders
+initTheme();
+
+// directives
+Vue.directive('reveal', Reveal);
 
 router.beforeEach((to, from, next) => {
     document.title = `${to.meta.title}`;

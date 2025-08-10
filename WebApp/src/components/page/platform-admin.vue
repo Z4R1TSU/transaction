@@ -108,12 +108,13 @@
         top: 0;
         left: 0;
         right: 0;
-        height: 60px; /* Consistent header height */
-        background: #ffffff;
+        height: 64px;
+        background: var(--header-bg);
+        backdrop-filter: var(--backdrop-blur);
         display: flex;
         justify-content: space-between;
         align-items: center;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Consistent shadow */
+        box-shadow: 0 1px 0 var(--card-border), 0 6px 20px rgba(0,0,0,0.06);
         z-index: 1000;
         padding: 0 20px;
     }
@@ -123,8 +124,8 @@
         height: 100%;
     }
     .app-name a {
-        color: #303133; /* Darker text */
-        font-size: 20px; /* Adjusted font size */
+        color: var(--text-primary);
+        font-size: 20px;
         font-weight: 600;
         text-decoration: none;
     }
@@ -148,10 +149,10 @@
         padding-top: 1px; /* Fix potential overlap issue */
     }
     .el-aside {
-        width: 220px !important; /* Fixed width for aside */
-        background-color: #ffffff;
+        width: 220px !important;
+        background-color: var(--card-bg);
         box-shadow: 2px 0 6px rgba(0,21,41,.08);
-        min-height: calc(100vh - 60px); /* Full height minus header */
+        min-height: calc(100vh - 64px);
     }
     .el-menu {
         border-right: none; /* Remove default border */
@@ -161,14 +162,13 @@
     }
     .el-main {
         padding: 20px;
-        background-color: #f0f2f5;
+        background-color: transparent;
     }
     .foot {
-        /* Removed fixed positioning for simplicity, assuming AppFoot handles its own styling */
         text-align: center;
         padding: 15px 0;
-        background-color: #ffffff;
-        border-top: 1px solid #e8e8e8;
-        color: #888;
+        background-color: var(--card-bg);
+        border-top: 1px solid var(--card-border);
+        color: var(--text-secondary);
     }
 </style>

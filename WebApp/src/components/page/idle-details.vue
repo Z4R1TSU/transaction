@@ -30,10 +30,17 @@
                         {{idleItemInfo.idleDetails}}
                     </div>
                     <div class="details-picture">
-                        <el-image v-for="(imgUrl,i) in idleItemInfo.pictureList"
-                                  style="width: 90%;margin-bottom: 2px;"
-                                  :src="imgUrl"
-                                  fit="contain"></el-image>
+                        <div v-for="(imgUrl,i) in idleItemInfo.pictureList"
+                             :key="i"
+                             class="gallery-item"
+                             ref="galleryItems"
+                             v-reveal
+                             @mousemove="onHoverMove($event, i)"
+                             @mouseleave="onHoverLeave(i)">
+                            <el-image class="gallery-image"
+                                      :src="imgUrl"
+                                      fit="contain"></el-image>
+                        </div>
                     </div>
                 </div>
 
@@ -141,9 +148,12 @@
                     }
                     res.data.idleDetails=str;
                     let pictureListData = res.data.pictureList ? JSON.parse(res.data.pictureList) : [];
-                    res.data.pictureList = pictureListData.map(base64Str => 
-                        base64Str && base64Str.startsWith('data:image') ? base64Str : `data:image/jpeg;base64,${base64Str}`
-                    );
+                    res.data.pictureList = pictureListData.map(item => {
+                        if (!item) return '';
+                        if (item.startsWith('data:image')) return item;
+                        if (/^(https?:)?\/\//.test(item) || item.startsWith('blob:')) return item;
+                        return `data:image/jpeg;base64,${item}`;
+                    });
                     this.idleItemInfo=res.data;
                     console.log(this.idleItemInfo);
                     let userId=this.getCookie('shUserId');
@@ -161,6 +171,24 @@
             });
         },
         methods: {
+            onHoverMove(e, idx){
+                const card = this.$refs.galleryItems && this.$refs.galleryItems[idx];
+                if(!card) return;
+                const rect = card.getBoundingClientRect();
+                const cx = rect.left + rect.width/2;
+                const cy = rect.top + rect.height/2;
+                const dx = (e.clientX - cx) / rect.width;
+                const dy = (e.clientY - cy) / rect.height;
+                const rotateX = (-dy) * 8;
+                const rotateY = (dx) * 8;
+                card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+            },
+            onHoverLeave(idx){
+                const card = this.$refs.galleryItems && this.$refs.galleryItems[idx];
+                if(card){
+                    card.style.transform = '';
+                }
+            },
             getAllIdleMessage(){
                 this.$api.getAllIdleMessage({
                     idleId:this.idleItemInfo.id
@@ -320,8 +348,8 @@
     }
 
     .details-header {
-        height: 80px;
-        border-bottom: 10px solid #f6f6f6;
+        min-height: 80px;
+        border-bottom: 1px solid var(--card-border);
         display: flex;
         justify-content: space-between;
         padding: 20px;
@@ -340,7 +368,7 @@
 
     .details-header-user-info-time {
         font-size: 12px;
-        color: #555555;
+        color: var(--text-muted);
     }
 
     .details-header-buy {
@@ -357,27 +385,37 @@
 
     .details-info-title {
         font-size: 22px;
-        font-weight: 600;
+        font-weight: 700;
         margin-bottom: 20px;
-
     }
 
     .details-info-main {
-        font-size: 17px;
-        color: #121212;
-        line-height: 160%;
+        font-size: 16px;
+        color: var(--text-primary);
+        line-height: 1.7;
     }
 
     .details-picture {
         margin: 20px 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 16px;
     }
+    .gallery-item{
+        border-radius: var(--radius-md);
+        border: 1px solid var(--card-border);
+        box-shadow: var(--shadow-sm);
+        overflow: hidden;
+        transition: transform 260ms ease, box-shadow 260ms ease;
+        will-change: transform;
+        transform-style: preserve-3d;
+    }
+    .gallery-item:hover{ box-shadow: var(--shadow-md); }
+    .gallery-image{ display:block; width: 100%; height: 100%; object-fit: contain; }
 
     .message-container {
         min-height: 100px;
-        border-top: 10px solid #f6f6f6;
+        border-top: 1px solid var(--card-border);
         padding: 20px;
     }
 
@@ -396,7 +434,7 @@
     }
     .message-container-list{
         min-height: 60px;
-        border-top: 1px solid #eeeeee;
+        border-top: 1px solid var(--card-border);
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -421,13 +459,13 @@
         padding-bottom: 5px;
     }
     .message-content{
-        font-size: 16px;
+        font-size: 15px;
         padding-bottom: 15px;
-        color: #555555;
+        color: var(--text-secondary);
         width: 770px;
     }
     .message-time{
-        font-size: 13px;
-        color: #555555;
+        font-size: 12px;
+        color: var(--text-muted);
     }
 </style>

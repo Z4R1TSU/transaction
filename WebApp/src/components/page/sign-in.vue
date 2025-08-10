@@ -87,7 +87,7 @@
         align-items: center;
         height: 100vh;
         width: 100%;
-        background-color: #f1f1f1;
+        background: transparent;
     }
 
     .sign-in-body {
@@ -100,8 +100,20 @@
         padding-bottom: 30px;
         text-align: center;
         font-weight: 600;
-        font-size: 20px;
-        color: #409EFF;
+        font-size: 22px;
+        color: var(--text-primary);
+        position: relative;
+    }
+    .sign-in-title::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: -10px;
+        width: 120px;
+        height: 2px;
+        background: linear-gradient(90deg, var(--brand), var(--accent));
+        border-radius: 2px;
     }
 
     .sign-in-input {
@@ -115,8 +127,15 @@
         padding: 0 10px;
     }
     .login-text{
-        color: #409EFF;
+        color: var(--brand);
         font-size: 16px;
         cursor:pointer;
+    }
+
+    .box-card {
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
     }
 </style>

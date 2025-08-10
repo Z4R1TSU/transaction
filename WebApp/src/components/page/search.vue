@@ -6,10 +6,10 @@
                 <div style="margin: 0 20px;padding-top: 20px;">
                     <div style="text-align: center;color: #555555;padding: 20px;" v-if="idleList.length===0">暂无匹配的闲置物品</div>
                     <el-row :gutter="30">
-                        <el-col :span="6" v-for="(idle,index) in idleList">
-                            <div class="idle-card" @click="toDetails(idle)">
+                    <el-col :span="6" v-for="(idle,index) in idleList" :key="idle.id">
+                    <div class="idle-card ui-card" v-reveal :style="revealDelayStyle(index)" @click="toDetails(idle)">
                                 <el-image
-                                        style="width: 100%; height: 160px"
+                                    style="width: 100%; height: 180px; border-top-left-radius: var(--radius-md); border-top-right-radius: var(--radius-md);"
                                         :src="idle.imgUrl"
                                         fit="contain">
                                     <div slot="error" class="image-slot">
@@ -20,9 +20,9 @@
                                     {{idle.idleName}}
                                 </div>
                                 <el-row style="margin: 5px 10px;">
-                                    <el-col :span="12">
-                                        <div class="idle-prive">￥{{idle.idlePrice}}</div>
-                                    </el-col>
+                                <el-col :span="12">
+                                    <div class="idle-price">￥{{idle.idlePrice}}</div>
+                                </el-col>
                                     <el-col :span="12">
                                         <div class="idle-place">{{idle.idlePlace}}</div>
                                     </el-col>
@@ -101,7 +101,8 @@
                     for (let i = 0; i < list.length; i++) {
                         list[i].timeStr = list[i].releaseTime.substring(0, 10) + " " + list[i].releaseTime.substring(11, 19);
                         let pictureList = list[i].pictureList ? JSON.parse(list[i].pictureList) : [];
-                        list[i].imgUrl = pictureList.length > 0 && pictureList[0] ? (pictureList[0].startsWith('data:image') ? pictureList[0] : `data:image/jpeg;base64,${pictureList[0]}`) : '';
+                        const first = pictureList[0] || '';
+                        list[i].imgUrl = first.startsWith('data:image') || /^(https?:)?\/\//.test(first) || first.startsWith('blob:') ? first : (first ? `data:image/jpeg;base64,${first}` : '');
                     }
                     this.idleList = list;
                     this.totalItem=res.data.count;
@@ -119,6 +120,13 @@
             },
             toDetails(idle) {
                 this.$router.push({path: '/details', query: {id: idle.id}});
+            },
+            revealDelayStyle(i){
+                const base = 60; // ms
+                const col = i % 4; // 4 col grid
+                const row = Math.floor(i / 4);
+                const delay = (row * 4 + col) * base;
+                return `transition-delay:${delay}ms`;
             }
         }
     }
@@ -126,10 +134,16 @@
 
 <style scoped>
     .idle-card {
-        height: 300px;
-        border: #eeeeee solid 1px;
-        margin-bottom: 15px;
+        height: 340px;
+        margin-bottom: 20px;
         cursor: pointer;
+        overflow: hidden;
+        position: relative;
+        transition: transform var(--transition) ease, box-shadow var(--transition) ease;
+    }
+    .idle-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-md);
     }
 
     .fenye {
@@ -140,44 +154,45 @@
     }
 
     .idle-title {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 600;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
-        margin: 10px;
+        margin: 12px 12px 6px 12px;
     }
 
-    .idle-prive {
-        font-size: 16px;
-        color: red;
+    .idle-price {
+        font-size: 18px;
+        color: var(--brand);
+        font-weight: 700;
     }
 
     .idle-place {
-        font-size: 13px;
-        color: #666666;
+        font-size: 12px;
+        color: var(--text-secondary);
         float: right;
         padding-right: 20px;
 
     }
 
     .idle-time {
-        color: #666666;
+        color: var(--text-muted);
         font-size: 12px;
-        margin: 0 10px;
+        margin: 0 12px;
     }
 
     .user-nickname {
-        color: #999999;
+        color: var(--text-muted);
         font-size: 12px;
         display: flex;
         align-items: center;
         height: 30px;
-        padding-left: 10px;
+        padding-left: 8px;
     }
 
     .user-info {
-        padding: 5px 10px;
+        padding: 8px 12px 12px 12px;
         height: 30px;
         display: flex;
     }

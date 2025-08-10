@@ -1,11 +1,13 @@
 <template>
-    <div id="app">
-        <router-view></router-view>
-    </div>
+  <div id="app">
+    <transition name="fade-slide" mode="out-in">
+      <router-view/>
+    </transition>
+  </div>
 </template>
 <style>
-    html, body, #app{
-        overflow: visible;
-        background-color: #f6f6f6;
-    }
+  html, body, #app{
+    overflow: visible;
+    background-color: var(--bg);
+  }
 </style>

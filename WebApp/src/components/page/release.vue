@@ -64,10 +64,18 @@
                             <i class="el-icon-upload"></i>
                             <div class="el-upload__text">将图片拖到此处，或<em>点击上传</em></div>
                         </el-upload>
+                        <div class="url-adder">
+                            <el-input v-model="imageUrl" placeholder="或粘贴图片 URL，如 https://...">
+                                <el-button slot="append" type="primary" @click="addUrlImage">添加</el-button>
+                            </el-input>
+                        </div>
                         <div class="picture-list">
-                            <el-image style="width: 600px;margin-bottom: 2px;" fit="contain"
-                                      v-for="(img,index) in imgList" :src="img"
-                                      :preview-src-list="imgList"></el-image>
+                            <div class="picture-item" v-for="(img,index) in imgList" :key="index">
+                                <el-image style="width: 600px;margin-bottom: 2px;" fit="contain"
+                                          :src="img"
+                                          :preview-src-list="imgList"></el-image>
+                                <div class="picture-remove" @click="removeImage(index)"><i class="el-icon-close"></i></div>
+                            </div>
                         </div>
                         <el-dialog :visible.sync="imgDialogVisible">
                             <img width="100%" :src="dialogImageUrl" alt="">
@@ -120,6 +128,7 @@
                     label: '其他'
                 }],
                 imgList:[],
+                imageUrl:'',
                 idleItemInfo:{
                     idleName:'',
                     idleDetails:'',
@@ -131,6 +140,26 @@
             };
         },
         methods: {
+            addUrlImage(){
+                const url = (this.imageUrl || '').trim();
+                if(!url) return;
+                const isUrl = /^(https?:)?\/\//.test(url) || url.startsWith('blob:');
+                if(!isUrl){
+                    this.$message.error('请输入有效的图片 URL');
+                    return;
+                }
+                if(this.imgList.length >= 10){
+                    this.$message.warning('最多上传 10 张图片');
+                    return;
+                }
+                this.imgList.push(url);
+                this.imageUrl='';
+            },
+            removeImage(index){
+                if(index>=0 && index < this.imgList.length){
+                    this.imgList.splice(index,1);
+                }
+            },
             handleChange(value) {
                 console.log(value);
                 this.idleItemInfo.idlePlace=value[1];

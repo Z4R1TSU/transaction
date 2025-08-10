@@ -17,10 +17,11 @@
         justify-content: center;
         height: 40px;
         padding-top: 10px;
+        color: var(--text-secondary);
     }
 
     .author {
-        color: #999999;
+        color: var(--text-muted);
         font-size: 14px;
     }
 </style>

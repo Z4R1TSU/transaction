@@ -22,14 +22,17 @@
                     <el-dropdown-item divided style="color: red;"><div @click="loginOut">退出登录</div></el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
+            <theme-switch />
         </div>
     </div>
 </template>
 <script>
+    import ThemeSwitch from './ThemeSwitch.vue'
 
     export default {
         name: 'Header',
         props: ['searchInput','nicknameValue','avatarValue'],
+        components: { ThemeSwitch },
         data() {
             return {
                 searchValue: this.searchInput,
@@ -108,48 +111,66 @@
         left: 0;
         right: 0;
         width: 100%;
-        height: 60px; /* Slightly increased height */
-        background-color: #ffffff; /* White background */
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); /* Softer shadow */
+        height: 64px;
+        background-color: var(--header-bg);
+        backdrop-filter: var(--backdrop-blur);
+        -webkit-backdrop-filter: var(--backdrop-blur);
+        box-shadow: 0 1px 0 var(--card-border), 0 6px 20px rgba(0,0,0,0.06);
         display: flex;
         align-items: center;
-        padding: 0 20px; /* Added horizontal padding */
+        padding: 0 20px;
         z-index: 1000;
     }
 
     .header-container {
         display: flex;
         align-items: center;
-        justify-content: space-between; /* Distribute space */
+        justify-content: space-between;
         width: 100%;
-        max-width: 1200px; /* Max width for content */
-        margin: 0 auto; /* Center content */
+        max-width: 1200px;
+        margin: 0 auto;
     }
 
     .app-name a {
-        font-size: 22px; /* Larger app name */
-        font-weight: bold;
-        color: #303133;
+        font-size: 22px;
+        font-weight: 900;
         text-decoration: none;
+        letter-spacing: 0.3px;
+        position: relative;
     }
+    .app-name a, .user-name-text { color: transparent; background: linear-gradient(90deg, #5b21b6, #8b5cf6, #a78bfa); -webkit-background-clip: text; background-clip: text; }
+    .app-name a::after{
+        content: '';
+        position: absolute;
+        left: 0; bottom: -6px;
+        width: 100%; height: 2px;
+        background: linear-gradient(90deg,var(--brand),var(--accent));
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform var(--transition) ease;
+        border-radius: 2px;
+    }
+    .app-name a:hover::after{ transform: scaleX(1); }
 
     .search-container {
-        flex-grow: 1; /* Allow search to take available space */
-        margin: 0 20px; /* Add margin around search */
-        max-width: 400px; /* Max width for search */
+        flex-grow: 1;
+        margin: 0 20px;
+        max-width: 480px;
     }
 
     .search-container .el-input .el-input__inner {
-        border-radius: 20px; /* Rounded search input */
+        border-radius: 20px;
+        background: var(--card-bg);
+        border-color: var(--card-border);
     }
 
     .el-button {
-        margin-left: 10px; /* Space between buttons */
+        margin-left: 10px;
     }
 
     .user-name-text {
         font-size: 16px;
-        color: #409EFF;
+        color: var(--brand);
         text-decoration: none;
         margin-left: 15px;
     }

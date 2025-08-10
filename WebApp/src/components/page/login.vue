@@ -70,16 +70,18 @@
         align-items: center;
         height: 100vh;
         width: 100%;
-        background: linear-gradient(to right, #74ebd5, #ACB6E5); /* Modern gradient background */
+        background: transparent;
     }
 
     .box-card {
-        border-radius: 15px; /* Rounded corners for the card */
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Softer shadow */
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
     }
 
     .login-body {
-        padding: 40px; /* Increased padding */
+        padding: 40px;
         width: 400px;
         height: 100%;
     }
@@ -88,25 +90,37 @@
         padding-bottom: 30px;
         text-align: center;
         font-weight: 600;
-        font-size: 24px; /* Slightly larger title */
-        color: #303133; /* Darker color for better contrast */
+        font-size: 24px;
+        color: var(--text-primary);
         cursor: pointer;
+        position: relative;
+    }
+    .login-title::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: -10px;
+        width: 120px;
+        height: 2px;
+        background: linear-gradient(90deg, var(--brand), var(--accent));
+        border-radius: 2px;
     }
 
     .login-input {
-        margin-bottom: 25px; /* Increased margin */
+        margin-bottom: 20px;
     }
 
     .login-submit {
         display: flex;
         justify-content: center;
-        margin-top: 10px; /* Added margin top */
+        margin-top: 10px;
     }
 
     .login-submit .el-button {
-        width: 100%; /* Full width button */
-        padding: 12px 20px; /* Larger button padding */
-        font-size: 16px; /* Larger button font size */
+        width: 100%;
+        padding: 12px 20px;
+        font-size: 16px;
     }
 
     .sign-in-container {
@@ -114,8 +128,8 @@
     }
 
     .sign-in-text {
-        color: #409EFF;
-        font-size: 14px; /* Adjusted font size */
+        color: var(--brand);
+        font-size: 14px;
         text-decoration: none;
         line-height:28px;
     }

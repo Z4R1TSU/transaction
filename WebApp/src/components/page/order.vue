@@ -134,14 +134,15 @@
             }).then(res => {
                 console.log(res);
                 if (res.status_code === 1) {
-                    if (res.data.idleItem) {
-                        let imgList = JSON.parse(res.data.idleItem.pictureList);
-                        if (imgList.length > 0) {
-                            res.data.idleItem.imgUrl = imgList[0];
+                        if (res.data.idleItem) {
+                            let imgList = JSON.parse(res.data.idleItem.pictureList || '[]');
+                            const first = imgList[0] || '';
+                            if (first) {
+                                res.data.idleItem.imgUrl = first.startsWith('data:image') || /^(https?:)?\/\//.test(first) || first.startsWith('blob:') ? first : `data:image/jpeg;base64,${first}`;
+                            } else {
+                                res.data.idleItem.imgUrl = '';
+                            }
                         } else {
-                            res.data.idleItem.imgUrl = '';
-                        }
-                    } else {
                         res.data.idleItem = {
                             idleName: '',
                             imgUrl: ''
@@ -173,7 +174,7 @@
                 return "0";
             },
             toDetails(id) {
-                this.$router.replace({path: 'details', query: {id: id}});
+                this.$router.replace({path: '/details', query: {id: id}});
             },
             selectAddressDialog(){
                 if(this.orderInfo.userId==this.userId&&this.orderInfo.orderStatus===0){
@@ -291,29 +292,29 @@
     .idle-info-container {
         width: 100%;
         display: flex;
-        border-bottom: 20px solid #f6f6f6;
+        border-bottom: 1px solid var(--card-border);
         padding: 20px;
         cursor: pointer;
     }
 
     .idle-info-title {
         font-size: 18px;
-        font-weight: 600;
+        font-weight: 700;
         max-width: 750px;
         margin-left: 10px;
     }
 
     .idle-info-price {
         font-size: 18px;
-        color: red;
+        color: var(--brand);
         margin-left: 10px;
+        font-weight: 700;
     }
 
     .address-container {
         min-height: 60px;
         padding: 20px;
-        border-bottom: 20px solid #f6f6f6;
-
+        border-bottom: 1px solid var(--card-border);
     }
 
     .address-title {
@@ -334,7 +335,7 @@
     .order-info-item {
         margin: 10px 0;
         font-size: 14px;
-        color: #444444;
+        color: var(--text-secondary);
     }
 
     .menu {
