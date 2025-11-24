@@ -33,6 +33,9 @@ public class OrderController {
         orderModel.setUserId(Long.valueOf(shUserId));
         orderModel.setOrderStatus((byte) 0);
         orderModel.setPaymentStatus((byte)0);
+        if (orderModel.getOrderCount() == null || orderModel.getOrderCount() <= 0) {
+            orderModel.setOrderCount(1);
+        }
         if(orderService.addOrder(orderModel)){
             return ResultVo.success(orderModel);
         }

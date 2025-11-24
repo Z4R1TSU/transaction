@@ -13,10 +13,11 @@
     <result column="payment_time" jdbcType="TIMESTAMP" property="paymentTime" />
     <result column="order_status" jdbcType="TINYINT" property="orderStatus" />
     <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+    <result column="order_count" jdbcType="INTEGER" property="orderCount" />
   </resultMap>
   <sql id="Base_Column_List">
     id, order_number, user_id, idle_id, order_price, payment_status, payment_way, create_time, 
-    payment_time, order_status, is_deleted
+    payment_time, order_status, is_deleted, order_count
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -56,11 +57,11 @@
     insert into sh_order (order_number, user_id, idle_id, 
       order_price, payment_status, payment_way, 
       create_time, payment_time, order_status, 
-      is_deleted)
+      is_deleted, order_count)
     values (#{orderNumber,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{idleId,jdbcType=BIGINT}, 
       #{orderPrice,jdbcType=DECIMAL}, #{paymentStatus,jdbcType=TINYINT}, #{paymentWay,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{paymentTime,jdbcType=TIMESTAMP}, #{orderStatus,jdbcType=TINYINT}, 
-      #{isDeleted,jdbcType=TINYINT})
+      #{isDeleted,jdbcType=TINYINT}, #{orderCount,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.second.hand.trading.server.model.OrderModel" useGeneratedKeys="true">
     insert into sh_order
@@ -95,6 +96,9 @@
       <if test="isDeleted != null">
         is_deleted,
       </if>
+      <if test="orderCount != null">
+        order_count,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="orderNumber != null">
@@ -126,6 +130,9 @@
       </if>
       <if test="isDeleted != null">
         #{isDeleted,jdbcType=TINYINT},
+      </if>
+      <if test="orderCount != null">
+        #{orderCount,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>

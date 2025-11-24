@@ -66,7 +66,18 @@ public class OrderModel implements Serializable {
      */
     private Byte isDeleted;
 
+    private Integer orderCount;
+
     private static final long serialVersionUID = 1L;
+
+    public Integer getOrderCount() {
+        return orderCount;
+    }
+
+    public void setOrderCount(Integer orderCount) {
+        this.orderCount = orderCount;
+    }
+
 
     public UserModel getUser() {
         return user;

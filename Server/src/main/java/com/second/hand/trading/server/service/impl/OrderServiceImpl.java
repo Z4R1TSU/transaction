@@ -60,17 +60,13 @@ public class OrderServiceImpl implements OrderService {
         if(idleItemModel.getIdleStatus()!=1){
             return false;
         }
-        IdleItemModel idleItem=new IdleItemModel();
-        idleItem.setId(orderModel.getIdleId());
-        idleItem.setUserId(idleItemModel.getUserId());
-        idleItem.setIdleStatus((byte)2);
 
         int key= (int) (orderModel.getIdleId()%100);
         ReentrantLock lock=lockMap.get(key);
         boolean flag;
         try {
             lock.lock();
-            flag=addOrderHelp(idleItem,orderModel);
+            flag=addOrderHelp(orderModel);
         }finally {
             lock.unlock();
         }
@@ -79,12 +75,16 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Transactional(rollbackFor = Exception.class)
-    public boolean addOrderHelp(IdleItemModel idleItem,OrderModel orderModel){
+    public boolean addOrderHelp(OrderModel orderModel){
         IdleItemModel idleItemModel=idleItemDao.selectByPrimaryKey(orderModel.getIdleId());
-        if(idleItemModel.getIdleStatus()!=1){
+        if(idleItemModel.getIdleStatus()!=1||idleItemModel.getStock()<orderModel.getOrderCount()){
             return false;
         }
-        if(idleItemDao.updateByPrimaryKeySelective(idleItem)==1){
+        if (idleItemModel.getStock() == orderModel.getOrderCount()) {
+            idleItemModel.setIdleStatus((byte) 2);
+        }
+        idleItemModel.setStock(idleItemModel.getStock() - orderModel.getOrderCount());
+        if(idleItemDao.updateByPrimaryKeySelective(idleItemModel)==1){
             if(orderDao.insert(orderModel)==1){
                 orderModel.setOrderStatus((byte) 4);
                 //半小时未支付则取消订单
