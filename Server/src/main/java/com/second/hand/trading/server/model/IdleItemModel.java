@@ -58,6 +58,8 @@ public class IdleItemModel implements Serializable {
      */
     private Long userId;
 
+    private Integer stock;
+
     private UserModel user;
 
     private static final long serialVersionUID = 1L;
@@ -148,6 +150,14 @@ public class IdleItemModel implements Serializable {
 
     public void setUser(UserModel user) {
         this.user = user;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 
     @Override

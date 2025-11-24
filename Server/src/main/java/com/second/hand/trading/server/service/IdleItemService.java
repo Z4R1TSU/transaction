@@ -53,5 +53,13 @@ public interface IdleItemService {
      */
     boolean updateIdleItem(IdleItemModel idleItemModel);
 
+    /**
+     * 扣减库存
+     * @param productId 商品ID
+     * @param quantity 扣减数量
+     * @return
+     */
+    boolean decrementStock(Long productId, int quantity);
+
     PageVo<IdleItemModel> adminGetIdleList(int status, int page, int nums) ;
 }

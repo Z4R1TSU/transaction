@@ -4,6 +4,7 @@ import com.second.hand.trading.server.utils.OrderTaskHandler;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
  * 安全问题：缺少密码加密传输和存储，缺少userid的cookie加密
@@ -12,6 +13,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @SpringBootApplication()
 @EnableDiscoveryClient
+@EnableAspectJAutoProxy
 public class ServerApplication {
 
     public static void main(String[] args) {

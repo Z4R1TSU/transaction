@@ -2,7 +2,8 @@
 SQLyog Ultimate v11.33 (64 bit)
 MySQL - 8.0.18 : Database - second_hand_trading
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -87,6 +88,7 @@ CREATE TABLE `sh_idle_item` (
   `release_time` datetime NOT NULL COMMENT '发布时间',
   `idle_status` tinyint(4) NOT NULL COMMENT '状态（发布1、下架2、删除0）',
   `user_id` bigint(20) NOT NULL COMMENT '用户主键id',
+  `stock` int(11) NOT NULL DEFAULT '0' COMMENT '库存',
   PRIMARY KEY (`id`),
   KEY `user_id_index` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -183,3 +185,7 @@ insert  into `sh_user`(`id`,`account_number`,`user_password`,`nickname`,`avatar`
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- 索引优化建议
+-- ALTER TABLE `sh_order` ADD INDEX `idx_user_id` (`user_id`);
+-- ALTER TABLE `sh_order` ADD INDEX `idx_idle_id` (`idle_id`);
