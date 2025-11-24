@@ -46,6 +46,11 @@
                                 <div slot="prepend">价格</div>
                             </el-input-number>
                         </div>
+                        <div style="width: 300px;">
+                            <el-input-number v-model="idleItemInfo.stock" :min="1" :step="1" :max="1000">
+                                <div slot="prepend">库存</div>
+                            </el-input-number>
+                        </div>
 
                     </div>
                     <div class="release-idle-container-picture">
@@ -126,7 +131,8 @@
                     pictureList:'',
                     idlePrice:0,
                     idlePlace:'',
-                    idleLabel:''
+                    idleLabel:'',
+                    stock: 1
                 }
             };
         },

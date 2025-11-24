@@ -7,6 +7,7 @@ import com.second.hand.trading.server.model.UserModel;
 import com.second.hand.trading.server.service.IdleItemService;
 import com.second.hand.trading.server.vo.PageVo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.Map;
  * user_id建索引
  */
 @Service
+@Transactional
 public class IdleItemServiceImpl implements IdleItemService {
 
     @Resource
@@ -122,6 +124,11 @@ public class IdleItemServiceImpl implements IdleItemService {
      */
     public boolean updateIdleItem(IdleItemModel idleItemModel){
         return idleItemDao.updateByPrimaryKeySelective(idleItemModel)==1;
+    }
+
+    @Override
+    public boolean decrementStock(Long productId, int quantity) {
+        return idleItemDao.decrementStock(productId, quantity) == 1;
     }
 
     public PageVo<IdleItemModel> adminGetIdleList(int status, int page, int nums) {

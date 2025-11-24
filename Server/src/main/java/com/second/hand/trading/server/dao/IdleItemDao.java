@@ -2,6 +2,7 @@ package com.second.hand.trading.server.dao;
 
 import com.second.hand.trading.server.model.IdleItemModel;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -32,6 +33,8 @@ public interface IdleItemDao {
     int updateByPrimaryKeySelective(IdleItemModel record);
 
     int updateByPrimaryKey(IdleItemModel record);
+
+    int decrementStock(@Param("id") Long id, @Param("quantity") int quantity);
 
     List<IdleItemModel> findIdleByList(List<Long> idList);
 }

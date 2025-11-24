@@ -12,10 +12,11 @@
     <result column="release_time" jdbcType="TIMESTAMP" property="releaseTime" />
     <result column="idle_status" jdbcType="TINYINT" property="idleStatus" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="stock" jdbcType="INTEGER" property="stock" />
   </resultMap>
   <sql id="Base_Column_List">
     id, idle_name, idle_details, picture_list, idle_price, idle_place, idle_label, release_time, 
-    idle_status, user_id
+    idle_status, user_id, stock
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -112,6 +113,9 @@
       <if test="userId != null">
         user_id,
       </if>
+      <if test="stock != null">
+        stock,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="idleName != null">
@@ -140,6 +144,9 @@
       </if>
       <if test="userId != null">
         #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="stock != null">
+        #{stock,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -185,5 +192,10 @@
       idle_status = #{idleStatus,jdbcType=TINYINT},
       user_id = #{userId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="decrementStock">
+    update sh_idle_item
+    set stock = stock - #{quantity}
+    where id = #{id} and stock > 0
   </update>
 </mapper>
