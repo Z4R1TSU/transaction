@@ -10,6 +10,7 @@
                             fit="cover"></el-image>
                     <div class="idle-info-title">{{orderInfo.userId==userId?'买到的':'卖出的'}}：{{orderInfo.idleItem.idleName}}</div>
                     <div class="idle-info-price">￥{{orderInfo.orderPrice}}</div>
+                    <div class="idle-info-price" style="color:#666; font-size: 13px;">数量：{{orderInfo.orderQuantity}}</div>
 
                 </div>
                 <div class="address-container" @click.stop="selectAddressDialog" :style="orderInfo.userId==userId&&orderInfo.orderStatus===0?'cursor: pointer;':''">
@@ -95,6 +96,7 @@
                     createTime: "",
                     id: 0,
                     idleId: 0,
+                    orderQuantity: 1,
                     idleItem: {
                         id: '',
                         idleName: '',

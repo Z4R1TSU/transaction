@@ -34,6 +34,11 @@ public class IdleItemModel implements Serializable {
     private BigDecimal idlePrice;
 
     /**
+     * 可售数量/库存
+     */
+    private Integer idleStock;
+
+    /**
      * 发货地区
      */
     private String idlePlace;
@@ -102,6 +107,14 @@ public class IdleItemModel implements Serializable {
         this.idlePrice = idlePrice;
     }
 
+    public Integer getIdleStock() {
+        return idleStock;
+    }
+
+    public void setIdleStock(Integer idleStock) {
+        this.idleStock = idleStock;
+    }
+
     public String getIdlePlace() {
         return idlePlace;
     }
@@ -167,6 +180,7 @@ public class IdleItemModel implements Serializable {
             && (this.getIdleDetails() == null ? other.getIdleDetails() == null : this.getIdleDetails().equals(other.getIdleDetails()))
             && (this.getPictureList() == null ? other.getPictureList() == null : this.getPictureList().equals(other.getPictureList()))
             && (this.getIdlePrice() == null ? other.getIdlePrice() == null : this.getIdlePrice().equals(other.getIdlePrice()))
+            && (this.getIdleStock() == null ? other.getIdleStock() == null : this.getIdleStock().equals(other.getIdleStock()))
             && (this.getIdlePlace() == null ? other.getIdlePlace() == null : this.getIdlePlace().equals(other.getIdlePlace()))
             && (this.getIdleLabel() == null ? other.getIdleLabel() == null : this.getIdleLabel().equals(other.getIdleLabel()))
             && (this.getReleaseTime() == null ? other.getReleaseTime() == null : this.getReleaseTime().equals(other.getReleaseTime()))
@@ -183,6 +197,7 @@ public class IdleItemModel implements Serializable {
         result = prime * result + ((getIdleDetails() == null) ? 0 : getIdleDetails().hashCode());
         result = prime * result + ((getPictureList() == null) ? 0 : getPictureList().hashCode());
         result = prime * result + ((getIdlePrice() == null) ? 0 : getIdlePrice().hashCode());
+        result = prime * result + ((getIdleStock() == null) ? 0 : getIdleStock().hashCode());
         result = prime * result + ((getIdlePlace() == null) ? 0 : getIdlePlace().hashCode());
         result = prime * result + ((getIdleLabel() == null) ? 0 : getIdleLabel().hashCode());
         result = prime * result + ((getReleaseTime() == null) ? 0 : getReleaseTime().hashCode());
@@ -202,6 +217,7 @@ public class IdleItemModel implements Serializable {
         sb.append(", idleDetails=").append(idleDetails);
         sb.append(", pictureList=").append(pictureList);
         sb.append(", idlePrice=").append(idlePrice);
+        sb.append(", idleStock=").append(idleStock);
         sb.append(", idlePlace=").append(idlePlace);
         sb.append(", idleLabel=").append(idleLabel);
         sb.append(", releaseTime=").append(releaseTime);

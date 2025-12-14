@@ -29,7 +29,7 @@
                         >
                         </el-cascader>
                     </div>
-                    <div style="display: flex; justify-content: space-between;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
                         <div>
                             <div class="release-tip">闲置类别</div>
                             <el-select  v-model="idleItemInfo.idleLabel" placeholder="请选择类别">
@@ -41,10 +41,17 @@
                                 </el-option>
                             </el-select>
                         </div>
-                        <div style="width: 300px;">
-                            <el-input-number v-model="idleItemInfo.idlePrice" :precision="2" :step="10" :max="10000000">
-                                <div slot="prepend">价格</div>
-                            </el-input-number>
+                        <div style="display:flex; gap: 16px; align-items: center;">
+                            <div style="width: 220px;">
+                                <el-input-number v-model="idleItemInfo.idlePrice" :precision="2" :step="10" :max="10000000" :min="0.01">
+                                    <div slot="prepend">价格</div>
+                                </el-input-number>
+                            </div>
+                            <div style="width: 180px;">
+                                <el-input-number v-model="idleItemInfo.idleStock" :step="1" :min="1" :max="9999">
+                                    <div slot="prepend">数量</div>
+                                </el-input-number>
+                            </div>
                         </div>
 
                     </div>
@@ -134,6 +141,7 @@
                     idleDetails:'',
                     pictureList:'',
                     idlePrice:0,
+                    idleStock:1,
                     idlePlace:'',
                     idleLabel:''
                 }
@@ -198,7 +206,12 @@
                     this.idleItemInfo.idleDetails&&
                     this.idleItemInfo.idlePlace&&
                     this.idleItemInfo.idleLabel&&
-                    this.idleItemInfo.idlePrice){
+                    this.idleItemInfo.idlePrice&&
+                    this.idleItemInfo.idleStock){
+                    if(this.idleItemInfo.idleStock <= 0){
+                        this.$message.error('商品数量必须大于 0');
+                        return;
+                    }
                     this.$api.addIdleItem(this.idleItemInfo).then(res=>{
                         if (res.status_code === 1) {
                             this.$message({

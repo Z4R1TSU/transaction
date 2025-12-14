@@ -2,7 +2,8 @@
 SQLyog Ultimate v11.33 (64 bit)
 MySQL - 8.0.18 : Database - second_hand_trading
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -82,10 +83,11 @@ CREATE TABLE `sh_idle_item` (
   `idle_details` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '详情',
   `picture_list` varchar(1024) NOT NULL COMMENT '图集',
   `idle_price` decimal(10,2) NOT NULL COMMENT '价格',
+  `idle_stock` int(11) NOT NULL DEFAULT '1' COMMENT '可售数量/库存',
   `idle_place` varchar(32) NOT NULL COMMENT '发货地区',
   `idle_label` int(11) NOT NULL COMMENT '分类标签',
   `release_time` datetime NOT NULL COMMENT '发布时间',
-  `idle_status` tinyint(4) NOT NULL COMMENT '状态（发布1、下架2、删除0）',
+  `idle_status` tinyint(4) NOT NULL COMMENT '状态（发布1、下架2、售罄3、删除0）',
   `user_id` bigint(20) NOT NULL COMMENT '用户主键id',
   PRIMARY KEY (`id`),
   KEY `user_id_index` (`user_id`)
@@ -126,6 +128,7 @@ CREATE TABLE `sh_order` (
   `order_number` varchar(32) NOT NULL COMMENT '订单编号',
   `user_id` bigint(20) NOT NULL COMMENT '用户主键id',
   `idle_id` bigint(20) NOT NULL COMMENT '闲置物品主键id',
+  `order_quantity` int(11) NOT NULL DEFAULT '1' COMMENT '购买数量',
   `order_price` decimal(10,2) NOT NULL COMMENT '订单总价',
   `payment_status` tinyint(4) NOT NULL COMMENT '支付状态',
   `payment_way` varchar(16) DEFAULT NULL COMMENT '支付方式',

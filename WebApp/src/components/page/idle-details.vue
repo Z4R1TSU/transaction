@@ -16,7 +16,11 @@
                     </div>
                     <div class="details-header-buy" :style="'width:'+(isMaster?'150px;':'280px;')">
                         <div style="color: red;font-size: 18px;font-weight: 600;">￥{{idleItemInfo.idlePrice}}</div>
-                        <div v-if="!isMaster&&idleItemInfo.idleStatus!==1" style="color: red;font-size: 16px;">闲置已下架或删除</div>
+                        <div v-if="!isMaster&&idleItemInfo.idleStatus!==1" style="color: red;font-size: 16px;">{{idleItemInfo.idleStatus===3?'已售罄':'闲置已下架或删除'}}</div>
+                        <div v-if="!isMaster&&idleItemInfo.idleStatus===1" style="display:flex; align-items:center; gap: 10px; margin-top: 6px;">
+                            <div style="color:#666; font-size: 13px;">库存：{{idleItemInfo.idleStock}}</div>
+                            <el-input-number v-model="buyQuantity" :min="1" :max="idleItemInfo.idleStock||1" :step="1" size="small"></el-input-number>
+                        </div>
                         <el-button v-if="!isMaster&&idleItemInfo.idleStatus===1" type="danger" plain @click="buyButton(idleItemInfo)">立即购买</el-button>
                         <el-button v-if="!isMaster&&idleItemInfo.idleStatus===1" type="primary" plain @click="favoriteButton(idleItemInfo)">{{isFavorite?'取消收藏':'收藏'}}</el-button>
                         <el-button v-if="isMaster&&idleItemInfo.idleStatus===1" type="danger" @click="changeStatus(idleItemInfo,2)" plain>下架</el-button>
@@ -119,6 +123,7 @@
                     idleDetails:'',
                     pictureList:[],
                     idlePrice:0,
+                    idleStock: 1,
                     idlePlace:'',
                     idleLabel:'',
                     idleStatus:-1,
@@ -131,7 +136,8 @@
                 },
                 isMaster:false,
                 isFavorite:true,
-                favoriteId:0
+                favoriteId:0,
+                buyQuantity: 1
             };
         },
         created(){
@@ -155,6 +161,7 @@
                         return `data:image/jpeg;base64,${item}`;
                     });
                     this.idleItemInfo=res.data;
+                    this.buyQuantity = 1;
                     console.log(this.idleItemInfo);
                     let userId=this.getCookie('shUserId');
                     console.log('userid',userId)
@@ -245,9 +252,17 @@
                 });
             },
             buyButton(idleItemInfo){
+                if(!this.buyQuantity || this.buyQuantity <= 0){
+                    this.$message.error('购买数量必须大于 0');
+                    return;
+                }
+                if(idleItemInfo.idleStock != null && this.buyQuantity > idleItemInfo.idleStock){
+                    this.$message.error('购买数量不能超过库存');
+                    return;
+                }
                 this.$api.addOrder({
                     idleId:idleItemInfo.id,
-                    orderPrice:idleItemInfo.idlePrice,
+                    orderQuantity: this.buyQuantity,
                 }).then(res=>{
                     console.log(res);
                     if(res.status_code===1){

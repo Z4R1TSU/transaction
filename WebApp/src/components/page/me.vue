@@ -349,7 +349,7 @@
                             res.data[i].imgUrl = first.startsWith('data:image') || /^(https?:)?\/\//.test(first) || first.startsWith('blob:') ? first : (first ? `data:image/jpeg;base64,${first}` : '');
                             if (res.data[i].idleStatus === 1) {
                                 this.dataList[0].push(res.data[i]);
-                            } else if (res.data[i].idleStatus === 2) {
+                            } else if (res.data[i].idleStatus === 2 || res.data[i].idleStatus === 3) {
                                 this.dataList[1].push(res.data[i]);
                             }
                         }

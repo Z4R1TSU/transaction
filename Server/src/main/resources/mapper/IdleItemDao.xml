@@ -7,6 +7,7 @@
     <result column="idle_details" jdbcType="VARCHAR" property="idleDetails" />
     <result column="picture_list" jdbcType="LONGVARCHAR" property="pictureList" />
     <result column="idle_price" jdbcType="DECIMAL" property="idlePrice" />
+    <result column="idle_stock" jdbcType="INTEGER" property="idleStock" />
     <result column="idle_place" jdbcType="VARCHAR" property="idlePlace" />
     <result column="idle_label" jdbcType="INTEGER" property="idleLabel" />
     <result column="release_time" jdbcType="TIMESTAMP" property="releaseTime" />
@@ -14,7 +15,7 @@
     <result column="user_id" jdbcType="BIGINT" property="userId" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, idle_name, idle_details, picture_list, idle_price, idle_place, idle_label, release_time, 
+    id, idle_name, idle_details, picture_list, idle_price, idle_stock, idle_place, idle_label, release_time, 
     idle_status, user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -74,11 +75,11 @@
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.second.hand.trading.server.model.IdleItemModel" useGeneratedKeys="true">
     insert into sh_idle_item (idle_name, idle_details, picture_list, 
-      idle_price, idle_place, idle_label, 
+      idle_price, idle_stock, idle_place, idle_label, 
       release_time, idle_status, user_id
       )
     values (#{idleName,jdbcType=VARCHAR}, #{idleDetails,jdbcType=VARCHAR}, #{pictureList,jdbcType=LONGVARCHAR}, 
-      #{idlePrice,jdbcType=DECIMAL}, #{idlePlace,jdbcType=VARCHAR}, #{idleLabel,jdbcType=INTEGER}, 
+      #{idlePrice,jdbcType=DECIMAL}, #{idleStock,jdbcType=INTEGER}, #{idlePlace,jdbcType=VARCHAR}, #{idleLabel,jdbcType=INTEGER}, 
       #{releaseTime,jdbcType=TIMESTAMP}, #{idleStatus,jdbcType=TINYINT}, #{userId,jdbcType=BIGINT}
       )
   </insert>
@@ -96,6 +97,9 @@
       </if>
       <if test="idlePrice != null">
         idle_price,
+      </if>
+      <if test="idleStock != null">
+        idle_stock,
       </if>
       <if test="idlePlace != null">
         idle_place,
@@ -125,6 +129,9 @@
       </if>
       <if test="idlePrice != null">
         #{idlePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="idleStock != null">
+        #{idleStock,jdbcType=INTEGER},
       </if>
       <if test="idlePlace != null">
         #{idlePlace,jdbcType=VARCHAR},
@@ -158,6 +165,9 @@
       <if test="idlePrice != null">
         idle_price = #{idlePrice,jdbcType=DECIMAL},
       </if>
+      <if test="idleStock != null">
+        idle_stock = #{idleStock,jdbcType=INTEGER},
+      </if>
       <if test="idlePlace != null">
         idle_place = #{idlePlace,jdbcType=VARCHAR},
       </if>
@@ -179,11 +189,28 @@
       idle_details = #{idleDetails,jdbcType=VARCHAR},
       picture_list = #{pictureList,jdbcType=LONGVARCHAR},
       idle_price = #{idlePrice,jdbcType=DECIMAL},
+      idle_stock = #{idleStock,jdbcType=INTEGER},
       idle_place = #{idlePlace,jdbcType=VARCHAR},
       idle_label = #{idleLabel,jdbcType=INTEGER},
       release_time = #{releaseTime,jdbcType=TIMESTAMP},
       idle_status = #{idleStatus,jdbcType=TINYINT},
       user_id = #{userId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="decreaseStockIfEnough">
+    update sh_idle_item
+    set idle_stock = idle_stock - #{amount},
+        idle_status = case when idle_stock - #{amount} = 0 then 3 else idle_status end
+    where id = #{id}
+      and idle_status = 1
+      and idle_stock &gt;= #{amount}
+  </update>
+
+  <update id="increaseStock">
+    update sh_idle_item
+    set idle_stock = idle_stock + #{amount},
+        idle_status = case when idle_status = 3 then 1 else idle_status end
+    where id = #{id}
   </update>
 </mapper>

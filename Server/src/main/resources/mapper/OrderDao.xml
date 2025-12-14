@@ -6,6 +6,7 @@
     <result column="order_number" jdbcType="VARCHAR" property="orderNumber" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="idle_id" jdbcType="BIGINT" property="idleId" />
+    <result column="order_quantity" jdbcType="INTEGER" property="orderQuantity" />
     <result column="order_price" jdbcType="DECIMAL" property="orderPrice" />
     <result column="payment_status" jdbcType="TINYINT" property="paymentStatus" />
     <result column="payment_way" jdbcType="VARCHAR" property="paymentWay" />
@@ -15,7 +16,7 @@
     <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, order_number, user_id, idle_id, order_price, payment_status, payment_way, create_time, 
+    id, order_number, user_id, idle_id, order_quantity, order_price, payment_status, payment_way, create_time, 
     payment_time, order_status, is_deleted
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -54,11 +55,11 @@
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.second.hand.trading.server.model.OrderModel" useGeneratedKeys="true">
     insert into sh_order (order_number, user_id, idle_id, 
-      order_price, payment_status, payment_way, 
+      order_quantity, order_price, payment_status, payment_way, 
       create_time, payment_time, order_status, 
       is_deleted)
     values (#{orderNumber,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{idleId,jdbcType=BIGINT}, 
-      #{orderPrice,jdbcType=DECIMAL}, #{paymentStatus,jdbcType=TINYINT}, #{paymentWay,jdbcType=VARCHAR}, 
+      #{orderQuantity,jdbcType=INTEGER}, #{orderPrice,jdbcType=DECIMAL}, #{paymentStatus,jdbcType=TINYINT}, #{paymentWay,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{paymentTime,jdbcType=TIMESTAMP}, #{orderStatus,jdbcType=TINYINT}, 
       #{isDeleted,jdbcType=TINYINT})
   </insert>
@@ -73,6 +74,9 @@
       </if>
       <if test="idleId != null">
         idle_id,
+      </if>
+      <if test="orderQuantity != null">
+        order_quantity,
       </if>
       <if test="orderPrice != null">
         order_price,
@@ -105,6 +109,9 @@
       </if>
       <if test="idleId != null">
         #{idleId,jdbcType=BIGINT},
+      </if>
+      <if test="orderQuantity != null">
+        #{orderQuantity,jdbcType=INTEGER},
       </if>
       <if test="orderPrice != null">
         #{orderPrice,jdbcType=DECIMAL},
@@ -144,6 +151,9 @@
       <if test="orderPrice != null">
         order_price = #{orderPrice,jdbcType=DECIMAL},
       </if>
+      <if test="orderQuantity != null">
+        order_quantity = #{orderQuantity,jdbcType=INTEGER},
+      </if>
       <if test="paymentStatus != null">
         payment_status = #{paymentStatus,jdbcType=TINYINT},
       </if>
@@ -170,6 +180,7 @@
     set order_number = #{orderNumber,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=BIGINT},
       idle_id = #{idleId,jdbcType=BIGINT},
+      order_quantity = #{orderQuantity,jdbcType=INTEGER},
       order_price = #{orderPrice,jdbcType=DECIMAL},
       payment_status = #{paymentStatus,jdbcType=TINYINT},
       payment_way = #{paymentWay,jdbcType=VARCHAR},

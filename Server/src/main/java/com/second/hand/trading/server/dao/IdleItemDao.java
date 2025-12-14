@@ -1,6 +1,7 @@
 package com.second.hand.trading.server.dao;
 
 import com.second.hand.trading.server.model.IdleItemModel;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -34,4 +35,14 @@ public interface IdleItemDao {
     int updateByPrimaryKey(IdleItemModel record);
 
     List<IdleItemModel> findIdleByList(List<Long> idList);
+
+    /**
+     * 原子扣减库存：仅当上架且库存充足时更新成功（返回1）
+     */
+    int decreaseStockIfEnough(@Param("id") Long id, @Param("amount") Integer amount);
+
+    /**
+     * 增加库存（用于取消订单回补库存）
+     */
+    int increaseStock(@Param("id") Long id, @Param("amount") Integer amount);
 }

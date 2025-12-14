@@ -28,6 +28,12 @@ public class OrderController {
         if(OrderTaskHandler.orderService==null){
             OrderTaskHandler.orderService=orderService;
         }
+        if(orderModel.getOrderQuantity()==null){
+            orderModel.setOrderQuantity(1);
+        }
+        if(orderModel.getOrderQuantity()<=0){
+            return ResultVo.fail(ErrorMsg.PARAM_ERROR);
+        }
         orderModel.setOrderNumber(IdFactoryUtil.getOrderId());
         orderModel.setCreateTime(new Date());
         orderModel.setUserId(Long.valueOf(shUserId));

@@ -23,6 +23,12 @@ public class IdleItemController {
                                     @NotNull(message = "登录异常 请重新登录")
                                     @NotEmpty(message = "登录异常 请重新登录") String shUserId,
                                 @RequestBody IdleItemModel idleItemModel){
+        if(idleItemModel.getIdleStock()==null){
+            idleItemModel.setIdleStock(1);
+        }
+        if(idleItemModel.getIdleStock()<=0){
+            return ResultVo.fail(ErrorMsg.PARAM_ERROR);
+        }
         idleItemModel.setUserId(Long.valueOf(shUserId));
         idleItemModel.setIdleStatus((byte) 1);
         idleItemModel.setReleaseTime(new Date());
@@ -82,6 +88,9 @@ public class IdleItemController {
                                        @NotNull(message = "登录异常 请重新登录")
                                        @NotEmpty(message = "登录异常 请重新登录") String shUserId,
                                    @RequestBody IdleItemModel idleItemModel){
+        if(idleItemModel.getIdleStock()!=null && idleItemModel.getIdleStock()<0){
+            return ResultVo.fail(ErrorMsg.PARAM_ERROR);
+        }
         idleItemModel.setUserId(Long.valueOf(shUserId));
         if(idleItemService.updateIdleItem(idleItemModel)){
             return ResultVo.success();

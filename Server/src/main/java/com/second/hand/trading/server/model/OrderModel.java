@@ -30,6 +30,11 @@ public class OrderModel implements Serializable {
      */
     private Long idleId;
 
+    /**
+     * 购买数量
+     */
+    private Integer orderQuantity;
+
     private IdleItemModel idleItem;
     /**
      * 订单总价
@@ -116,6 +121,14 @@ public class OrderModel implements Serializable {
         this.idleId = idleId;
     }
 
+    public Integer getOrderQuantity() {
+        return orderQuantity;
+    }
+
+    public void setOrderQuantity(Integer orderQuantity) {
+        this.orderQuantity = orderQuantity;
+    }
+
     public BigDecimal getOrderPrice() {
         return orderPrice;
     }
@@ -188,6 +201,7 @@ public class OrderModel implements Serializable {
             && (this.getOrderNumber() == null ? other.getOrderNumber() == null : this.getOrderNumber().equals(other.getOrderNumber()))
             && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
             && (this.getIdleId() == null ? other.getIdleId() == null : this.getIdleId().equals(other.getIdleId()))
+            && (this.getOrderQuantity() == null ? other.getOrderQuantity() == null : this.getOrderQuantity().equals(other.getOrderQuantity()))
             && (this.getOrderPrice() == null ? other.getOrderPrice() == null : this.getOrderPrice().equals(other.getOrderPrice()))
             && (this.getPaymentStatus() == null ? other.getPaymentStatus() == null : this.getPaymentStatus().equals(other.getPaymentStatus()))
             && (this.getPaymentWay() == null ? other.getPaymentWay() == null : this.getPaymentWay().equals(other.getPaymentWay()))
@@ -205,6 +219,7 @@ public class OrderModel implements Serializable {
         result = prime * result + ((getOrderNumber() == null) ? 0 : getOrderNumber().hashCode());
         result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
         result = prime * result + ((getIdleId() == null) ? 0 : getIdleId().hashCode());
+        result = prime * result + ((getOrderQuantity() == null) ? 0 : getOrderQuantity().hashCode());
         result = prime * result + ((getOrderPrice() == null) ? 0 : getOrderPrice().hashCode());
         result = prime * result + ((getPaymentStatus() == null) ? 0 : getPaymentStatus().hashCode());
         result = prime * result + ((getPaymentWay() == null) ? 0 : getPaymentWay().hashCode());
@@ -225,6 +240,7 @@ public class OrderModel implements Serializable {
         sb.append(", orderNumber=").append(orderNumber);
         sb.append(", userId=").append(userId);
         sb.append(", idleId=").append(idleId);
+        sb.append(", orderQuantity=").append(orderQuantity);
         sb.append(", orderPrice=").append(orderPrice);
         sb.append(", paymentStatus=").append(paymentStatus);
         sb.append(", paymentWay=").append(paymentWay);

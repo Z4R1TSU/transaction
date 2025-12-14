@@ -24,6 +24,12 @@
                     width="100">
             </el-table-column>
             <el-table-column
+                    prop="orderQuantity"
+                    label="数量"
+                    show-overflow-tooltip
+                    width="80">
+            </el-table-column>
+            <el-table-column
                     prop="createTime"
                     label="创建时间"
                     show-overflow-tooltip

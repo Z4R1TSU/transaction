@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.locks.ReentrantLock;
+import java.math.BigDecimal;
 
 /**
  * 订单的增删改查
@@ -47,54 +47,37 @@ public class OrderServiceImpl implements OrderService {
      * @return
      */
 
-    private static HashMap<Integer,ReentrantLock> lockMap=new HashMap<>();
-    static {
-//        ReentrantLock lock=new ReentrantLock(true);
-        for(int i=0;i<100;i++){
-            lockMap.put(i,new ReentrantLock(true));
-        }
-    }
-    public boolean addOrder(OrderModel orderModel){
-        IdleItemModel idleItemModel=idleItemDao.selectByPrimaryKey(orderModel.getIdleId());
-        System.out.println(idleItemModel.getIdleStatus());
-        if(idleItemModel.getIdleStatus()!=1){
-            return false;
-        }
-        IdleItemModel idleItem=new IdleItemModel();
-        idleItem.setId(orderModel.getIdleId());
-        idleItem.setUserId(idleItemModel.getUserId());
-        idleItem.setIdleStatus((byte)2);
-
-        int key= (int) (orderModel.getIdleId()%100);
-        ReentrantLock lock=lockMap.get(key);
-        boolean flag;
-        try {
-            lock.lock();
-            flag=addOrderHelp(idleItem,orderModel);
-        }finally {
-            lock.unlock();
-        }
-        return flag;
-    }
-
-
+    /**
+     * 新增订单：原子扣减库存，防止超卖
+     */
     @Transactional(rollbackFor = Exception.class)
-    public boolean addOrderHelp(IdleItemModel idleItem,OrderModel orderModel){
-        IdleItemModel idleItemModel=idleItemDao.selectByPrimaryKey(orderModel.getIdleId());
-        if(idleItemModel.getIdleStatus()!=1){
+    public boolean addOrder(OrderModel orderModel){
+        if(orderModel.getOrderQuantity()==null || orderModel.getOrderQuantity()<=0){
             return false;
         }
-        if(idleItemDao.updateByPrimaryKeySelective(idleItem)==1){
-            if(orderDao.insert(orderModel)==1){
-                orderModel.setOrderStatus((byte) 4);
-                //半小时未支付则取消订单
-                OrderTaskHandler.addOrder(new OrderTask(orderModel,30*60));
-                return true;
-            }else {
-                throw new RuntimeException();
-            }
+
+        IdleItemModel idleItemModel=idleItemDao.selectByPrimaryKey(orderModel.getIdleId());
+        if(idleItemModel==null || idleItemModel.getIdleStatus()!=1){
+            return false;
         }
-        return false;
+
+        int changed = idleItemDao.decreaseStockIfEnough(orderModel.getIdleId(), orderModel.getOrderQuantity());
+        if(changed != 1){
+            return false;
+        }
+
+        BigDecimal totalPrice = idleItemModel.getIdlePrice().multiply(BigDecimal.valueOf(orderModel.getOrderQuantity()));
+        orderModel.setOrderPrice(totalPrice);
+
+        if(orderDao.insert(orderModel)==1){
+            // 半小时未支付则取消订单（只传 id + 取消状态，避免污染返回给前端的状态）
+            OrderModel cancelTaskModel = new OrderModel();
+            cancelTaskModel.setId(orderModel.getId());
+            cancelTaskModel.setOrderStatus((byte) 4);
+            OrderTaskHandler.addOrder(new OrderTask(cancelTaskModel,30*60));
+            return true;
+        }
+        throw new RuntimeException();
     }
 
     /**
@@ -121,33 +104,24 @@ public class OrderServiceImpl implements OrderService {
         orderModel.setUserId(null);
         orderModel.setIdleId(null);
         orderModel.setCreateTime(null);
+        orderModel.setOrderQuantity(null);
+        orderModel.setOrderPrice(null);
         if(orderModel.getOrderStatus()==4){
             //取消订单,需要优化，减少数据库查询次数
             OrderModel o=orderDao.selectByPrimaryKey(orderModel.getId());
-            if(o.getOrderStatus()!=0){
+            if(o==null || o.getOrderStatus()!=0){
                 return false;
             }
-            IdleItemModel idleItemModel=idleItemDao.selectByPrimaryKey(o.getIdleId());
-            if(idleItemModel.getIdleStatus()==2){
-                IdleItemModel idleItem=new IdleItemModel();
-                idleItem.setId(o.getIdleId());
-                idleItem.setUserId(idleItemModel.getUserId());
-                idleItem.setIdleStatus((byte)1);
-                if(orderDao.updateByPrimaryKeySelective(orderModel)==1){
-                    if(idleItemDao.updateByPrimaryKeySelective(idleItem)==1){
-                        return true;
-                    }else {
-                        throw new RuntimeException();
-                    }
-                }
-                return false;
-            }else{
-                if(orderDao.updateByPrimaryKeySelective(orderModel)==1){
+
+            if(orderDao.updateByPrimaryKeySelective(orderModel)==1){
+                int quantity = (o.getOrderQuantity()==null ? 1 : o.getOrderQuantity());
+                int restored = idleItemDao.increaseStock(o.getIdleId(), quantity);
+                if(restored==1){
                     return true;
-                }else {
-                    throw new RuntimeException();
                 }
+                throw new RuntimeException();
             }
+            throw new RuntimeException();
         }
         return orderDao.updateByPrimaryKeySelective(orderModel)==1;
     }
