@@ -7,7 +7,7 @@
                 <div v-for="(mes,index) in meslist" class="message-container-list" @click="toDetails(mes.idle.id)">
                     <div class="message-container-list-left">
                         <el-image
-                                style="width: 55px; height: 55px;border-radius: 5px;"
+                                style="width: 55px; height: 55px;border-radius: 12px;"
                                 :src="mes.fromU.avatar"
                                 fit="cover"></el-image>
                         <div class="message-container-list-text">
@@ -91,6 +91,12 @@
         justify-content: space-between;
         align-items: center;
     }
+
+    .message-container-list:hover{
+        background: rgba(79, 70, 229, 0.05);
+        border-radius: var(--radius-md);
+        padding: 0 10px;
+    }
     .message-container-list-left{
         width: 800px;
         display: flex;
@@ -117,6 +123,11 @@
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+    }
+
+    @media (max-width: 900px) {
+        .message-container-list-left{ width: calc(100% - 140px); }
+        .message-content{ width: 100%; }
     }
     .message-time{
         font-size: 12px;

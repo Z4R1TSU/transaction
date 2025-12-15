@@ -1,11 +1,11 @@
 :root {
   /* Brand & accent */
-  --brand: #8b5cf6; /* 主色：白紫系 */
-  --brand-600: #7c3aed;
-  --brand-700: #6d28d9;
-  --accent: #a78bfa; /* 紫色点缀 */
-  --brand-gradient: linear-gradient(135deg, #ffffff 0%, #f3efff 30%, #e9e1ff 60%, #c9b8ff 100%);
-  --brand-gradient-strong: linear-gradient(135deg, #ffffff 0%, #f0eaff 25%, #e0d6ff 55%, #c1a9ff 100%);
+  --brand: #4f46e5; /* 主色：靛蓝 */
+  --brand-600: #4338ca;
+  --brand-700: #3730a3;
+  --accent: #22d3ee; /* 科技感点缀：青色 */
+  --brand-gradient: linear-gradient(135deg, #ffffff 0%, #f5f7ff 30%, #eef2ff 60%, #e0f2fe 100%);
+  --brand-gradient-strong: linear-gradient(135deg, #4f46e5 0%, #6366f1 30%, #22d3ee 100%);
 
   /* Backgrounds */
   --bg: #ffffff; /* 作为回退色，实际由全局渐变覆盖 */
@@ -28,12 +28,12 @@
   --radius-lg: 16px;
 
   /* Shadows */
-  --shadow-sm: 0 4px 14px rgba(109, 40, 217, 0.08);
-  --shadow-md: 0 12px 28px rgba(109, 40, 217, 0.16);
-  --shadow-lg: 0 20px 60px rgba(109, 40, 217, 0.18);
+  --shadow-sm: 0 6px 18px rgba(79, 70, 229, 0.10);
+  --shadow-md: 0 16px 40px rgba(79, 70, 229, 0.18);
+  --shadow-lg: 0 26px 80px rgba(79, 70, 229, 0.22);
 
   /* Effects */
-  --focus-ring: 0 0 0 2px rgba(124, 108, 255, 0.45), 0 0 0 4px rgba(34, 211, 238, 0.25);
+  --focus-ring: 0 0 0 2px rgba(99, 102, 241, 0.40), 0 0 0 5px rgba(34, 211, 238, 0.22);
 
   /* Transitions */
   --transition-fast: 150ms;
@@ -51,9 +51,9 @@
   --text-secondary: #c7c9d1;
   --text-muted: #9aa0aa;
 
-  --shadow-sm: 0 4px 14px rgba(193, 169, 255, 0.15);
-  --shadow-md: 0 12px 28px rgba(193, 169, 255, 0.22);
-  --shadow-lg: 0 20px 60px rgba(193, 169, 255, 0.3);
+  --shadow-sm: 0 6px 18px rgba(99, 102, 241, 0.18);
+  --shadow-md: 0 16px 40px rgba(99, 102, 241, 0.26);
+  --shadow-lg: 0 26px 80px rgba(34, 211, 238, 0.18);
 }
 
 /* Base typography & smooth color transitions */
@@ -76,16 +76,20 @@ a:hover { color: var(--link-hover); }
 .el-button--primary {
   background-image: var(--brand-gradient-strong);
   background-size: 200% 200%;
-  border: 1px solid rgba(255,255,255,0.5);
-  color: #3f2b96;
-  text-shadow: 0 1px 0 rgba(255,255,255,0.6);
-  box-shadow: 0 10px 24px rgba(139, 92, 246, 0.25);
+  border: 1px solid rgba(255,255,255,0.18);
+  color: #ffffff;
+  box-shadow: 0 14px 34px rgba(79, 70, 229, 0.32);
   transition: transform var(--transition) ease, box-shadow var(--transition) ease, background-position 400ms ease;
 }
 .el-button--primary:focus, .el-button--primary:hover {
   background-position: 100% 0;
   transform: translateY(-1px);
-  box-shadow: 0 14px 32px rgba(139, 92, 246, 0.35);
+  box-shadow: 0 18px 44px rgba(79, 70, 229, 0.42);
+}
+
+.el-button--primary:active {
+  transform: translateY(0);
+  box-shadow: 0 10px 26px rgba(79, 70, 229, 0.28);
 }
 .el-input__inner {
   background-color: var(--card-bg);
@@ -116,10 +120,9 @@ a:hover { color: var(--link-hover); }
 
 /* Gradient text helper */
 .gradient-text {
-  background: linear-gradient(90deg, #5b21b6, #8b5cf6, #a78bfa);
+  background: linear-gradient(90deg, var(--brand), #6366f1, var(--accent));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
-
 

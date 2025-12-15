@@ -199,10 +199,12 @@
 
 <style scoped>
     .main-border{
-        background-color: #FFF;
-        padding: 10px 30px;
-        box-shadow: 0 1px 15px -6px rgba(0,0,0,.5);
-        border-radius: 5px;
+        background-color: var(--card-bg);
+        padding: 18px 26px;
+        box-shadow: var(--shadow-sm);
+        border-radius: var(--radius-md);
+        border: 1px solid var(--card-border);
+        backdrop-filter: var(--backdrop-blur);
     }
     .block {
         display: flex;

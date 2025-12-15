@@ -30,5 +30,17 @@
         border-radius: var(--radius-md);
         border: 1px solid var(--card-border);
         box-shadow: var(--shadow-sm);
+        backdrop-filter: var(--backdrop-blur);
+    }
+
+    @media (max-width: 768px) {
+        .main-container{
+            margin-top: 80px;
+            padding-bottom: 14px;
+        }
+        .main-content{
+            padding: 14px;
+            border-radius: var(--radius-sm);
+        }
     }
 </style>

@@ -27,7 +27,7 @@
             </div>
             <div style="margin: 0 20px;">
                 <el-row :gutter="30">
-                    <el-col :span="6" v-for="(idle,index) in idleList" :key="idle.id">
+                    <el-col :xs="24" :sm="12" :md="8" :lg="6" v-for="(idle,index) in idleList" :key="idle.id">
                         <div class="idle-card ui-card" v-reveal :style="revealDelayStyle(index)" @click="toDetails(idle)">
                             <el-image
                                     style="width: 100%; height: 180px; border-top-left-radius: var(--radius-md); border-top-right-radius: var(--radius-md);"
@@ -51,7 +51,7 @@
                             <div class="idle-time">{{idle.timeStr}}</div>
                             <div class="user-info">
                                 <el-image
-                                        style="width: 30px; height: 30px; border-radius: 50%;"
+                                        style="width: 30px; height: 30px; border-radius: 12px;"
                                         :src="idle.user.avatar"
                                         fit="contain">
                                     <div slot="error" class="image-slot">

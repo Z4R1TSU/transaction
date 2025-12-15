@@ -255,6 +255,18 @@
         padding: 0 180px;
     }
 
+    @media (max-width: 1024px) {
+        .release-idle-container-form {
+            padding: 0 40px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .release-idle-container-form {
+            padding: 0 14px;
+        }
+    }
+
     .release-idle-detiles-text {
         margin: 20px 0;
     }

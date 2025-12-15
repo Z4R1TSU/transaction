@@ -1,5 +1,5 @@
 <template>
-    <div style="background-color: #f6f6f6;min-height:100vh;">
+    <div style="background-color: transparent;min-height:100vh;">
         <el-container>
             <el-header>
                 <div class="header">
@@ -20,9 +20,9 @@
                                     default-active="1"
                                     class="el-menu-vertical-demo"
                                     @select="handleSelect"
-                                    background-color="#ffffff"
+                                    background-color="transparent"
                                     text-color="#303133"
-                                    active-text-color="#409EFF">
+                                    active-text-color="#4f46e5">
                                 <el-menu-item index="1">
                                     <i class="el-icon-goods"></i>
                                     <span>闲置管理</span>

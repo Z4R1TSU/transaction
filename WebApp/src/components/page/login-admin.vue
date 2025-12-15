@@ -106,7 +106,7 @@
     }
 
     .sign-in-text {
-        color: #409EFF;
+        color: var(--brand);
         font-size: 14px; /* Adjusted font size */
         text-decoration: none;
         line-height:28px;

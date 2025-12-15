@@ -2,14 +2,14 @@
 body {
   background:
     radial-gradient(1200px 600px at 10% -20%, rgba(255,255,255, 0.85), transparent 60%),
-    radial-gradient(1000px 500px at 90% -10%, rgba(199, 180, 255, 0.45), transparent 55%),
+    radial-gradient(1000px 500px at 90% -10%, rgba(34, 211, 238, 0.18), transparent 55%),
     var(--brand-gradient);
 }
 
 :root[data-theme="dark"] body {
   background:
-    radial-gradient(1200px 600px at 10% -20%, rgba(139, 92, 246, 0.15), transparent 60%),
-    radial-gradient(1000px 500px at 90% -10%, rgba(167,139,250, 0.18), transparent 55%),
+    radial-gradient(1200px 600px at 10% -20%, rgba(99, 102, 241, 0.18), transparent 60%),
+    radial-gradient(1000px 500px at 90% -10%, rgba(34, 211, 238, 0.12), transparent 55%),
     linear-gradient(160deg, #0f0a1f 0%, #140f2b 40%, #1a133a 100%);
 }
 
@@ -21,6 +21,61 @@ body {
 }
 
 body { animation: bgFloat 28s ease-in-out infinite; }
+
+/* Element UI: make common components more "glass" and modern */
+.el-dialog {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  backdrop-filter: var(--backdrop-blur);
+  box-shadow: var(--shadow-lg);
+}
+
+.el-dialog__header {
+  background: linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0.10));
+  border-bottom: 1px solid var(--card-border);
+}
+
+:root[data-theme="dark"] .el-dialog__header {
+  background: linear-gradient(180deg, rgba(22,15,46,0.65), rgba(22,15,46,0.10));
+}
+
+.el-dialog__body {
+  background: var(--card-bg);
+}
+
+.el-table {
+  background: transparent;
+}
+
+.el-table th, .el-table tr, .el-table td {
+  background: transparent;
+}
+
+.el-table__header-wrapper th {
+  color: var(--text-secondary);
+}
+
+.el-table__row:hover > td {
+  background: rgba(79, 70, 229, 0.06) !important;
+}
+
+.el-tabs__item.is-active {
+  color: var(--brand);
+}
+
+.el-tabs__active-bar {
+  background-color: var(--brand);
+}
+
+.el-pagination .btn-next, .el-pagination .btn-prev, .el-pagination .el-pager li {
+  border-radius: 10px;
+}
+
+/* Responsive helpers */
+@media (max-width: 768px) {
+  .container { padding: 0 14px; }
+  body { animation: none; }
+}
 
 /* Focus ring */
 :focus-visible {
@@ -110,6 +165,5 @@ body { animation: bgFloat 28s ease-in-out infinite; }
   filter: blur(12px); opacity: .0; transition: opacity 240ms ease;
 }
 .btn-glow:hover::after { opacity: .7; }
-
 
 

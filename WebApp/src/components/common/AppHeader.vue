@@ -14,7 +14,7 @@
             <router-link v-if="!isLogin" class="user-name-text" to="/login">登录</router-link>
             <el-dropdown trigger="click" v-else>
                 <div style="cursor:pointer;display: flex;align-items: center;">
-                    <div style="font-size: 16px;color: #409EFF;padding-right: 5px;">{{nicknameValue?nicknameValue:nickname}}</div>
+                    <div style="font-size: 16px;color: var(--brand);padding-right: 5px;">{{nicknameValue?nicknameValue:nickname}}</div>
                     <el-avatar :src="avatarValue?avatarValue:avatar"></el-avatar>
                 </div>
                 <el-dropdown-menu slot="dropdown">
@@ -126,6 +126,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        gap: 10px;
         width: 100%;
         max-width: 1200px;
         margin: 0 auto;
@@ -181,5 +182,25 @@
 
     .el-avatar {
         margin-left: 8px;
+    }
+
+    @media (max-width: 900px) {
+        .header {
+            height: auto;
+            padding: 10px 14px;
+        }
+        .header-container {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .search-container {
+            order: 3;
+            width: 100%;
+            max-width: 100%;
+            margin: 10px 0 0;
+        }
+        .el-button {
+            margin-left: 0;
+        }
     }
 </style>

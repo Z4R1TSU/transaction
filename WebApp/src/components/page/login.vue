@@ -86,6 +86,13 @@
         height: 100%;
     }
 
+    @media (max-width: 480px) {
+        .login-body {
+            width: 100%;
+            padding: 26px 18px;
+        }
+    }
+
     .login-title {
         padding-bottom: 30px;
         text-align: center;

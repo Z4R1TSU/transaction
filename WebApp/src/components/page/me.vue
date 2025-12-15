@@ -150,7 +150,7 @@
                     <el-button style="margin-left: 20px;" @click="saveAddress">保存</el-button>
                 </div>
                 <div class="address-container-list">
-                    <div style="color: #409EFF;font-size: 15px;padding-left: 10px;">已有收货地址</div>
+                    <div style="color: var(--brand);font-size: 15px;padding-left: 10px;">已有收货地址</div>
                     <el-table
                             stripe
                             :data="addressData"
@@ -189,7 +189,7 @@
                                            size="mini"
                                            @click="handleSetDefault(scope.$index, scope.row)">设为默认
                                 </el-button>
-                                <div v-else style="padding-left: 10px;color: #409EFF;">{{scope.row.defaultAddress}}
+                                <div v-else style="padding-left: 10px;color: var(--brand);">{{scope.row.defaultAddress}}
                                 </div>
                             </template>
                         </el-table-column>

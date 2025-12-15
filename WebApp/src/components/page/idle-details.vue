@@ -6,7 +6,7 @@
                 <div class="details-header">
                     <div class="details-header-user-info">
                         <el-image
-                                style="width: 80px; height: 80px;border-radius: 5px;"
+                                style="width: 80px; height: 80px;border-radius: 12px;"
                                 :src="idleItemInfo.user.avatar"
                                 fit="contain"></el-image>
                         <div style="margin-left: 10px;">
@@ -70,7 +70,7 @@
                         <div v-for="(mes,index) in messageList" class="message-container-list">
                             <div class="message-container-list-left">
                                 <el-image
-                                        style="width: 55px; height: 55px;border-radius: 5px;"
+                                        style="width: 55px; height: 55px;border-radius: 12px;"
                                         :src="mes.fromU.avatar"
                                         fit="contain"></el-image>
                                 <div class="message-container-list-text">
