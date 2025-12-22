@@ -3,96 +3,117 @@
         <app-head></app-head>
         <app-body>
             <div class="release-idle-container">
-                <div class="release-idle-container-title">发布闲置</div>
-                <div class="release-idle-container-form">
-                    <el-input placeholder="请输入闲置名称" v-model="idleItemInfo.idleName"
-                              maxlength="30"
-                              show-word-limit>
-                    </el-input>
-                    <el-input
-                            class="release-idle-detiles-text"
-                            type="textarea"
-                            autosize
-                            placeholder="请输入闲置的详细介绍..."
-                            v-model="idleItemInfo.idleDetails"
-                            maxlength="1000"
-                            show-word-limit>
-                    </el-input>
-                    <div class="release-idle-place">
-                        <div class="release-tip">您的地区</div>
-                        <el-cascader
-                                :options="options"
-                                v-model="selectedOptions"
-                                @change="handleChange"
-                                :separator="' '"
-                                style="width: 90%;"
-                        >
-                        </el-cascader>
+                <div class="release-header">
+                    <h1 class="release-title" v-reveal>发布闲置</h1>
+                    <p class="release-subtitle" v-reveal :style="'transition-delay:100ms'">让您的闲置物品找到新主人</p>
+                </div>
+                
+                <div class="release-card ui-card" v-reveal :style="'transition-delay:200ms'">
+                    <div class="form-section">
+                        <div class="section-title">基本信息</div>
+                        <el-input placeholder="请输入闲置名称 (30字以内)" v-model="idleItemInfo.idleName"
+                                  maxlength="30"
+                                  show-word-limit
+                                  class="input-clean">
+                        </el-input>
+                        <el-input
+                                class="release-idle-detiles-text input-clean"
+                                type="textarea"
+                                :rows="6"
+                                placeholder="请输入闲置的详细介绍、入手渠道、转手原因等..."
+                                v-model="idleItemInfo.idleDetails"
+                                maxlength="1000"
+                                show-word-limit>
+                        </el-input>
                     </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                            <div class="release-tip">闲置类别</div>
-                            <el-select  v-model="idleItemInfo.idleLabel" placeholder="请选择类别">
-                                <el-option
-                                        v-for="item in options2"
-                                        :key="item.value"
-                                        :label="item.label"
-                                        :value="item.value">
-                                </el-option>
-                            </el-select>
-                        </div>
-                        <div style="display:flex; gap: 16px; align-items: center;">
-                            <div style="width: 220px;">
-                                <el-input-number v-model="idleItemInfo.idlePrice" :precision="2" :step="10" :max="10000000" :min="0.01">
-                                    <div slot="prepend">价格</div>
-                                </el-input-number>
+
+                    <div class="form-section">
+                        <div class="section-title">交易信息</div>
+                        <div class="form-grid">
+                            <div class="form-item">
+                                <div class="release-tip">所在地区</div>
+                                <el-cascader
+                                        :options="options"
+                                        v-model="selectedOptions"
+                                        @change="handleChange"
+                                        :separator="' / '"
+                                        style="width: 100%;">
+                                </el-cascader>
                             </div>
-                            <div style="width: 180px;">
-                                <el-input-number v-model="idleItemInfo.idleStock" :step="1" :min="1" :max="9999">
-                                    <div slot="prepend">数量</div>
-                                </el-input-number>
+                            <div class="form-item">
+                                <div class="release-tip">闲置类别</div>
+                                <el-select v-model="idleItemInfo.idleLabel" placeholder="请选择类别" style="width: 100%;">
+                                    <el-option
+                                            v-for="item in options2"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.value">
+                                    </el-option>
+                                </el-select>
+                            </div>
+                            <div class="form-item">
+                                <div class="release-tip">转手价格</div>
+                                <el-input-number v-model="idleItemInfo.idlePrice" :precision="2" :step="10" :max="10000000" :min="0.01" style="width: 100%;"></el-input-number>
+                            </div>
+                            <div class="form-item">
+                                <div class="release-tip">数量</div>
+                                <el-input-number v-model="idleItemInfo.idleStock" :step="1" :min="1" :max="9999" style="width: 100%;"></el-input-number>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="section-title">图片展示</div>
+                        <div class="upload-area">
+                            <el-upload
+                                    class="image-uploader"
+                                    action="http://localhost:8040/file/upload-base64"
+                                    :on-preview="fileHandlePreview"
+                                    :on-remove="fileHandleRemove"
+                                    :on-success="fileHandleSuccess"
+                                    :show-file-list="false"
+                                    :limit="10"
+                                    :on-exceed="handleExceed"
+                                    accept="image/*"
+                                    drag
+                                    multiple>
+                                <i class="el-icon-cloud-upload"></i>
+                                <div class="el-upload__text">拖拽图片到此处，或<em>点击上传</em></div>
+                                <div class="el-upload__tip" slot="tip">支持 jpg/png 文件，不超过 500kb，最多 10 张</div>
+                            </el-upload>
+                            
+                            <div class="url-input-wrapper">
+                                <el-input v-model="imageUrl" placeholder="粘贴图片 URL" class="input-clean">
+                                    <el-button slot="append" icon="el-icon-plus" @click="addUrlImage"></el-button>
+                                </el-input>
                             </div>
                         </div>
 
-                    </div>
-                    <div class="release-idle-container-picture">
-                        <div class="release-idle-container-picture-title">上传闲置照片</div>
-                        <el-upload
-                                action="http://localhost:8040/file/upload-base64"
-                                :on-preview="fileHandlePreview"
-                                :on-remove="fileHandleRemove"
-                                :on-success="fileHandleSuccess"
-                                :show-file-list="showFileList"
-                                :limit="10"
-                                :on-exceed="handleExceed"
-                                accept="image/*"
-                                drag
-                                multiple>
-                            <i class="el-icon-upload"></i>
-                            <div class="el-upload__text">将图片拖到此处，或<em>点击上传</em></div>
-                        </el-upload>
-                        <div class="url-adder">
-                            <el-input v-model="imageUrl" placeholder="或粘贴图片 URL，如 https://...">
-                                <el-button slot="append" type="primary" @click="addUrlImage">添加</el-button>
-                            </el-input>
-                        </div>
-                        <div class="picture-list">
-                            <div class="picture-item" v-for="(img,index) in imgList" :key="index">
-                                <el-image style="width: 600px;margin-bottom: 2px;" fit="contain"
-                                          :src="img"
-                                          :preview-src-list="imgList"></el-image>
-                                <div class="picture-remove" @click="removeImage(index)"><i class="el-icon-close"></i></div>
+                        <transition-group name="list" tag="div" class="picture-list">
+                            <div class="picture-item" v-for="(img,index) in imgList" :key="img">
+                                <el-image 
+                                    style="width: 100%; height: 100%;" 
+                                    fit="cover"
+                                    :src="img"
+                                    :preview-src-list="imgList">
+                                </el-image>
+                                <div class="picture-overlay">
+                                    <div class="picture-remove" @click="removeImage(index)">
+                                        <i class="el-icon-delete"></i>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <el-dialog :visible.sync="imgDialogVisible">
-                            <img width="100%" :src="dialogImageUrl" alt="">
-                        </el-dialog>
+                        </transition-group>
                     </div>
-                    <div style="display: flex;justify-content: center;margin-top: 30px;margin-bottom: 30px;">
-                        <el-button type="primary" plain @click="releaseButton">确认发布</el-button>
+
+                    <div class="form-actions">
+                        <el-button type="primary" class="submit-btn" @click="releaseButton">确认发布</el-button>
                     </div>
                 </div>
             </div>
+            <el-dialog :visible.sync="imgDialogVisible" custom-class="preview-dialog">
+                <img width="100%" :src="dialogImageUrl" alt="">
+            </el-dialog>
             <app-foot></app-foot>
         </app-body>
     </div>
@@ -241,59 +262,178 @@
 <style scoped>
     .release-idle-container {
         min-height: 85vh;
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 40px 20px;
     }
 
-    .release-idle-container-title {
-        font-size: 18px;
-        padding: 30px 0;
-        font-weight: 600;
-        width: 100%;
+    .release-header {
         text-align: center;
+        margin-bottom: 40px;
     }
 
-    .release-idle-container-form {
-        padding: 0 180px;
+    .release-title {
+        font-size: 32px;
+        font-weight: 800;
+        color: var(--text-primary);
+        margin-bottom: 8px;
     }
 
-    @media (max-width: 1024px) {
-        .release-idle-container-form {
-            padding: 0 40px;
-        }
+    .release-subtitle {
+        color: var(--text-secondary);
+        font-size: 16px;
     }
 
-    @media (max-width: 768px) {
-        .release-idle-container-form {
-            padding: 0 14px;
-        }
+    .release-card {
+        padding: 40px;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        backdrop-filter: var(--backdrop-blur);
+    }
+
+    .form-section {
+        margin-bottom: 40px;
+        padding-bottom: 30px;
+        border-bottom: 1px dashed var(--card-border);
+    }
+    
+    .form-section:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    .section-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 24px;
+        padding-left: 12px;
+        border-left: 4px solid var(--brand);
+    }
+
+    .input-clean /deep/ .el-input__inner,
+    .input-clean /deep/ .el-textarea__inner {
+        background: var(--bg-elevated);
+        border: 1px solid transparent;
+        transition: all 0.3s ease;
+    }
+    
+    .input-clean /deep/ .el-input__inner:focus,
+    .input-clean /deep/ .el-textarea__inner:focus {
+        background: var(--card-bg);
+        border-color: var(--brand);
+        box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
     }
 
     .release-idle-detiles-text {
-        margin: 20px 0;
+        margin-top: 20px;
     }
-    .release-idle-place{
-        margin-bottom: 15px;
-    }
-    .release-tip{
-        color: #555555;
-        float: left;
-        padding-right: 5px;
-        height: 36px;
-        line-height: 36px;
-        font-size: 14px;
-    }
-    .release-idle-container-picture{
-        margin: 20px 0;
 
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
     }
-    .release-idle-container-picture-title{
-        margin: 10px 0;
-        color: #555555;
+
+    .release-tip {
         font-size: 14px;
+        color: var(--text-secondary);
+        margin-bottom: 8px;
+        font-weight: 500;
     }
+
+    .upload-area {
+        background: var(--bg-elevated);
+        padding: 24px;
+        border-radius: var(--radius-md);
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    .image-uploader /deep/ .el-upload-dragger {
+        width: 100%;
+        background: var(--card-bg);
+        border-color: var(--card-border);
+    }
+    
+    .url-input-wrapper {
+        margin-top: 16px;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
     .picture-list {
-        margin: 20px 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 16px;
+        margin-top: 20px;
+    }
+
+    .picture-item {
+        position: relative;
+        aspect-ratio: 1;
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        border: 1px solid var(--card-border);
+        background: #fff;
+    }
+    
+    .picture-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
         display: flex;
-        flex-direction: column;
         align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.2s;
+    }
+    
+    .picture-item:hover .picture-overlay {
+        opacity: 1;
+    }
+    
+    .picture-remove {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #fff;
+        color: #ef4444;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 18px;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: center;
+        margin-top: 40px;
+    }
+    
+    .submit-btn {
+        width: 200px;
+        height: 48px;
+        font-size: 16px;
+        border-radius: 24px;
+    }
+
+    @media (max-width: 768px) {
+        .release-idle-container {
+            padding: 20px 14px;
+        }
+        
+        .release-card {
+            padding: 20px;
+        }
+        
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
     }
 </style>

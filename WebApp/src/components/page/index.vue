@@ -191,123 +191,171 @@
                 const delay = (row * 4 + col) * base;
                 return `transition-delay:${delay}ms`;
             },
-            initParticles(){
+            initParticles() {
                 const canvas = this.$refs.particles;
-                if(!canvas) return;
+                if (!canvas) return;
                 const ctx = canvas.getContext('2d');
-                const DPR = window.devicePixelRatio || 1;
+                
+                let width, height;
+                let particles = [];
+                
                 const resize = () => {
-                    const rect = canvas.getBoundingClientRect();
-                    canvas.width = rect.width * DPR;
-                    canvas.height = rect.height * DPR;
+                    width = canvas.offsetWidth;
+                    height = canvas.offsetHeight;
+                    canvas.width = width * window.devicePixelRatio;
+                    canvas.height = height * window.devicePixelRatio;
+                    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+                    createParticles();
                 };
-                resize();
-                window.addEventListener('resize', resize);
-
-                const particles = Array.from({length: 36}).map(() => ({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height * .6,
-                    r: 1 + Math.random() * 2 * DPR,
-                    vx: (Math.random() - .5) * 0.4 * DPR,
-                    vy: (Math.random() - .5) * 0.4 * DPR,
-                    c: `rgba(${180+Math.floor(Math.random()*40)}, ${160+Math.floor(Math.random()*60)}, 255, ${0.25+Math.random()*0.35})`
-                }));
-
-                const step = () => {
-                    ctx.clearRect(0,0,canvas.width,canvas.height);
-                    for(const p of particles){
-                        p.x += p.vx; p.y += p.vy;
-                        if(p.x<0||p.x>canvas.width) p.vx*=-1;
-                        if(p.y<0||p.y>canvas.height) p.vy*=-1;
-                        ctx.beginPath();
-                        const g = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*4);
-                        g.addColorStop(0,p.c);
-                        g.addColorStop(1,'transparent');
-                        ctx.fillStyle = g;
-                        ctx.arc(p.x,p.y,p.r*4,0,Math.PI*2);
-                        ctx.fill();
+                
+                const createParticles = () => {
+                    particles = [];
+                    const cnt = Math.floor(width * height / 20000); // Density
+                    for (let i = 0; i < cnt; i++) {
+                        particles.push({
+                            x: Math.random() * width,
+                            y: Math.random() * height,
+                            vx: (Math.random() - 0.5) * 0.4,
+                            vy: (Math.random() - 0.5) * 0.4,
+                            size: Math.random() * 2 + 0.5,
+                            alpha: Math.random() * 0.3 + 0.1
+                        });
                     }
-                    requestAnimationFrame(step);
                 };
-                step();
+                
+                const draw = () => {
+                    ctx.clearRect(0, 0, width, height);
+                    const brandColor = getComputedStyle(document.documentElement).getPropertyValue('--brand').trim() || '#4f46e5';
+                    ctx.fillStyle = brandColor;
+                    
+                    particles.forEach(p => {
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        
+                        if (p.x < 0) p.x = width;
+                        if (p.x > width) p.x = 0;
+                        if (p.y < 0) p.y = height;
+                        if (p.y > height) p.y = 0;
+                        
+                        ctx.globalAlpha = p.alpha;
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        ctx.fill();
+                    });
+                    
+                    requestAnimationFrame(draw);
+                };
+                
+                window.addEventListener('resize', resize);
+                resize();
+                draw();
             }
         }
     }
 </script>
 
 <style scoped>
-    .hero{
+    .hero {
         position: relative;
-        height: 260px;
-        margin: 10px 20px 20px 20px;
-        background: radial-gradient(800px 300px at 20% 0%, rgba(124,108,255,0.20), transparent 60%),
-                    radial-gradient(600px 260px at 100% 0%, rgba(34,211,238,0.20), transparent 55%),
-                    var(--card-bg);
-        border: 1px solid var(--card-border);
-        border-radius: var(--radius-lg);
-        box-shadow: var(--shadow-sm);
-        overflow: hidden;
-    }
-    .hero-content{
-        position: absolute;
-        inset: 0;
+        height: 400px;
         display: flex;
         flex-direction: column;
-        justify-content: center;
         align-items: center;
-        gap: 12px;
+        justify-content: center;
         text-align: center;
-    }
-    .hero-title{
-        font-size: 34px;
-        font-weight: 900;
-        margin: 0;
-        background: linear-gradient(90deg, #5b21b6, #8b5cf6, #a78bfa);
-        -webkit-background-clip: text; background-clip: text; color: transparent;
-        text-shadow: 0 6px 24px rgba(139,92,246,.25);
-    }
-    .hero-subtitle{
-        margin: 0;
-        color: var(--text-secondary);
-    }
-    .hero-actions{ margin-top: 8px; }
-
-    .scroll-indicator{
-        position: absolute; left: 50%; transform: translateX(-50%); bottom: 12px;
-        width: 22px; height: 36px; border-radius: 12px; border: 2px solid var(--card-border);
-        display: flex; justify-content: center; align-items: flex-start; padding-top: 6px;
-        opacity: .7;
-    }
-    .scroll-indicator span{ width: 4px; height: 8px; background: var(--text-secondary); border-radius: 2px; animation: scrolly 1.6s ease-in-out infinite; }
-    @keyframes scrolly { 0%{ transform: translateY(0); opacity: .8;} 70%{ transform: translateY(14px); opacity: .2;} 100%{ transform: translateY(0); opacity: .8;} }
-
-    .idle-card {
-        height: 340px;
-        margin-bottom: 20px;
-        cursor: pointer;
+        margin-bottom: 40px;
         overflow: hidden;
+    }
+    
+    .particles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        pointer-events: none;
+    }
+    
+    .hero-content {
+        z-index: 1;
         position: relative;
-        transition: transform var(--transition) ease, box-shadow var(--transition) ease;
     }
-    .idle-card:hover {
-        transform: translateY(-4px);
-        box-shadow: var(--shadow-md);
+    
+    .hero-title {
+        font-size: 48px;
+        font-weight: 800;
+        margin-bottom: 16px;
+        background: linear-gradient(135deg, var(--text-primary) 0%, var(--brand) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        letter-spacing: -1px;
     }
-
-    .fenye {
+    
+    .hero-subtitle {
+        font-size: 18px;
+        color: var(--text-secondary);
+        margin-bottom: 32px;
+        max-width: 600px;
+    }
+    
+    .hero-actions {
+        display: flex;
+        gap: 16px;
+    }
+    
+    .scroll-indicator {
+        position: absolute;
+        bottom: 20px;
+        width: 24px;
+        height: 40px;
+        border: 2px solid var(--text-muted);
+        border-radius: 12px;
         display: flex;
         justify-content: center;
-        height: 60px;
-        align-items: center;
+        opacity: 0.5;
+    }
+    
+    .scroll-indicator span {
+        width: 4px;
+        height: 8px;
+        background: var(--text-muted);
+        border-radius: 2px;
+        margin-top: 6px;
+        animation: scrollPin 2s infinite;
+    }
+    
+    @keyframes scrollPin {
+        0% { transform: translateY(0); opacity: 1; }
+        100% { transform: translateY(12px); opacity: 0; }
+    }
+
+    .idle-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-bottom: 20px;
+        position: relative;
+    }
+    
+    .idle-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--brand);
     }
 
     .idle-title {
         font-size: 16px;
         font-weight: 600;
-        overflow: hidden;
+        padding: 12px 12px 0;
         white-space: nowrap;
+        overflow: hidden;
         text-overflow: ellipsis;
-        margin: 12px 12px 6px 12px;
+        color: var(--text-primary);
     }
 
     .idle-price {
@@ -318,30 +366,35 @@
 
     .idle-place {
         font-size: 12px;
-        color: var(--text-secondary);
-        float: right;
-        padding-right: 20px;
-
+        color: var(--text-muted);
+        text-align: right;
+        line-height: 24px;
     }
 
     .idle-time {
-        color: var(--text-muted);
+        padding: 0 12px;
         font-size: 12px;
-        margin: 0 12px;
-    }
-
-    .user-nickname {
         color: var(--text-muted);
-        font-size: 12px;
-        display: flex;
-        align-items: center;
-        height: 30px;
-        padding-left: 8px;
+        margin-bottom: 8px;
     }
 
     .user-info {
-        padding: 8px 12px 12px 12px;
-        height: 30px;
         display: flex;
+        align-items: center;
+        padding: 8px 12px;
+        border-top: 1px solid var(--card-border);
+        background: rgba(255,255,255,0.3);
+    }
+    
+    .user-nickname {
+        margin-left: 8px;
+        font-size: 13px;
+        color: var(--text-secondary);
+    }
+    
+    .fenye {
+        display: flex;
+        justify-content: center;
+        margin: 40px 0;
     }
 </style>
