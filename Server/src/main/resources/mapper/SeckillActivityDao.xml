@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.second.hand.trading.server.dao.SeckillActivityDao">
+  <resultMap id="BaseResultMap" type="com.second.hand.trading.server.model.SeckillActivityModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="idle_id" jdbcType="BIGINT" property="idleId" />
+    <result column="seller_id" jdbcType="BIGINT" property="sellerId" />
+    <result column="seckill_price" jdbcType="DECIMAL" property="seckillPrice" />
+    <result column="seckill_stock" jdbcType="INTEGER" property="seckillStock" />
+    <result column="per_limit" jdbcType="INTEGER" property="perLimit" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, idle_id, seller_id, seckill_price, seckill_stock, per_limit, start_time, end_time, status, create_time
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from sh_seckill_activity
+    where id = #{id}
+  </select>
+
+  <select id="selectByIdleId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from sh_seckill_activity
+    where idle_id = #{idleId}
+  </select>
+
+  <select id="listActive" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from sh_seckill_activity
+    where status = 1
+    order by id desc
+  </select>
+
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.second.hand.trading.server.model.SeckillActivityModel" useGeneratedKeys="true">
+    insert into sh_seckill_activity (idle_id, seller_id, seckill_price, seckill_stock, per_limit, start_time, end_time, status, create_time)
+    values (#{idleId}, #{sellerId}, #{seckillPrice}, #{seckillStock}, #{perLimit}, #{startTime}, #{endTime}, #{status}, #{createTime})
+  </insert>
+
+  <update id="decreaseStockIfEnough">
+    update sh_seckill_activity
+    set seckill_stock = seckill_stock - #{amount}
+    where id = #{id}
+      and status = 1
+      and start_time &lt;= now()
+      and end_time &gt; now()
+      and seckill_stock &gt;= #{amount}
+  </update>
+
+  <update id="increaseStock">
+    update sh_seckill_activity
+    set seckill_stock = seckill_stock + #{amount}
+    where id = #{id}
+  </update>
+</mapper>
+

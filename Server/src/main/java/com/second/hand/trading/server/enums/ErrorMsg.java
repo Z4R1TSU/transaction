@@ -28,7 +28,16 @@ public enum ErrorMsg {
     FORM_NUMBER_ERROR("表单id错误"),
     REPEAT_COMMIT_ERROR("请勿重复提交"),
     COMMIT_FAIL_ERROR("提交失败"),
-    FAVORITE_EXIT("收藏已存在");
+    FAVORITE_EXIT("收藏已存在"),
+
+    SECKILL_NOT_START("秒杀未开始"),
+    SECKILL_ENDED("秒杀已结束"),
+    SECKILL_NOT_EXIST("秒杀活动不存在"),
+    SECKILL_SOLD_OUT("秒杀库存不足"),
+    SECKILL_REPEAT_BUY("请勿重复下单"),
+    SECKILL_RATE_LIMIT("请求过于频繁 稍后重试"),
+    SECKILL_ORDER_NOT_EXIST("秒杀订单不存在"),
+    SECKILL_ORDER_STATUS_ERROR("秒杀订单状态异常");
 
     private String msg;
 

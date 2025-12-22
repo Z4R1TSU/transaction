@@ -5,6 +5,7 @@ import com.second.hand.trading.server.dao.OrderDao;
 import com.second.hand.trading.server.model.IdleItemModel;
 import com.second.hand.trading.server.model.OrderModel;
 import com.second.hand.trading.server.service.OrderService;
+import com.second.hand.trading.server.service.SeckillService;
 import com.second.hand.trading.server.utils.OrderTask;
 import com.second.hand.trading.server.utils.OrderTaskHandler;
 import com.second.hand.trading.server.vo.PageVo;
@@ -33,6 +34,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Resource
     private IdleItemDao idleItemDao;
+
+    @Resource
+    private SeckillService seckillService;
 
     /**
      * 新增订单，同时下架闲置
@@ -117,13 +121,29 @@ public class OrderServiceImpl implements OrderService {
                 int quantity = (o.getOrderQuantity()==null ? 1 : o.getOrderQuantity());
                 int restored = idleItemDao.increaseStock(o.getIdleId(), quantity);
                 if(restored==1){
+                    // 如果是秒杀订单，取消时同步回补秒杀库存
+                    try {
+                        seckillService.cancelByOrderId(o.getId());
+                    } catch (Exception ignore) {
+                    }
                     return true;
                 }
                 throw new RuntimeException();
             }
             throw new RuntimeException();
         }
-        return orderDao.updateByPrimaryKeySelective(orderModel)==1;
+
+        boolean updated = orderDao.updateByPrimaryKeySelective(orderModel)==1;
+        if(updated){
+            // 支付成功时同步秒杀订单状态
+            if(orderModel.getPaymentStatus()!=null && orderModel.getPaymentStatus().equals((byte) 1)){
+                try {
+                    seckillService.markPaidByOrderId(orderModel.getId());
+                } catch (Exception ignore) {
+                }
+            }
+        }
+        return updated;
     }
 
     /**

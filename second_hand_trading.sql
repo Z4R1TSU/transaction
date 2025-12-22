@@ -162,6 +162,46 @@ CREATE TABLE `sh_order` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+/* 秒杀活动表：绑定闲置商品（sh_idle_item） */
+
+DROP TABLE IF EXISTS `sh_seckill_activity`;
+
+CREATE TABLE `sh_seckill_activity` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+  `idle_id` bigint(20) NOT NULL COMMENT '关联闲置id',
+  `seller_id` bigint(20) NOT NULL COMMENT '卖家id',
+  `seckill_price` decimal(10,2) NOT NULL COMMENT '秒杀价',
+  `seckill_stock` int(11) NOT NULL COMMENT '秒杀库存',
+  `per_limit` int(11) NOT NULL DEFAULT '1' COMMENT '单用户限购数量',
+  `start_time` datetime NOT NULL COMMENT '开始时间',
+  `end_time` datetime NOT NULL COMMENT '结束时间',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态(1启用 0停用)',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_idle_id` (`idle_id`),
+  KEY `idx_time` (`start_time`,`end_time`),
+  KEY `idx_seller` (`seller_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+/* 秒杀订单映射表：用于防重复下单与状态同步 */
+
+DROP TABLE IF EXISTS `sh_seckill_order`;
+
+CREATE TABLE `sh_seckill_order` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+  `seckill_id` bigint(20) NOT NULL COMMENT '秒杀活动id',
+  `order_id` bigint(20) NOT NULL COMMENT '关联订单id(sh_order.id)',
+  `user_id` bigint(20) NOT NULL COMMENT '买家id',
+  `idle_id` bigint(20) NOT NULL COMMENT '闲置id',
+  `quantity` int(11) NOT NULL DEFAULT '1' COMMENT '购买数量',
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态(0未支付 1已支付 2已取消)',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_user_seckill` (`user_id`,`seckill_id`),
+  UNIQUE KEY `uk_order_id` (`order_id`),
+  KEY `idx_seckill` (`seckill_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 /*Data for the table `sh_order` */
 
 INSERT INTO `sh_order`
@@ -251,6 +291,16 @@ INSERT INTO `sh_idle_item`
 (`id`,`idle_name`,`idle_details`,`picture_list`,`idle_price`,`idle_stock`,`idle_place`,`idle_label`,`release_time`,`idle_status`,`user_id`)
 VALUES
   (1001,'测试商品-已售罄','用于测试售罄展示/禁止购买','[]','9.90',0,'广州市',5,'2025-12-14 00:00:00',3,1);
+
+/*Data for the table `sh_seckill_activity` */
+
+INSERT INTO `sh_seckill_activity`
+(`id`,`idle_id`,`seller_id`,`seckill_price`,`seckill_stock`,`per_limit`,`start_time`,`end_time`,`status`,`create_time`)
+VALUES
+  (1,20,24,'99.00',5,1,'2025-12-14 00:00:00','2026-12-31 23:59:59',1,'2025-12-14 00:00:00');
+
+/*Data for the table `sh_seckill_order` */
+/* 初始化不插入，运行时由秒杀下单生成 */
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

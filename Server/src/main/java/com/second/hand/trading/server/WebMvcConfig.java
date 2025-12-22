@@ -1,5 +1,7 @@
 package com.second.hand.trading.server;
 
+import com.second.hand.trading.server.service.RedisCacheService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -8,6 +10,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
+
+    @Autowired
+    private RedisCacheService redisCacheService;
+
     /**
      *  允许跨域访问
      */
@@ -24,5 +30,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LogCostInterceptor()).addPathPatterns("/**");
+        registry.addInterceptor(new SeckillRateLimitInterceptor(redisCacheService)).addPathPatterns("/seckill/**");
     }
 }
