@@ -34,8 +34,8 @@ public class SeckillRateLimitInterceptor implements HandlerInterceptor {
         }
         String key = (userId != null && !userId.isEmpty()) ? ("uid:" + userId) : ("ip:" + request.getRemoteAddr());
         
-        // 1 second, 8 requests
-        boolean allowed = redisCacheService.allowRequest(key, 8, 1);
+        // Token Bucket: 10 tokens/sec, max 20 tokens capacity, 1 token requested
+        boolean allowed = redisCacheService.allowRequestTokenBucket(key, 10, 20, 1);
         if (allowed) {
             return true;
         }

@@ -4,6 +4,7 @@ import com.second.hand.trading.server.dao.IdleItemDao;
 import com.second.hand.trading.server.dao.OrderDao;
 import com.second.hand.trading.server.dao.SeckillActivityDao;
 import com.second.hand.trading.server.dao.SeckillOrderDao;
+import com.second.hand.trading.server.message.SeckillMessage;
 import com.second.hand.trading.server.model.IdleItemModel;
 import com.second.hand.trading.server.model.OrderModel;
 import com.second.hand.trading.server.model.SeckillActivityModel;
@@ -13,8 +14,10 @@ import com.second.hand.trading.server.service.SeckillService;
 import com.second.hand.trading.server.utils.IdFactoryUtil;
 import com.second.hand.trading.server.utils.OrderTask;
 import com.second.hand.trading.server.utils.OrderTaskHandler;
+import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +43,9 @@ public class SeckillServiceImpl implements SeckillService {
 
     @Autowired
     private RedisCacheService redisCacheService;
+
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -74,7 +80,6 @@ public class SeckillServiceImpl implements SeckillService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public SeckillOrderModel seckillBuy(Long userId, Long seckillId, Integer quantity) {
         if (quantity == null || quantity <= 0) {
             return null;
@@ -108,72 +113,16 @@ public class SeckillServiceImpl implements SeckillService {
             return null; // Sold out
         }
 
-        SeckillActivityModel activity = seckillActivityDao.selectByPrimaryKey(seckillId);
-        // Double check just in case, though Redis should handle it. 
-        // We do this to get price and idleId.
-        if (activity == null) {
-            redisCacheService.revertStock(seckillId, quantity);
-            redisCacheService.removeUserFromSeckill(seckillId, userId);
-            return null;
-        }
+        // Send to Kafka for async processing
+        SeckillMessage message = new SeckillMessage(userId, seckillId, quantity);
+        kafkaTemplate.send("seckill_orders", JSON.toJSONString(message));
 
-        try {
-            // 1) Decrease DB stock (Durability)
-            int changedSeckill = seckillActivityDao.decreaseStockIfEnough(seckillId, quantity);
-            if (changedSeckill != 1) {
-                 // Should not happen if Redis is consistent, but if it does, rollback Redis
-                 throw new RuntimeException("DB Stock mismatch");
-            }
-
-            // 2) Decrease Idle Item stock
-            int changedIdle = idleItemDao.decreaseStockIfEnough(activity.getIdleId(), quantity);
-            if (changedIdle != 1) {
-                throw new RuntimeException("Idle Item Stock mismatch");
-            }
-
-            // 3) Create Order
-            OrderModel order = new OrderModel();
-            order.setOrderNumber(IdFactoryUtil.getOrderId());
-            order.setUserId(userId);
-            order.setIdleId(activity.getIdleId());
-            order.setOrderQuantity(quantity);
-            order.setOrderStatus((byte) 0);
-            order.setPaymentStatus((byte) 0);
-            order.setCreateTime(new Date());
-
-            BigDecimal totalPrice = activity.getSeckillPrice().multiply(BigDecimal.valueOf(quantity));
-            order.setOrderPrice(totalPrice);
-
-            if (orderDao.insert(order) != 1) {
-                throw new RuntimeException("Create order failed");
-            }
-
-            // 4) Create Seckill Order
-            SeckillOrderModel skOrder = new SeckillOrderModel();
-            skOrder.setSeckillId(seckillId);
-            skOrder.setOrderId(order.getId());
-            skOrder.setUserId(userId);
-            skOrder.setIdleId(activity.getIdleId());
-            skOrder.setQuantity(quantity);
-            skOrder.setStatus((byte) 0);
-            skOrder.setCreateTime(new Date());
-
-            seckillOrderDao.insert(skOrder);
-
-            // 5) Timeout task
-            OrderModel cancelTaskModel = new OrderModel();
-            cancelTaskModel.setId(order.getId());
-            cancelTaskModel.setOrderStatus((byte) 4);
-            OrderTaskHandler.addOrder(new OrderTask(cancelTaskModel, 5 * 60));
-
-            skOrder.setOrder(order);
-            return skOrder;
-        } catch (Exception e) {
-            // Rollback Redis on any error
-            redisCacheService.revertStock(seckillId, quantity);
-            redisCacheService.removeUserFromSeckill(seckillId, userId);
-            throw e;
-        }
+        // Return a dummy order object indicating "Queued"
+        // In a real system, we might return a status code "202 Accepted"
+        SeckillOrderModel dummy = new SeckillOrderModel();
+        dummy.setId(-1L); // -1 indicates async processing
+        dummy.setStatus((byte) 0);
+        return dummy;
     }
 
     @Override

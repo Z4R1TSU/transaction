@@ -19,6 +19,7 @@ public class RedisCacheService {
 
     private DefaultRedisScript<Long> seckillScript;
     private DefaultRedisScript<Long> rateLimitScript;
+    private DefaultRedisScript<Long> tokenBucketScript;
 
     @PostConstruct
     public void init() {
@@ -29,6 +30,10 @@ public class RedisCacheService {
         rateLimitScript = new DefaultRedisScript<>();
         rateLimitScript.setResultType(Long.class);
         rateLimitScript.setScriptSource(new ResourceScriptSource(new ClassPathResource("lua/rate_limit.lua")));
+        
+        tokenBucketScript = new DefaultRedisScript<>();
+        tokenBucketScript.setResultType(Long.class);
+        tokenBucketScript.setScriptSource(new ResourceScriptSource(new ClassPathResource("lua/token_bucket.lua")));
     }
 
     private String getStockKey(Long seckillId) {
@@ -68,6 +73,21 @@ public class RedisCacheService {
     public boolean allowRequest(String key, int limit, int windowSeconds) {
         List<String> keys = Arrays.asList("rate_limit:" + key);
         Long result = redisTemplate.execute(rateLimitScript, keys, String.valueOf(limit), String.valueOf(windowSeconds));
+        return result != null && result == 1;
+    }
+
+    /**
+     * Token Bucket Rate Limiting
+     * @param key Unique key
+     * @param rate Tokens per second
+     * @param capacity Max tokens
+     * @param requested Tokens requested
+     * @return true if allowed
+     */
+    public boolean allowRequestTokenBucket(String key, double rate, double capacity, int requested) {
+        List<String> keys = Arrays.asList("token_bucket:" + key);
+        long now = System.currentTimeMillis() / 1000;
+        Long result = redisTemplate.execute(tokenBucketScript, keys, String.valueOf(rate), String.valueOf(capacity), String.valueOf(now), String.valueOf(requested));
         return result != null && result == 1;
     }
 }

@@ -100,6 +100,9 @@ public class SeckillController {
             if (order == null) {
                 return ResultVo.fail(ErrorMsg.SECKILL_SOLD_OUT);
             }
+            if (order.getId() == -1L) {
+                return ResultVo.success("排队中", order);
+            }
             return ResultVo.success(order);
         } catch (org.springframework.dao.DuplicateKeyException e) {
             return ResultVo.fail(ErrorMsg.SECKILL_REPEAT_BUY);
