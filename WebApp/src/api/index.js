@@ -232,21 +232,41 @@ const api = {
             params: query
         });
     },
-    getGoods(query) {
+    getIdleList(query) {
         return request({
             url: '/admin/idleList',
             method: 'get',
             params: query
         });
     },
-    updateGoods(query) {
+    getAllIdleList(query) {
+        return request({
+            url: '/admin/allIdleList',
+            method: 'get',
+            params: query
+        });
+    },
+    updateIdleStatus(query) {
         return request({
             url: '/admin/updateIdleStatus',
             method: 'get',
             params: query
         });
     },
-
+    updateIdleItemByAdmin(data) {
+        return request({
+            url: '/admin/updateIdleItem',
+            method: 'post',
+            data: data
+        });
+    },
+    deleteIdleItemByAdmin(query) {
+        return request({
+            url: '/admin/deleteIdleItem',
+            method: 'get',
+            params: query
+        });
+    },
     getOrderList(query) {
         return request({
             url: '/admin/orderList',
@@ -261,28 +281,28 @@ const api = {
             params: query
         });
     },
-    getUserData(query) {
+    getUserList(query) {
         return request({
             url: '/admin/userList',
             method: 'get',
             params: query
         });
     },
-    getUserManage(query) {
+    getAdminList(query) {
         return request({
             url: '/admin/list',
             method: 'get',
             params: query
         });
     },
-    updateUserStatus(query){
+    updateUserStatus(query) {
         return request({
             url: '/admin/updateUserStatus',
             method: 'get',
             params: query
         });
     },
-    regAdministrator(data){
+    addAdmin(data) {
         return request({
             url: '/admin/add',
             method: 'post',
@@ -299,6 +319,34 @@ const api = {
     loginOut(query) {
         return request({
             url: '/admin/loginOut',
+            method: 'get',
+            params: query
+        });
+    },
+    getFlashSaleQps(query) {
+        return request({
+            url: '/admin/flashSaleQps',
+            method: 'get',
+            params: query
+        });
+    },
+    getBannedWordList(query) {
+        return request({
+            url: '/admin/bannedWordList',
+            method: 'get',
+            params: query
+        });
+    },
+    addBannedWord(data) {
+        return request({
+            url: '/admin/addBannedWord',
+            method: 'post',
+            params: data
+        });
+    },
+    deleteBannedWord(query) {
+        return request({
+            url: '/admin/deleteBannedWord',
             method: 'get',
             params: query
         });

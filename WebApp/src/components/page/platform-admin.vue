@@ -35,6 +35,18 @@
                                     <i class="el-icon-s-custom"></i>
                                     <span slot="title">用户管理</span>
                                 </el-menu-item>
+                                <el-menu-item index="4" >
+                                    <i class="el-icon-menu"></i>
+                                    <span slot="title">所有商品管理</span>
+                                </el-menu-item>
+                                <el-menu-item index="5" >
+                                    <i class="el-icon-s-data"></i>
+                                    <span slot="title">秒杀QPS监控</span>
+                                </el-menu-item>
+                                <el-menu-item index="6" >
+                                    <i class="el-icon-warning"></i>
+                                    <span slot="title">违禁词管理</span>
+                                </el-menu-item>
                             </el-menu>
                         </el-col>
                     </el-aside>
@@ -42,6 +54,9 @@
                         <IdleGoods v-if="mode == 1"></IdleGoods>
                         <orderList v-if="mode == 2"></orderList>
                         <userList v-if="mode == 3"></userList>
+                        <AllIdleGoods v-if="mode == 4"></AllIdleGoods>
+                        <FlashSaleQps v-if="mode == 5"></FlashSaleQps>
+                        <BannedWordList v-if="mode == 6"></BannedWordList>
                     </el-main>
                 </div>
             </el-container>
@@ -57,6 +72,9 @@
     import IdleGoods from '../common/IdleGoods.vue'
     import orderList from '../common/orderList.vue'
     import userList from '../common/userList.vue'
+    import AllIdleGoods from '../common/AllIdleGoods.vue'
+    import FlashSaleQps from '../common/FlashSaleQps.vue'
+    import BannedWordList from '../common/BannedWordList.vue'
     export default {
         name: "platform-admin",
         components: {
@@ -64,6 +82,9 @@
             IdleGoods,
             orderList,
             userList,
+            AllIdleGoods,
+            FlashSaleQps,
+            BannedWordList
         },
         data(){
             return {
@@ -74,6 +95,11 @@
             }
         },
         created() {
+            if (!this.$sta.isLogin) {
+                this.$message.error('请先登录管理员账号');
+                this.$router.push('/login-admin');
+                return;
+            }
             this.admin.nickname=this.$sta.adminName;
         },
         methods: {

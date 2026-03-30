@@ -33,6 +33,15 @@ router.beforeEach((to, from, next) => {
     document.title = `${to.meta.title}`;
     // console.log(to.path,'userInfo:',Vue.prototype.$globalData.userInfo);
     const nickname = Vue.prototype.$globalData.userInfo.nickname;
+    
+    // 对后台管理页面进行权限拦截校验
+    if (to.path === '/platform-admin') {
+        if (!Vue.prototype.$sta.isLogin) {
+            next('/login-admin');
+            return;
+        }
+    }
+
     if (!nickname
         &&(to.path === '/me'
         || to.path === '/message'
