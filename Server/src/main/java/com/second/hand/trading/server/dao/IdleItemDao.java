@@ -29,6 +29,10 @@ public interface IdleItemDao {
 
     List<IdleItemModel> getIdleItemByStatus(int status, int begin, int nums);
 
+    List<IdleItemModel> adminGetAllIdleItem(int begin, int nums);
+
+    int countAdminAllIdleItem();
+
     int updateByPrimaryKeySelective(IdleItemModel record);
 
     int updateByPrimaryKey(IdleItemModel record);

@@ -2,6 +2,7 @@ package com.second.hand.trading.server.controller;
 
 import com.second.hand.trading.server.enums.ErrorMsg;
 import com.second.hand.trading.server.model.IdleItemModel;
+import com.second.hand.trading.server.service.BannedWordService;
 import com.second.hand.trading.server.service.IdleItemService;
 import com.second.hand.trading.server.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,23 @@ public class IdleItemController {
     @Autowired
     private IdleItemService idleItemService;
 
+    @Autowired
+    private BannedWordService bannedWordService;
+
     @PostMapping("add")
     public ResultVo addIdleItem(@CookieValue("shUserId")
                                     @NotNull(message = "登录异常 请重新登录")
                                     @NotEmpty(message = "登录异常 请重新登录") String shUserId,
                                 @RequestBody IdleItemModel idleItemModel){
+        String titleCheck = bannedWordService.checkBannedWord(idleItemModel.getIdleName());
+        if (titleCheck != null) {
+            return ResultVo.fail("商品标题包含违禁词：" + titleCheck);
+        }
+        String detailsCheck = bannedWordService.checkBannedWord(idleItemModel.getIdleDetails());
+        if (detailsCheck != null) {
+            return ResultVo.fail("商品详情包含违禁词：" + detailsCheck);
+        }
+
         idleItemModel.setUserId(Long.valueOf(shUserId));
         idleItemModel.setIdleStatus((byte) 1);
         idleItemModel.setReleaseTime(new Date());
@@ -82,6 +95,15 @@ public class IdleItemController {
                                        @NotNull(message = "登录异常 请重新登录")
                                        @NotEmpty(message = "登录异常 请重新登录") String shUserId,
                                    @RequestBody IdleItemModel idleItemModel){
+        String titleCheck = bannedWordService.checkBannedWord(idleItemModel.getIdleName());
+        if (titleCheck != null) {
+            return ResultVo.fail("商品标题包含违禁词：" + titleCheck);
+        }
+        String detailsCheck = bannedWordService.checkBannedWord(idleItemModel.getIdleDetails());
+        if (detailsCheck != null) {
+            return ResultVo.fail("商品详情包含违禁词：" + detailsCheck);
+        }
+
         idleItemModel.setUserId(Long.valueOf(shUserId));
         if(idleItemService.updateIdleItem(idleItemModel)){
             return ResultVo.success();

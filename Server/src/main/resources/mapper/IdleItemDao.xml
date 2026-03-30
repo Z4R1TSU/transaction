@@ -59,6 +59,15 @@
     from sh_idle_item
     where idle_status = #{status} order by id desc limit #{begin}, #{nums}
   </select>
+  <select id="adminGetAllIdleItem" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sh_idle_item
+    order by id desc limit #{begin}, #{nums}
+  </select>
+  <select id="countAdminAllIdleItem" resultType="int">
+    select COUNT(*) from sh_idle_item
+  </select>
   <select id="findIdleByList" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />

@@ -36,6 +36,14 @@ public class ResultVo<T> {
         return resultVo;
     }
 
+    //直接返回自定义的错误信息
+    public static ResultVo fail(String msg){
+        ResultVo resultVo=new ResultVo();
+        resultVo.setStatus_code(0);
+        resultVo.setMsg(msg);
+        return resultVo;
+    }
+
     //返回错误状态码和错误信息的同时返回错误对象
     public static <T>ResultVo fail(ErrorMsg errorMsg,T data){
         ResultVo<T> resultVo=new ResultVo<>();

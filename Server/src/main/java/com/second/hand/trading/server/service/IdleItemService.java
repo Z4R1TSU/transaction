@@ -53,5 +53,14 @@ public interface IdleItemService {
      */
     boolean updateIdleItem(IdleItemModel idleItemModel);
 
-    PageVo<IdleItemModel> adminGetIdleList(int status, int page, int nums) ;
+    /**
+     * 删除闲置信息
+     * @param id
+     * @return
+     */
+    boolean deleteIdleItem(Long id);
+
+    PageVo<IdleItemModel> adminGetIdleList(int status, int page, int nums);
+
+    PageVo<IdleItemModel> adminGetAllIdleList(int page, int nums);
 }

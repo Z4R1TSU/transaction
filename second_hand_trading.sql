@@ -183,3 +183,12 @@ insert  into `sh_user`(`id`,`account_number`,`user_password`,`nickname`,`avatar`
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+DROP TABLE IF EXISTS `sh_banned_word`;
+CREATE TABLE `sh_banned_word` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `word` varchar(255) NOT NULL COMMENT '违禁词',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `word_unique` (`word`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='违禁词表';

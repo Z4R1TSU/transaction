@@ -124,6 +124,15 @@ public class IdleItemServiceImpl implements IdleItemService {
         return idleItemDao.updateByPrimaryKeySelective(idleItemModel)==1;
     }
 
+    /**
+     * 删除闲置信息
+     * @param id
+     * @return
+     */
+    public boolean deleteIdleItem(Long id){
+        return idleItemDao.deleteByPrimaryKey(id)==1;
+    }
+
     public PageVo<IdleItemModel> adminGetIdleList(int status, int page, int nums) {
         List<IdleItemModel> list=idleItemDao.getIdleItemByStatus(status, (page - 1) * nums, nums);
         if(list.size()>0){
@@ -141,6 +150,26 @@ public class IdleItemServiceImpl implements IdleItemService {
             }
         }
         int count=idleItemDao.countIdleItemByStatus(status);
+        return new PageVo<>(list,count);
+    }
+
+    public PageVo<IdleItemModel> adminGetAllIdleList(int page, int nums) {
+        List<IdleItemModel> list=idleItemDao.adminGetAllIdleItem((page - 1) * nums, nums);
+        if(list.size()>0){
+            List<Long> idList=new ArrayList<>();
+            for(IdleItemModel i:list){
+                idList.add(i.getUserId());
+            }
+            List<UserModel> userList=userDao.findUserByList(idList);
+            Map<Long,UserModel> map=new HashMap<>();
+            for(UserModel user:userList){
+                map.put(user.getId(),user);
+            }
+            for(IdleItemModel i:list){
+                i.setUser(map.get(i.getUserId()));
+            }
+        }
+        int count=idleItemDao.countAdminAllIdleItem();
         return new PageVo<>(list,count);
     }
 }

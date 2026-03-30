@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.second.hand.trading.server.dao.BannedWordDao">
+  <resultMap id="BaseResultMap" type="com.second.hand.trading.server.model.BannedWordModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="word" jdbcType="VARCHAR" property="word" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.second.hand.trading.server.model.BannedWordModel" useGeneratedKeys="true">
+    insert into sh_banned_word (word, create_time)
+    values (#{word,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sh_banned_word
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <select id="getAllBannedWords" resultMap="BaseResultMap">
+    select id, word, create_time from sh_banned_word order by id desc
+  </select>
+</mapper>
