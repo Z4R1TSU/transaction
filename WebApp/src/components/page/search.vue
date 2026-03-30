@@ -11,7 +11,7 @@
                                 <el-image
                                         style="width: 100%; height: 160px"
                                         :src="idle.imgUrl"
-                                        fit="contain">
+                                        fit="cover">
                                     <div slot="error" class="image-slot">
                                         <i class="el-icon-picture-outline">无图</i>
                                     </div>
@@ -126,59 +126,70 @@
 
 <style scoped>
     .idle-card {
-        height: 300px;
-        border: #eeeeee solid 1px;
-        margin-bottom: 15px;
+        background: #fff;
+        border-radius: 8px;
+        margin-bottom: 20px;
         cursor: pointer;
+        transition: all 0.3s ease;
+        overflow: hidden;
+        border: 1px solid #ebeef5;
+        height: 310px;
+    }
+    .idle-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
     }
 
     .fenye {
         display: flex;
         justify-content: center;
-        height: 60px;
+        height: 80px;
         align-items: center;
     }
 
     .idle-title {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 600;
+        color: #303133;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
-        margin: 10px;
+        margin: 12px 10px 8px 10px;
     }
 
     .idle-prive {
-        font-size: 16px;
-        color: red;
+        font-size: 18px;
+        color: #ff4d4f;
+        font-weight: bold;
     }
 
     .idle-place {
         font-size: 13px;
-        color: #666666;
+        color: #909399;
         float: right;
-        padding-right: 20px;
-
+        padding-top: 4px;
     }
 
     .idle-time {
-        color: #666666;
+        color: #909399;
         font-size: 12px;
         margin: 0 10px;
     }
 
-    .user-nickname {
-        color: #999999;
-        font-size: 12px;
+    .user-info {
+        padding: 10px;
         display: flex;
         align-items: center;
-        height: 30px;
-        padding-left: 10px;
+        border-top: 1px solid #f2f6fc;
+        margin-top: 8px;
     }
 
-    .user-info {
-        padding: 5px 10px;
-        height: 30px;
-        display: flex;
+    .user-nickname {
+        color: #606266;
+        font-size: 13px;
+        margin-left: 8px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 </style>

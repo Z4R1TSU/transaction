@@ -2,7 +2,7 @@
     <div class="sign-in-container">
         <el-card class="box-card">
             <div class="sign-in-body">
-                <div class="sign-in-title">注册</div>
+                <div class="sign-in-title" @click="$router.push('/index')" style="cursor: pointer;">加入校园秒杀⚡</div>
                 <el-input placeholder="请输入昵称..." maxlength="30"  v-model="userInfo.nickname" class="sign-in-input" clearable>
                     <template slot="prepend">
                         <div class="el-icon-user-solid"></div>
@@ -87,7 +87,7 @@
         align-items: center;
         height: 100vh;
         width: 100%;
-        background-color: #f1f1f1;
+        background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
     }
 
     .sign-in-body {

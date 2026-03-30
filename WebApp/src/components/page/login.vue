@@ -2,7 +2,7 @@
     <div class="login-container">
         <el-card class="box-card">
             <div class="login-body">
-                <div class="login-title" @click="toIndex">二手交易平台</div>
+                <div class="login-title" @click="toIndex">校园秒杀⚡</div>
                 <el-form ref="form" :model="userForm">
                     <el-input placeholder="请输入手机号..." v-model="userForm.accountNumber" class="login-input">
                         <template slot="prepend">
@@ -70,7 +70,7 @@
         align-items: center;
         height: 100vh;
         width: 100%;
-        background: linear-gradient(to right, #74ebd5, #ACB6E5); /* Modern gradient background */
+        background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
     }
 
     .box-card {

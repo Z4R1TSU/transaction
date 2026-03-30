@@ -14,11 +14,11 @@
                             <div class="details-header-user-info-time">{{idleItemInfo.user.signInTime.substring(0,10)}} 加入平台</div>
                         </div>
                     </div>
-                    <div class="details-header-buy" :style="'width:'+(isMaster?'150px;':'280px;')">
-                        <div style="color: red;font-size: 18px;font-weight: 600;">￥{{idleItemInfo.idlePrice}}</div>
-                        <div v-if="!isMaster&&idleItemInfo.idleStatus!==1" style="color: red;font-size: 16px;">闲置已下架或删除</div>
-                        <el-button v-if="!isMaster&&idleItemInfo.idleStatus===1" type="danger" plain @click="buyButton(idleItemInfo)">立即购买</el-button>
-                        <el-button v-if="!isMaster&&idleItemInfo.idleStatus===1" type="primary" plain @click="favoriteButton(idleItemInfo)">{{isFavorite?'取消收藏':'收藏'}}</el-button>
+                    <div class="details-header-buy" :style="'width:'+(isMaster?'150px;':'320px;')">
+                        <div style="color: #ff4d4f;font-size: 24px;font-weight: bold;margin-bottom: 5px;">￥{{idleItemInfo.idlePrice}} <span style="font-size: 14px; color: #909399; text-decoration: line-through; font-weight: normal;">￥{{(idleItemInfo.idlePrice * 1.5).toFixed(0)}}</span></div>
+                        <div v-if="!isMaster&&idleItemInfo.idleStatus!==1" style="color: #909399;font-size: 16px;">闲置已下架或被抢光</div>
+                        <el-button v-if="!isMaster&&idleItemInfo.idleStatus===1" type="danger" style="width: 140px; font-weight: bold; font-size: 16px;" @click="buyButton(idleItemInfo)">⚡ 立即秒杀</el-button>
+                        <el-button v-if="!isMaster&&idleItemInfo.idleStatus===1" type="warning" plain @click="favoriteButton(idleItemInfo)">{{isFavorite?'取消收藏':'⭐ 收藏'}}</el-button>
                         <el-button v-if="isMaster&&idleItemInfo.idleStatus===1" type="danger" @click="changeStatus(idleItemInfo,2)" plain>下架</el-button>
                         <el-button v-if="isMaster&&idleItemInfo.idleStatus===2" type="primary" @click="changeStatus(idleItemInfo,1)" plain>重新上架</el-button>
                     </div>
@@ -317,117 +317,192 @@
 <style scoped>
     .idle-details-container {
         min-height: 85vh;
+        background-color: var(--surface-color);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        margin: 24px 0;
+        overflow: hidden;
+        border: 1px solid var(--border-color);
     }
 
     .details-header {
-        height: 80px;
-        border-bottom: 10px solid #f6f6f6;
+        height: auto;
+        border-bottom: 1px solid var(--border-color);
+        background: linear-gradient(135deg, rgba(255, 77, 79, 0.05), rgba(255, 255, 255, 0));
         display: flex;
         justify-content: space-between;
-        padding: 20px;
+        padding: 32px 40px;
         align-items: center;
     }
 
     .details-header-user-info {
         display: flex;
+        align-items: center;
     }
 
     .details-header-user-info-nickname {
-        font-weight: 600;
-        font-size: 18px;
-        margin-bottom: 10px;
+        font-weight: 800;
+        font-size: 22px;
+        color: var(--text-primary);
+        margin-bottom: 6px;
+        letter-spacing: 0.5px;
     }
 
     .details-header-user-info-time {
-        font-size: 12px;
-        color: #555555;
+        font-size: 14px;
+        color: var(--text-tertiary);
+        font-weight: 500;
     }
 
     .details-header-buy {
         display: flex;
-        align-items: center;
+        flex-direction: column;
+        align-items: flex-end;
+        background: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-sm);
+        border: 1px solid rgba(255, 77, 79, 0.1);
+    }
+    
+    .details-header-buy .el-button {
+        margin-top: 16px;
+        margin-left: 0;
+        width: 160px;
+        height: 44px;
+        font-size: 16px;
+    }
+    
+    .details-header-buy > div {
+        display: flex;
         justify-content: space-between;
-        height: 50px;
-        width: 280px;
+        width: 100%;
+        gap: 16px;
     }
 
     .details-info {
-        padding: 20px 50px;
+        padding: 40px;
     }
 
     .details-info-title {
-        font-size: 22px;
-        font-weight: 600;
-        margin-bottom: 20px;
-
+        font-size: 28px;
+        font-weight: 800;
+        color: var(--text-primary);
+        margin-bottom: 24px;
+        line-height: 1.4;
+        position: relative;
+        padding-bottom: 16px;
+    }
+    .details-info-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 60px;
+        height: 4px;
+        background: var(--primary-color);
+        border-radius: 2px;
     }
 
     .details-info-main {
-        font-size: 17px;
-        color: #121212;
-        line-height: 160%;
+        font-size: 16px;
+        color: var(--text-secondary);
+        line-height: 1.8;
+        margin-bottom: 40px;
+        white-space: pre-wrap;
+        background: #fcfcfd;
+        padding: 24px;
+        border-radius: var(--radius-md);
+        border: 1px solid var(--border-color);
     }
 
     .details-picture {
-        margin: 20px 0;
         display: flex;
         flex-direction: column;
         align-items: center;
+        gap: 24px;
+    }
+    
+    .details-picture .el-image {
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--border-color);
     }
 
     .message-container {
-        min-height: 100px;
-        border-top: 10px solid #f6f6f6;
-        padding: 20px;
+        padding: 0 40px 40px 40px;
     }
 
     .message-title {
-        font-size: 20px;
-        font-weight: 600;
-        margin-bottom: 20px;
+        font-size: 22px;
+        font-weight: 800;
+        color: var(--text-primary);
+        margin-bottom: 24px;
+        border-left: 4px solid var(--primary-color);
+        padding-left: 12px;
+        display: flex;
+        align-items: center;
     }
-    .message-send{
-        min-height: 60px;
+
+    .message-send {
+        margin-bottom: 40px;
+        background: var(--bg-color);
+        padding: 24px;
+        border-radius: var(--radius-md);
+        border: 1px solid var(--border-color);
     }
-    .message-send-button{
-        margin-top: 10px;
+
+    .message-send-button {
+        margin-top: 16px;
         display: flex;
         justify-content: flex-end;
     }
-    .message-container-list{
-        min-height: 60px;
-        border-top: 1px solid #eeeeee;
+
+    .message-container-list {
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        padding: 15px 0;
+        padding: 24px 0;
+        border-bottom: 1px solid var(--border-color);
+        transition: background-color 0.3s;
     }
-    .message-container-list:first-child{
-        border-top:none;
+    .message-container-list:hover {
+        background-color: #fcfcfd;
     }
-    .message-container-list-left{
-        width: 850px;
+    .message-container-list:last-child {
+        border-bottom: none;
+    }
+
+    .message-container-list-left {
         display: flex;
+        flex: 1;
     }
-    .message-container-list-right{
-        width: 100px;
+
+    .message-container-list-text {
+        margin-left: 20px;
+        flex: 1;
     }
-    .message-container-list-text{
-        margin-left: 10px;
-    }
-    .message-nickname{
-        font-weight: 600;
-        font-size: 18px;
-        padding-bottom: 5px;
-    }
-    .message-content{
+
+    .message-nickname {
+        font-weight: 700;
+        color: var(--secondary-color);
         font-size: 16px;
-        padding-bottom: 15px;
-        color: #555555;
-        width: 770px;
+        margin-bottom: 8px;
     }
-    .message-time{
+
+    .message-content {
+        color: var(--text-primary);
+        font-size: 15px;
+        line-height: 1.6;
+        margin-bottom: 12px;
+    }
+
+    .message-time {
         font-size: 13px;
-        color: #555555;
+        color: var(--text-tertiary);
+        font-weight: 500;
+    }
+    
+    .message-container-list-right {
+        margin-left: 24px;
     }
 </style>

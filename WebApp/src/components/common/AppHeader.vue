@@ -2,24 +2,24 @@
     <div class="header">
         <div class="header-container">
             <div class="app-name">
-                <router-link to="/">二手交易平台</router-link>
+                <router-link to="/">二手交易秒杀平台<span class="flash-text">⚡</span></router-link>
             </div>
             <div class="search-container">
-                <el-input placeholder="搜闲置..." v-model="searchValue" @keyup.enter.native="searchIdle">
+                <el-input placeholder="搜闲置, 抢好货..." v-model="searchValue" @keyup.enter.native="searchIdle" class="flash-search">
                     <el-button slot="append" icon="el-icon-search" @click="searchIdle"></el-button>
                 </el-input>
             </div>
-            <el-button type="primary" icon="el-icon-plus"  @click="toRelease">发布闲置</el-button>
-            <el-button type="primary" icon="el-icon-chat-dot-round" @click="toMessage">消息</el-button>
-            <router-link v-if="!isLogin" class="user-name-text" to="/login">登录</router-link>
-            <el-dropdown trigger="click" v-else>
+            <el-button type="danger" icon="el-icon-plus" round @click="toRelease" class="release-btn">发布闲置</el-button>
+            <el-button type="warning" icon="el-icon-chat-dot-round" round @click="toMessage">消息</el-button>
+            <router-link v-if="!isLogin" class="user-name-text" to="/login">登录/注册</router-link>
+            <el-dropdown trigger="click" v-else class="user-dropdown">
                 <div style="cursor:pointer;display: flex;align-items: center;">
-                    <div style="font-size: 16px;color: #409EFF;padding-right: 5px;">{{nicknameValue?nicknameValue:nickname}}</div>
-                    <el-avatar :src="avatarValue?avatarValue:avatar"></el-avatar>
+                    <div class="user-nickname-display">{{nicknameValue?nicknameValue:nickname}}</div>
+                    <el-avatar :src="avatarValue?avatarValue:avatar" size="medium"></el-avatar>
                 </div>
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item><div @click="toMe">个人中心</div></el-dropdown-item>
-                    <el-dropdown-item divided style="color: red;"><div @click="loginOut">退出登录</div></el-dropdown-item>
+                    <el-dropdown-item><div @click="toMe"><i class="el-icon-user"></i> 个人中心</div></el-dropdown-item>
+                    <el-dropdown-item divided style="color: #ff4d4f;"><div @click="loginOut"><i class="el-icon-switch-button"></i> 退出登录</div></el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
         </div>
@@ -108,57 +108,123 @@
         left: 0;
         right: 0;
         width: 100%;
-        height: 60px; /* Slightly increased height */
-        background-color: #ffffff; /* White background */
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); /* Softer shadow */
+        height: 64px;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 248, 246, 0.85) 100%);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        box-shadow: 0 4px 24px rgba(255, 77, 79, 0.06);
+        border-bottom: 1px solid rgba(255, 77, 79, 0.1);
         display: flex;
         align-items: center;
-        padding: 0 20px; /* Added horizontal padding */
         z-index: 1000;
+        transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
     }
 
     .header-container {
         display: flex;
         align-items: center;
-        justify-content: space-between; /* Distribute space */
         width: 100%;
-        max-width: 1200px; /* Max width for content */
-        margin: 0 auto; /* Center content */
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 24px;
+        box-sizing: border-box;
     }
 
     .app-name a {
-        font-size: 22px; /* Larger app name */
-        font-weight: bold;
-        color: #303133;
+        font-size: 22px;
+        font-weight: 800;
+        color: var(--primary-color);
         text-decoration: none;
+        display: flex;
+        align-items: center;
+        letter-spacing: 0.5px;
+    }
+    
+    .flash-text {
+        font-size: 20px;
+        margin-left: 4px;
+        color: var(--secondary-color);
+        filter: drop-shadow(0 2px 4px rgba(250, 173, 20, 0.3));
     }
 
     .search-container {
-        flex-grow: 1; /* Allow search to take available space */
-        margin: 0 20px; /* Add margin around search */
-        max-width: 400px; /* Max width for search */
+        flex: 1;
+        margin: 0 48px;
+        max-width: 480px;
     }
 
-    .search-container .el-input .el-input__inner {
-        border-radius: 20px; /* Rounded search input */
+    .flash-search /deep/ .el-input-group__append {
+        background-color: var(--primary-color);
+        color: white;
+        border: 1px solid var(--primary-color);
+        border-radius: 0 20px 20px 0;
+        transition: all 0.3s;
+    }
+    .flash-search /deep/ .el-input-group__append:hover {
+        background-color: var(--primary-hover);
+        border-color: var(--primary-hover);
+    }
+    .flash-search /deep/ .el-input__inner {
+        border: 2px solid transparent;
+        background: rgba(0, 0, 0, 0.03);
+        border-right: none;
+        border-radius: 20px 0 0 20px;
+        padding-left: 20px;
+        height: 40px;
+        line-height: 40px;
+        transition: all 0.3s ease;
+    }
+    .flash-search /deep/ .el-input__inner:focus {
+        background: #ffffff;
+        border-color: rgba(255, 77, 79, 0.4);
+        box-shadow: 0 4px 12px rgba(255, 77, 79, 0.08) !important;
+    }
+
+    .release-btn {
+        box-shadow: 0 4px 12px rgba(255, 77, 79, 0.25) !important;
+        padding: 10px 20px !important;
     }
 
     .el-button {
-        margin-left: 10px; /* Space between buttons */
+        margin-left: 16px;
     }
 
     .user-name-text {
-        font-size: 16px;
-        color: #409EFF;
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--text-secondary);
         text-decoration: none;
-        margin-left: 15px;
+        margin-left: 24px;
+        padding: 8px 16px;
+        border-radius: 20px;
+        transition: all 0.3s;
+        background: transparent;
+    }
+    .user-name-text:hover {
+        color: var(--primary-color);
+        background: rgba(255, 77, 79, 0.1);
     }
 
-    .el-dropdown {
-        margin-left: 15px;
+    .user-dropdown {
+        margin-left: 24px;
+        padding: 4px 8px;
+        border-radius: 24px;
+        transition: all 0.3s;
+    }
+    .user-dropdown:hover {
+        background: rgba(0, 0, 0, 0.05);
+    }
+    
+    .user-nickname-display {
+        font-size: 15px;
+        color: var(--text-primary);
+        font-weight: 600;
+        padding-right: 12px;
+        transition: color 0.2s;
     }
 
     .el-avatar {
-        margin-left: 8px;
+        border: 2px solid var(--surface-color);
+        box-shadow: var(--shadow-sm);
     }
 </style>
