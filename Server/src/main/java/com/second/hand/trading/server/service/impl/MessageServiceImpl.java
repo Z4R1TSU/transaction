@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * userId建索引
@@ -108,10 +110,16 @@ public class MessageServiceImpl implements MessageService {
     public List<MessageModel> getAllIdleMessage(Long idleId){
         List<MessageModel> list=messageDao.getIdleMessage(idleId);
         if(list.size()>0){
-            List<Long> idList=new ArrayList<>();
+            Set<Long> idSet=new HashSet<>();
             for(MessageModel i:list){
-                idList.add(i.getUserId());
+                if(i.getUserId() != null){
+                    idSet.add(i.getUserId());
+                }
+                if(i.getToUser() != null){
+                    idSet.add(i.getToUser());
+                }
             }
+            List<Long> idList=new ArrayList<>(idSet);
             List<UserModel> userList=userDao.findUserByList(idList);
             Map<Long,UserModel> map=new HashMap<>();
             for(UserModel user:userList){
@@ -128,8 +136,18 @@ public class MessageServiceImpl implements MessageService {
                 MessageModel toM=new MessageModel();
                 UserModel toU=new UserModel();
                 if(i.getToMessage()!=null){
-                    toM.setContent(mesMap.get(i.getToMessage()).getContent());
-                    toU.setNickname(map.get(i.getToUser()).getNickname());
+                    MessageModel targetMessage = mesMap.get(i.getToMessage());
+                    UserModel targetUser = map.get(i.getToUser());
+                    if(targetMessage != null){
+                        toM.setContent(targetMessage.getContent());
+                    }else{
+                        toM.setContent("");
+                    }
+                    if(targetUser != null){
+                        toU.setNickname(targetUser.getNickname());
+                    }else{
+                        toU.setNickname("");
+                    }
                 }
                 i.setToM(toM);
                 i.setToU(toU);

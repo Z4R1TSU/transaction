@@ -43,14 +43,15 @@
                         <div v-if="isReply" style="padding-bottom: 10px;">
                             <el-button type="info" @click="cancelReply">回复：{{replyData.toMessage}} @{{replyData.toUserNickname}} <i class="el-icon-close el-icon--right"></i></el-button>
                         </div>
-                        <el-input
-                                type="textarea"
-                                autosize
+                        <textarea
+                                class="message-input"
                                 placeholder="留言提问..."
                                 v-model="messageContent"
                                 maxlength="200"
-                                show-word-limit>
-                        </el-input>
+                                @click.stop
+                                @mousedown.stop>
+                        </textarea>
+                        <div class="message-input-count">{{ messageContent.length }}/200</div>
                         <div class="message-send-button">
                             <el-button plain @click="sendMessage">发送留言</el-button>
                         </div>
@@ -454,6 +455,39 @@
         margin-top: 16px;
         display: flex;
         justify-content: flex-end;
+    }
+
+    .message-input {
+        width: 100%;
+        min-height: 120px;
+        box-sizing: border-box;
+        resize: vertical;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        padding: 14px 16px;
+        font-size: 14px;
+        line-height: 1.7;
+        color: var(--text-primary);
+        background: #fff;
+        outline: none;
+        transition: border-color 0.3s, box-shadow 0.3s;
+        font-family: inherit;
+    }
+
+    .message-input:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.1);
+    }
+
+    .message-input::placeholder {
+        color: var(--text-tertiary);
+    }
+
+    .message-input-count {
+        margin-top: 8px;
+        text-align: right;
+        color: var(--text-tertiary);
+        font-size: 12px;
     }
 
     .message-container-list {
