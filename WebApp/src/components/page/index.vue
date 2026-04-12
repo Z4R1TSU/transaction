@@ -16,43 +16,6 @@
                 </el-carousel>
             </div>
 
-            <!-- 秒杀专区 -->
-            <div class="flash-sale-section" v-if="flashList.length > 0">
-                <div class="flash-header">
-                    <div class="flash-title">
-                        <i class="el-icon-time"></i> 限时秒杀 ⚡
-                    </div>
-                    <div class="flash-timer">
-                        <span>距结束</span>
-                        <div class="time-box">{{countdown.h}}</div>:
-                        <div class="time-box">{{countdown.m}}</div>:
-                        <div class="time-box">{{countdown.s}}</div>
-                    </div>
-                </div>
-                <el-row :gutter="20">
-                    <el-col :span="6" v-for="(idle, index) in flashList" :key="'flash'+index">
-                        <div class="idle-card flash-card" @click="toDetails(idle)">
-                            <div class="flash-badge">秒杀</div>
-                            <el-image
-                                    style="width: 100%; height: 160px"
-                                    :src="idle.imgUrl"
-                                    fit="cover">
-                                <div slot="error" class="image-slot">
-                                    <i class="el-icon-picture-outline">无图</i>
-                                </div>
-                            </el-image>
-                            <div class="idle-title">{{idle.idleName}}</div>
-                            <div class="flash-price-row">
-                                <span class="flash-price">￥{{idle.idlePrice}}</span>
-                                <span class="original-price">￥{{(idle.idlePrice * 1.5).toFixed(0)}}</span>
-                            </div>
-                            <el-progress :percentage="80" color="#ff4d4f" :show-text="false" class="flash-progress"></el-progress>
-                            <div class="flash-stock">仅剩 {{Math.floor(Math.random()*5)+1}} 件</div>
-                        </div>
-                    </el-col>
-                </el-row>
-            </div>
-
             <div class="normal-section-title">全部好物</div>
             <el-tabs v-model="labelName" type="card" @tab-click="handleClick">
                 <el-tab-pane label="全部" name="0"></el-tab-pane>
@@ -134,21 +97,12 @@
             return {
                 labelName: '0',
                 idleList: [],
-                flashList: [],
-                countdown: { h: '00', m: '00', s: '00' },
-                timer: null,
                 currentPage: 1,
                 totalItem:1
             };
         },
         created() {
             this.syncRouteState(this.$route);
-            this.startCountdown();
-        },
-        beforeDestroy() {
-            if (this.timer) {
-                clearInterval(this.timer);
-            }
         },
         watch:{
             $route(to,from){
@@ -185,7 +139,6 @@
                             list[i].imgUrl = getFirstImageSrc(list[i].pictureList);
                         }
                         this.idleList = list;
-                        if(page === 1) this.flashList = list.slice(0, 4); // 取前4个作为秒杀商品
                         this.totalItem=res.data.count;
                         console.log(this.totalItem);
                     }).catch(e => {
@@ -205,7 +158,6 @@
                         list[i].imgUrl = getFirstImageSrc(list[i].pictureList);
                       }
                       this.idleList = list;
-                      if(page === 1) this.flashList = list.slice(0, 4); // 取前4个作为秒杀商品
                       this.totalItem=res.data.count;
                     }).catch(e => {
                       console.log(e)
@@ -213,25 +165,6 @@
                         loading.close();
                     })
                 }
-            },
-            startCountdown() {
-                let end = new Date().getTime() + 2 * 60 * 60 * 1000; // 模拟2小时倒计时
-                this.timer = setInterval(() => {
-                    let now = new Date().getTime();
-                    let distance = end - now;
-                    if (distance < 0) {
-                        end = new Date().getTime() + 2 * 60 * 60 * 1000;
-                        distance = end - now;
-                    }
-                    let h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    let m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                    let s = Math.floor((distance % (1000 * 60)) / 1000);
-                    this.countdown = {
-                        h: h < 10 ? '0' + h : h,
-                        m: m < 10 ? '0' + m : m,
-                        s: s < 10 ? '0' + s : s
-                    };
-                }, 1000);
             },
             handleClick(tab, event) {
                 // console.log(tab,event);
@@ -283,50 +216,6 @@
         opacity: 0.9;
     }
 
-    /* 秒杀专区样式 */
-    .flash-sale-section {
-        background: var(--surface-color);
-        border-radius: var(--radius-lg);
-        padding: 24px 30px;
-        margin: 0 0 30px 0;
-        box-shadow: var(--shadow-md);
-        border: 1px solid rgba(255, 77, 79, 0.1);
-    }
-    .flash-header {
-        display: flex;
-        align-items: center;
-        margin-bottom: 24px;
-        padding-bottom: 16px;
-        border-bottom: 1px solid var(--border-color);
-    }
-    .flash-title {
-        font-size: 26px;
-        font-weight: 800;
-        color: var(--primary-color);
-        margin-right: 24px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-    .flash-timer {
-        display: flex;
-        align-items: center;
-        font-size: 15px;
-        font-weight: 500;
-        color: var(--text-secondary);
-    }
-    .time-box {
-        background: var(--primary-color);
-        color: #fff;
-        padding: 4px 8px;
-        border-radius: 6px;
-        margin: 0 6px;
-        font-weight: 700;
-        min-width: 24px;
-        text-align: center;
-        box-shadow: 0 2px 6px rgba(255, 77, 79, 0.3);
-    }
-    
     .normal-section-title {
         font-size: 24px;
         font-weight: 800;
@@ -366,53 +255,6 @@
         border-color: rgba(255, 77, 79, 0.2);
     }
     
-    /* 秒杀卡片特有样式 */
-    .flash-card {
-        height: 330px;
-        border: 2px solid rgba(255, 77, 79, 0.15);
-    }
-    .flash-badge {
-        position: absolute;
-        top: 0;
-        left: 0;
-        background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
-        color: #fff;
-        padding: 6px 16px;
-        border-radius: 0 0 16px 0;
-        font-size: 13px;
-        font-weight: 800;
-        z-index: 10;
-        box-shadow: 0 4px 10px rgba(255, 77, 79, 0.3);
-        letter-spacing: 1px;
-    }
-    .flash-price-row {
-        margin: 8px 16px 4px;
-        display: flex;
-        align-items: baseline;
-    }
-    .flash-price {
-        color: var(--primary-color);
-        font-size: 24px;
-        font-weight: 800;
-        margin-right: 10px;
-    }
-    .original-price {
-        color: var(--text-tertiary);
-        font-size: 14px;
-        text-decoration: line-through;
-        font-weight: 500;
-    }
-    .flash-progress {
-        margin: 12px 16px;
-    }
-    .flash-stock {
-        font-size: 13px;
-        font-weight: 600;
-        color: var(--primary-color);
-        text-align: right;
-        margin: -8px 16px 12px 0;
-    }
-
     /* 普通卡片样式 */
     .normal-card {
         height: 320px;
