@@ -121,6 +121,7 @@
     import AppHead from '../common/AppHeader.vue';
     import AppBody from '../common/AppPageBody.vue'
     import AppFoot from '../common/AppFoot.vue'
+    import { getFirstImageSrc } from '../../utils/image'
 
     export default {
         name: "index",
@@ -141,7 +142,7 @@
             };
         },
         created() {
-            this.findIdleItem(1);
+            this.syncRouteState(this.$route);
             this.startCountdown();
         },
         beforeDestroy() {
@@ -151,16 +152,19 @@
         },
         watch:{
             $route(to,from){
-                this.labelName=to.query.labelName;
-                let val=parseInt(to.query.page)?parseInt(to.query.page):1;
-                // let totalPage=parseInt(this.totalItem/8)+1;
-                // val=parseInt(val%totalPage);
-                // val=val===0?totalPage:val;
-                this.currentPage=parseInt(to.query.page)?parseInt(to.query.page):1;
-                this.findIdleItem(val);
+                this.syncRouteState(to);
             }
         },
         methods: {
+            syncRouteState(route) {
+                const nextLabelName = route.query.labelName !== undefined ? String(route.query.labelName) : '0';
+                const page = parseInt(route.query.page, 10);
+                const nextPage = Number.isNaN(page) || page < 1 ? 1 : page;
+
+                this.labelName = nextLabelName;
+                this.currentPage = nextPage;
+                this.findIdleItem(nextPage);
+            },
             findIdleItem(page){
                 const loading = this.$loading({
                     lock: true,
@@ -178,8 +182,7 @@
                         let list = res.data.list;
                         for (let i = 0; i < list.length; i++) {
                             list[i].timeStr = list[i].releaseTime.substring(0, 10) + " " + list[i].releaseTime.substring(11, 19);
-                            let pictureList = list[i].pictureList ? JSON.parse(list[i].pictureList) : [];
-                            list[i].imgUrl = pictureList.length > 0 && pictureList[0] ? (pictureList[0].startsWith('data:image') ? pictureList[0] : `data:image/jpeg;base64,${pictureList[0]}`) : '';
+                            list[i].imgUrl = getFirstImageSrc(list[i].pictureList);
                         }
                         this.idleList = list;
                         if(page === 1) this.flashList = list.slice(0, 4); // 取前4个作为秒杀商品
@@ -199,8 +202,7 @@
                       let list = res.data.list;
                       for (let i = 0; i < list.length; i++) {
                         list[i].timeStr = list[i].releaseTime.substring(0, 10) + " " + list[i].releaseTime.substring(11, 19);
-                        let pictureList = list[i].pictureList ? JSON.parse(list[i].pictureList) : [];
-                        list[i].imgUrl = pictureList.length > 0 && pictureList[0] ? (pictureList[0].startsWith('data:image') ? pictureList[0] : `data:image/jpeg;base64,${pictureList[0]}`) : '';
+                        list[i].imgUrl = getFirstImageSrc(list[i].pictureList);
                       }
                       this.idleList = list;
                       if(page === 1) this.flashList = list.slice(0, 4); // 取前4个作为秒杀商品

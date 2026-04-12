@@ -87,6 +87,7 @@
     import AppHead from '../common/AppHeader.vue';
     import AppBody from '../common/AppPageBody.vue'
     import AppFoot from '../common/AppFoot.vue'
+    import { normalizeImageList } from '../../utils/image'
 
     export default {
         name: "idle-details",
@@ -140,10 +141,7 @@
                         str+='<p>'+list[i]+'</p>';
                     }
                     res.data.idleDetails=str;
-                    let pictureListData = res.data.pictureList ? JSON.parse(res.data.pictureList) : [];
-                    res.data.pictureList = pictureListData.map(base64Str => 
-                        base64Str && base64Str.startsWith('data:image') ? base64Str : `data:image/jpeg;base64,${base64Str}`
-                    );
+                    res.data.pictureList = normalizeImageList(res.data.pictureList);
                     this.idleItemInfo=res.data;
                     console.log(this.idleItemInfo);
                     let userId=this.getCookie('shUserId');

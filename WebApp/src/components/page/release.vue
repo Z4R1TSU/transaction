@@ -88,6 +88,7 @@
     import AppBody from '../common/AppPageBody.vue'
     import AppFoot from '../common/AppFoot.vue'
     import options from '../common/country-data.js'
+    import { normalizeImageSrc } from '../../utils/image'
 
     export default {
         name: "release",
@@ -137,7 +138,7 @@
             },
             fileHandleRemove(file, fileList) {
                 console.log(file, fileList);
-                let removedUrl = file.response && file.response.status_code === 1 ? (file.response.data.startsWith('data:image') ? file.response.data : `data:image/jpeg;base64,${file.response.data}`) : file.url; // file.url might be used if it's an already uploaded image shown in the list
+                let removedUrl = file.response && file.response.status_code === 1 ? normalizeImageSrc(file.response.data) : normalizeImageSrc(file.url);
                 if (removedUrl) {
                     const index = this.imgList.indexOf(removedUrl);
                     if (index !== -1) {
@@ -147,17 +148,13 @@
             },
             fileHandlePreview(file) {
                 console.log(file);
-                // file.response.data should be the base64 string
-                this.dialogImageUrl = file.response && file.response.status_code === 1 ? (file.response.data.startsWith('data:image') ? file.response.data : `data:image/jpeg;base64,${file.response.data}`) : file.url;
+                this.dialogImageUrl = file.response && file.response.status_code === 1 ? normalizeImageSrc(file.response.data) : normalizeImageSrc(file.url);
                 this.imgDialogVisible = true;
             },
             fileHandleSuccess(response, file, fileList){
                 console.log("file:",response,file,fileList);
                 if (response.status_code === 1 && response.data) {
-                    // Assuming response.data is the Base64 string
-                    // Prepend with data URI scheme if not already present
-                    const base64Image = response.data.startsWith('data:image') ? response.data : `data:image/jpeg;base64,${response.data}`;
-                    this.imgList.push(base64Image);
+                    this.imgList.push(normalizeImageSrc(response.data));
                 } else {
                     this.$message.error(response.msg || '图片上传失败');
                 }

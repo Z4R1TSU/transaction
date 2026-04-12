@@ -206,6 +206,7 @@
     import AppBody from '../common/AppPageBody.vue'
     import AppFoot from '../common/AppFoot.vue'
     import options from '../common/country-data.js'
+    import { getFirstImageSrc } from '../../utils/image'
 
     export default {
         name: "me",
@@ -283,11 +284,10 @@
                     console.log('getMyFavorite',res);
                     if (res.status_code === 1){
                         for (let i = 0; i < res.data.length; i++) {
-                            let pictureList = res.data[i].idleItem.pictureList ? JSON.parse(res.data[i].idleItem.pictureList) : [];
                             this.dataList[2].push({
                                 favoriteId:res.data[i].id,
                                 id:res.data[i].idleItem.id,
-                                imgUrl: pictureList.length > 0 && pictureList[0] ? (pictureList[0].startsWith('data:image') ? pictureList[0] : `data:image/jpeg;base64,${pictureList[0]}`) : '',
+                                imgUrl: getFirstImageSrc(res.data[i].idleItem.pictureList),
                                 idleName:res.data[i].idleItem.idleName,
                                 idleDetails:res.data[i].idleItem.idleDetails,
                                 timeStr:res.data[i].createTime.substring(0, 10) + " " + res.data[i].createTime.substring(11, 19),
@@ -302,10 +302,9 @@
                     if (res.status_code === 1){
                         console.log('getMySoldIdle',res.data);
                         for (let i = 0; i < res.data.length; i++) {
-                            let pictureList = res.data[i].idleItem.pictureList ? JSON.parse(res.data[i].idleItem.pictureList) : [];
                             this.dataList[3].push({
                                 id:res.data[i].id,
-                                imgUrl: pictureList.length > 0 && pictureList[0] ? (pictureList[0].startsWith('data:image') ? pictureList[0] : `data:image/jpeg;base64,${pictureList[0]}`) : '',
+                                imgUrl: getFirstImageSrc(res.data[i].idleItem.pictureList),
                                 idleName:res.data[i].idleItem.idleName,
                                 idleDetails:res.data[i].idleItem.idleDetails,
                                 timeStr:res.data[i].createTime.substring(0, 10) + " " + res.data[i].createTime.substring(11, 19),
@@ -321,10 +320,9 @@
                     if (res.status_code === 1){
                         console.log('getMyOrder',res.data);
                         for (let i = 0; i < res.data.length; i++) {
-                            let pictureList = res.data[i].idleItem.pictureList ? JSON.parse(res.data[i].idleItem.pictureList) : [];
                             this.dataList[4].push({
                                 id:res.data[i].id,
-                                imgUrl: pictureList.length > 0 && pictureList[0] ? (pictureList[0].startsWith('data:image') ? pictureList[0] : `data:image/jpeg;base64,${pictureList[0]}`) : '',
+                                imgUrl: getFirstImageSrc(res.data[i].idleItem.pictureList),
                                 idleName:res.data[i].idleItem.idleName,
                                 idleDetails:res.data[i].idleItem.idleDetails,
                                 timeStr:res.data[i].createTime.substring(0, 10) + " " + res.data[i].createTime.substring(11, 19),
@@ -341,8 +339,7 @@
                     if (res.status_code === 1) {
                         for (let i = 0; i < res.data.length; i++) {
                             res.data[i].timeStr = res.data[i].releaseTime.substring(0, 10) + " " + res.data[i].releaseTime.substring(11, 19);
-                            let pictureList = res.data[i].pictureList ? JSON.parse(res.data[i].pictureList) : [];
-                            res.data[i].imgUrl = pictureList.length > 0 && pictureList[0] ? (pictureList[0].startsWith('data:image') ? pictureList[0] : `data:image/jpeg;base64,${pictureList[0]}`) : '';
+                            res.data[i].imgUrl = getFirstImageSrc(res.data[i].pictureList);
                             if (res.data[i].idleStatus === 1) {
                                 this.dataList[0].push(res.data[i]);
                             } else if (res.data[i].idleStatus === 2) {

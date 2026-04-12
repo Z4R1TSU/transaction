@@ -31,7 +31,7 @@
   </select>
   <select id="countIdleItem"  resultType="int">
     select COUNT(*) from sh_idle_item
-    where (idle_name LIKE "%"#{idleName}"%" or idle_details LIKE "%"#{idleDetails}"%") and idle_status = 1
+    where (idle_name LIKE concat('%', #{findValue}, '%') or idle_details LIKE concat('%', #{findValue}, '%')) and idle_status = 1
   </select>
   <select id="countIdleItemByLable"  resultType="int">
     select COUNT(*) from sh_idle_item
@@ -45,7 +45,7 @@
     select
     <include refid="Base_Column_List" />
     from sh_idle_item
-    where (idle_name LIKE "%"#{findValue}"%" or idle_details LIKE "%"#{findValue}"%") and idle_status = 1 order by id desc limit #{begin}, #{nums}
+    where (idle_name LIKE concat('%', #{findValue}, '%') or idle_details LIKE concat('%', #{findValue}, '%')) and idle_status = 1 order by id desc limit #{begin}, #{nums}
   </select>
   <select id="findIdleItemByLable" resultMap="BaseResultMap">
     select

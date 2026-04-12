@@ -2,7 +2,8 @@
 SQLyog Ultimate v11.33 (64 bit)
 MySQL - 8.0.18 : Database - second_hand_trading
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -80,7 +81,7 @@ CREATE TABLE `sh_idle_item` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `idle_name` varchar(64) NOT NULL COMMENT '闲置物名称',
   `idle_details` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '详情',
-  `picture_list` varchar(1024) NOT NULL COMMENT '图集',
+  `picture_list` longtext NOT NULL COMMENT '图集',
   `idle_price` decimal(10,2) NOT NULL COMMENT '价格',
   `idle_place` varchar(32) NOT NULL COMMENT '发货地区',
   `idle_label` int(11) NOT NULL COMMENT '分类标签',
@@ -168,7 +169,7 @@ CREATE TABLE `sh_user` (
   `account_number` varchar(16) NOT NULL COMMENT '账号（手机号）',
   `user_password` varchar(16) NOT NULL COMMENT '登录密码',
   `nickname` varchar(32) NOT NULL COMMENT '昵称',
-  `avatar` varchar(256) NOT NULL COMMENT '头像',
+  `avatar` longtext NOT NULL COMMENT '头像',
   `sign_in_time` datetime NOT NULL COMMENT '注册时间',
   `user_status` tinyint(4) DEFAULT NULL COMMENT '状态（1代表封禁）',
   PRIMARY KEY (`id`),

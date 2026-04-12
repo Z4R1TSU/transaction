@@ -78,6 +78,7 @@
     import AppHead from '../common/AppHeader.vue';
     import AppBody from '../common/AppPageBody.vue'
     import AppFoot from '../common/AppFoot.vue'
+    import { getFirstImageSrc } from '../../utils/image'
 
     export default {
         name: "order",
@@ -135,12 +136,7 @@
                 console.log(res);
                 if (res.status_code === 1) {
                     if (res.data.idleItem) {
-                        let imgList = JSON.parse(res.data.idleItem.pictureList);
-                        if (imgList.length > 0) {
-                            res.data.idleItem.imgUrl = imgList[0];
-                        } else {
-                            res.data.idleItem.imgUrl = '';
-                        }
+                        res.data.idleItem.imgUrl = getFirstImageSrc(res.data.idleItem.pictureList);
                     } else {
                         res.data.idleItem = {
                             idleName: '',

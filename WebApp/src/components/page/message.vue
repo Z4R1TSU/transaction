@@ -33,6 +33,7 @@
     import AppHead from '../common/AppHeader.vue';
     import AppBody from '../common/AppPageBody.vue'
     import AppFoot from '../common/AppFoot.vue'
+    import { getFirstImageSrc } from '../../utils/image'
 
     export default {
         name: "message",
@@ -51,8 +52,7 @@
                 console.log(res);
                 if(res.status_code===1){
                     for(let i=0;i<res.data.length;i++){
-                        let imgList = res.data[i].idle.pictureList ? JSON.parse(res.data[i].idle.pictureList) : [];
-                        res.data[i].idle.imgUrl = imgList.length > 0 && imgList[0] ? (imgList[0].startsWith('data:image') ? imgList[0] : `data:image/jpeg;base64,${imgList[0]}`) : '';
+                        res.data[i].idle.imgUrl = getFirstImageSrc(res.data[i].idle.pictureList);
                         let contentList=res.data[i].content.split('<br>');
                         let contenHtml=contentList[0];
                         for(let i=1;i<contentList.length;i++){

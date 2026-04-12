@@ -10,7 +10,7 @@
                 <template slot-scope="scope">
                     <el-image
                         style="width: 80px; height: 80px"
-                        :src="$store.state.baseApi + scope.row.pictureList.split(',')[0]"
+                        :src="scope.row.imgUrl"
                         fit="cover">
                     </el-image>
                 </template>
@@ -70,6 +70,8 @@
 </template>
 
 <script>
+import { getFirstImageSrc } from '../../utils/image'
+
 export default {
     name: "AllIdleGoods",
     data() {
@@ -96,7 +98,10 @@ export default {
             this.loading = true;
             this.$api.getAllIdleList({ page: this.page, nums: 8 }).then(res => {
                 if (res.status_code === 1) {
-                    this.idleList = res.data.list;
+                    this.idleList = res.data.list.map(item => ({
+                        ...item,
+                        imgUrl: getFirstImageSrc(item.pictureList)
+                    }));
                     this.total = res.data.count;
                 } else {
                     this.$message.error(res.msg || '获取数据失败');

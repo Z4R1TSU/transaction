@@ -2,6 +2,7 @@ package com.second.hand.trading.server.dao;
 
 import com.second.hand.trading.server.model.IdleItemModel;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,19 +18,19 @@ public interface IdleItemDao {
 
     List<IdleItemModel> getAllIdleItem(Long userId);
 
-    int countIdleItem(String findValue);
+    int countIdleItem(@Param("findValue") String findValue);
 
-    int countIdleItemByLable(int idleLabel);
+    int countIdleItemByLable(@Param("idleLabel") int idleLabel);
 
-    int countIdleItemByStatus(int status);
+    int countIdleItemByStatus(@Param("status") int status);
 
-    List<IdleItemModel> findIdleItem(String findValue, int begin, int nums);
+    List<IdleItemModel> findIdleItem(@Param("findValue") String findValue, @Param("begin") int begin, @Param("nums") int nums);
 
-    List<IdleItemModel> findIdleItemByLable(int idleLabel, int begin, int nums);
+    List<IdleItemModel> findIdleItemByLable(@Param("idleLabel") int idleLabel, @Param("begin") int begin, @Param("nums") int nums);
 
-    List<IdleItemModel> getIdleItemByStatus(int status, int begin, int nums);
+    List<IdleItemModel> getIdleItemByStatus(@Param("status") int status, @Param("begin") int begin, @Param("nums") int nums);
 
-    List<IdleItemModel> adminGetAllIdleItem(int begin, int nums);
+    List<IdleItemModel> adminGetAllIdleItem(@Param("begin") int begin, @Param("nums") int nums);
 
     int countAdminAllIdleItem();
 
@@ -37,5 +38,5 @@ public interface IdleItemDao {
 
     int updateByPrimaryKey(IdleItemModel record);
 
-    List<IdleItemModel> findIdleByList(List<Long> idList);
+    List<IdleItemModel> findIdleByList(@Param("idList") List<Long> idList);
 }
