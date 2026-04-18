@@ -51,7 +51,14 @@
                 console.log(res);
                 if(res.status_code===1){
                     for(let i=0;i<res.data.length;i++){
-                        let imgList = res.data[i].idle.pictureList ? JSON.parse(res.data[i].idle.pictureList) : [];
+                        let imgList = [];
+                        if (res.data[i].idle.pictureList) {
+                            try {
+                                imgList = JSON.parse(res.data[i].idle.pictureList);
+                            } catch (err) {
+                                imgList = [res.data[i].idle.pictureList];
+                            }
+                        }
                         res.data[i].idle.imgUrl = imgList.length > 0 && imgList[0] ? (imgList[0].startsWith('data:image') ? imgList[0] : `data:image/jpeg;base64,${imgList[0]}`) : '';
                         let contentList=res.data[i].content.split('<br>');
                         let contenHtml=contentList[0];

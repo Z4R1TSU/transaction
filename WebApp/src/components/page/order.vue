@@ -135,9 +135,16 @@
                 console.log(res);
                 if (res.status_code === 1) {
                     if (res.data.idleItem) {
-                        let imgList = JSON.parse(res.data.idleItem.pictureList);
-                        if (imgList.length > 0) {
-                            res.data.idleItem.imgUrl = imgList[0];
+                        let imgList = [];
+                        if (res.data.idleItem.pictureList) {
+                            try {
+                                imgList = JSON.parse(res.data.idleItem.pictureList);
+                            } catch (err) {
+                                imgList = [res.data.idleItem.pictureList];
+                            }
+                        }
+                        if (imgList.length > 0 && imgList[0]) {
+                            res.data.idleItem.imgUrl = imgList[0].startsWith('data:image') ? imgList[0] : `data:image/jpeg;base64,${imgList[0]}`;
                         } else {
                             res.data.idleItem.imgUrl = '';
                         }
