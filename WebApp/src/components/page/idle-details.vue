@@ -375,10 +375,12 @@
     }
 
     .details-header-buy > div {
-        color: var(--color-danger) !important;
-        font-size: 28px !important;
+        font-size: 36px !important;
         font-weight: 800 !important;
-        letter-spacing: -0.5px;
+        background: linear-gradient(135deg, var(--color-danger), #F472B6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -1px;
     }
 
     .details-info {
@@ -386,37 +388,43 @@
     }
 
     .details-info-title {
-        font-size: 28px;
+        font-size: 36px;
         font-weight: 800;
         margin-bottom: 32px;
-        color: var(--color-text);
+        background: linear-gradient(135deg, var(--color-text), var(--color-primary-dark));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         line-height: 1.4;
-        letter-spacing: -0.5px;
+        letter-spacing: -1px;
     }
 
     .details-info-main {
-        font-size: 16px;
+        font-size: 18px;
         color: var(--color-text-secondary);
         line-height: 1.8;
-        margin-bottom: 40px;
+        margin-bottom: 48px;
+        font-weight: 500;
     }
 
     .details-picture {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 24px;
+        gap: 32px;
     }
 
     .details-picture >>> .el-image {
-        border-radius: var(--radius-lg);
-        border: 1px solid var(--color-border-light);
-        box-shadow: var(--shadow-md);
-        transition: transform var(--transition-normal);
+        border-radius: 24px;
+        border: 1px solid var(--glass-border);
+        box-shadow: var(--shadow-lg);
+        transition: transform var(--transition-slow), box-shadow var(--transition-slow);
+        width: 100% !important;
+        max-width: 900px;
     }
     
     .details-picture >>> .el-image:hover {
-        transform: scale(1.02);
+        transform: scale(1.03);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
     }
 
     .message-container {

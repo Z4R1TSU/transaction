@@ -3,19 +3,6 @@
         <app-head></app-head>
         <app-body>
             <div style="min-height: 85vh;">
-                <!-- Hero Section -->
-                <div class="hero-section">
-                    <div class="hero-content">
-                        <h1 class="hero-title">发现好物，让闲置重获新生</h1>
-                        <p class="hero-subtitle">安全、便捷的校园二手交易平台</p>
-                        <div class="hero-search">
-                            <el-input placeholder="搜索你想要的闲置物品..." v-model="searchValue" @keyup.enter.native="searchIdle">
-                                <el-button slot="append" icon="el-icon-search" @click="searchIdle"></el-button>
-                            </el-input>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Category Section -->
                 <div class="category-section">
                     <div class="section-title">全部分类</div>
@@ -206,224 +193,188 @@
 </script>
 
 <style scoped>
-    .hero-section {
-        background: linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(124,58,237,0.1) 100%);
-        border-radius: var(--radius-lg);
-        padding: 48px 32px;
-        margin-bottom: 32px;
-        text-align: center;
-        border: 1px solid var(--color-border-light);
-    }
-
-    .hero-title {
-        font-size: 36px;
+    .section-title {
+        font-size: 28px;
         font-weight: 800;
         color: var(--color-text);
-        margin-bottom: 16px;
-        letter-spacing: -1px;
-    }
-
-    .hero-subtitle {
-        font-size: 18px;
-        color: var(--color-text-secondary);
-        margin-bottom: 32px;
-    }
-
-    .hero-search {
-        max-width: 600px;
-        margin: 0 auto;
-        box-shadow: var(--shadow-lg);
-        border-radius: var(--radius-md);
-    }
-
-    .hero-search >>> .el-input__inner {
-        height: 56px;
-        font-size: 16px;
-        border: none !important;
-        padding-left: 24px;
-    }
-
-    .hero-search >>> .el-input-group__append {
-        background: #fff;
-        border: none;
-        padding: 0 24px;
-    }
-
-    .hero-search >>> .el-button {
-        color: var(--color-primary);
-        font-size: 20px;
-    }
-
-    .hero-search >>> .el-button:hover {
-        background: transparent !important;
-        transform: none !important;
-        box-shadow: none !important;
-        color: var(--color-primary-dark);
-    }
-
-    .section-title {
-        font-size: 24px;
-        font-weight: 700;
-        color: var(--color-text);
-        margin-bottom: 20px;
+        margin-bottom: 24px;
+        letter-spacing: -0.5px;
     }
 
     .category-bar {
         display: flex;
-        gap: 12px;
-        padding: 0 0 32px 0;
+        gap: 16px;
+        padding: 0 0 40px 0;
         flex-wrap: wrap;
     }
 
     .category-chip {
         display: flex;
         align-items: center;
-        gap: 6px;
-        padding: 8px 18px;
+        gap: 10px;
+        padding: 12px 24px;
         border-radius: var(--radius-full);
-        font-size: 14px;
-        font-weight: 500;
-        color: var(--color-text-secondary);
-        background: var(--color-bg);
-        border: 1.5px solid var(--color-border);
+        background: var(--color-bg-card);
+        border: 1px solid var(--color-border-light);
         cursor: pointer;
-        transition: all var(--transition-normal);
-        user-select: none;
+        transition: all var(--transition-bounce);
+        color: var(--color-text-secondary);
+        font-weight: 600;
+        box-shadow: var(--shadow-sm);
     }
 
     .category-chip:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
         border-color: var(--color-primary-light);
         color: var(--color-primary);
-        background: rgba(59, 130, 246, 0.04);
     }
 
     .category-chip.active {
-        background: var(--color-text);
+        background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
         color: #fff;
-        border-color: var(--color-text);
-        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
-    }
-
-    .category-chip.active svg {
-        stroke: #fff;
+        border-color: transparent;
+        box-shadow: var(--shadow-glow);
+        transform: translateY(-2px);
     }
 
     .goods-grid {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 24px;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 32px;
         padding: 0;
     }
 
     .goods-card {
         background: var(--color-bg-card);
-        border-radius: var(--radius-lg);
+        border-radius: 24px;
         overflow: hidden;
-        border: none;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        box-shadow: var(--shadow-md);
         cursor: pointer;
-        transition: all var(--transition-normal);
+        transition: all var(--transition-bounce);
+        animation: fadeInUp 0.6s ease-out forwards;
+        backdrop-filter: blur(10px);
     }
+    
+    .goods-card:nth-child(1) { animation-delay: 0.05s; }
+    .goods-card:nth-child(2) { animation-delay: 0.1s; }
+    .goods-card:nth-child(3) { animation-delay: 0.15s; }
+    .goods-card:nth-child(4) { animation-delay: 0.2s; }
+    .goods-card:nth-child(5) { animation-delay: 0.25s; }
+    .goods-card:nth-child(6) { animation-delay: 0.3s; }
+    .goods-card:nth-child(7) { animation-delay: 0.35s; }
+    .goods-card:nth-child(8) { animation-delay: 0.4s; }
 
     .goods-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        transform: translateY(-12px) scale(1.02);
+        box-shadow: var(--shadow-lg), 0 20px 40px -10px rgba(99, 102, 241, 0.15);
+        border-color: var(--color-primary-light);
     }
 
     .card-image-wrapper {
         position: relative;
         overflow: hidden;
-        background: var(--color-bg);
+        border-radius: 24px 24px 0 0;
     }
 
-    .card-image-wrapper >>> .el-image {
+    .goods-card .el-image {
         transition: transform var(--transition-slow);
     }
 
-    .goods-card:hover .card-image-wrapper >>> .el-image {
-        transform: scale(1.05);
+    .goods-card:hover .el-image {
+        transform: scale(1.08);
     }
 
-    .image-error {
+    .image-error, .image-slot {
         display: flex;
-        align-items: center;
         justify-content: center;
-        height: 180px;
-        color: var(--color-text-muted);
+        align-items: center;
+        width: 100%;
+        height: 100%;
         background: var(--color-bg);
+        color: var(--color-text-muted);
     }
 
     .card-body {
-        padding: 14px 16px;
+        padding: 24px;
     }
 
     .card-title {
         font-family: var(--font-heading);
-        font-size: 15px;
-        font-weight: 600;
+        font-size: 18px;
+        font-weight: 700;
         color: var(--color-text);
+        margin-bottom: 16px;
         overflow: hidden;
-        white-space: nowrap;
         text-overflow: ellipsis;
-        margin-bottom: 10px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
         line-height: 1.4;
     }
 
     .card-meta {
         display: flex;
-        align-items: center;
         justify-content: space-between;
-        margin-bottom: 12px;
+        align-items: center;
+        margin-bottom: 20px;
     }
 
     .card-price {
-        font-family: var(--font-heading);
-        font-size: 18px;
-        font-weight: 700;
-        color: var(--color-danger);
-        letter-spacing: -0.3px;
+        font-size: 24px;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--color-danger), #F472B6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -0.5px;
     }
 
     .card-place {
-        font-size: 12px;
-        color: var(--color-text-muted);
+        font-size: 13px;
+        color: var(--color-text-secondary);
         background: var(--color-bg);
-        padding: 3px 8px;
-        border-radius: var(--radius-sm);
+        padding: 6px 12px;
+        border-radius: var(--radius-full);
+        font-weight: 600;
     }
 
     .card-footer {
         display: flex;
-        align-items: center;
         justify-content: space-between;
-        padding-top: 10px;
+        align-items: center;
+        padding-top: 16px;
         border-top: 1px solid var(--color-border-light);
     }
 
     .card-user {
         display: flex;
         align-items: center;
-        gap: 6px;
+        gap: 10px;
+    }
+    
+    .card-user .el-image {
+        border: 2px solid var(--color-bg-card);
+        box-shadow: var(--shadow-sm);
     }
 
     .card-username {
-        font-size: 12px;
+        font-size: 14px;
         color: var(--color-text-secondary);
-        max-width: 80px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        font-weight: 600;
     }
 
     .card-time {
-        font-size: 11px;
+        font-size: 13px;
         color: var(--color-text-muted);
+        font-weight: 500;
     }
 
     .pagination-bar {
         display: flex;
         justify-content: center;
-        padding: 32px 0 16px;
+        margin-top: 48px;
+        padding-bottom: 24px;
     }
 
     @media (max-width: 1024px) {

@@ -200,24 +200,25 @@
     .release-idle-container {
         min-height: 85vh;
         background: var(--color-bg-card);
-        border-radius: var(--radius-lg);
-        box-shadow: var(--shadow-sm);
-        border: 1px solid var(--color-border);
+        border-radius: 32px;
+        box-shadow: var(--shadow-lg);
+        border: none;
         padding-bottom: 48px;
         overflow: hidden;
     }
 
     .release-idle-container-title {
-        font-size: 24px;
-        padding: 40px 0;
+        font-size: 32px;
+        padding: 48px 0;
         font-weight: 800;
         width: 100%;
         text-align: center;
-        color: var(--color-text);
-        background: var(--color-bg);
+        background: linear-gradient(135deg, var(--color-primary-light), var(--color-secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         border-bottom: 1px solid var(--color-border-light);
         margin-bottom: 48px;
-        letter-spacing: -0.5px;
+        letter-spacing: -1px;
     }
 
     .release-idle-container-form {

@@ -133,20 +133,30 @@
 
 <style scoped>
     .idle-card {
-        height: 300px;
+        height: 320px;
         background: var(--color-bg-card);
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-lg);
-        margin-bottom: 24px;
-        cursor: pointer;
-        transition: all var(--transition-normal);
+        border-radius: 24px;
         overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        box-shadow: var(--shadow-md);
+        cursor: pointer;
+        transition: all var(--transition-bounce);
+        backdrop-filter: blur(10px);
+        margin-bottom: 32px;
     }
 
     .idle-card:hover {
-        transform: translateY(-4px);
-        box-shadow: var(--shadow-lg);
+        transform: translateY(-12px) scale(1.02);
+        box-shadow: var(--shadow-lg), 0 20px 40px -10px rgba(99, 102, 241, 0.15);
         border-color: var(--color-primary-light);
+    }
+    
+    .idle-card >>> .el-image {
+        transition: transform var(--transition-slow);
+    }
+
+    .idle-card:hover >>> .el-image {
+        transform: scale(1.08);
     }
 
     .fenye {

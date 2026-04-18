@@ -641,14 +641,17 @@
     .user-info-container {
         width: 100%;
         height: auto;
-        background: linear-gradient(135deg, rgba(59,130,246,0.05) 0%, rgba(124,58,237,0.05) 100%);
-        border-radius: var(--radius-lg);
-        border: 1px solid var(--color-border);
-        margin-bottom: 32px;
+        background: linear-gradient(-45deg, #6366F1, #EC4899, #8B5CF6, #3B82F6);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        border-radius: 32px;
+        border: none;
+        margin-bottom: 40px;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 48px;
+        padding: 60px 48px;
+        box-shadow: var(--shadow-lg), 0 20px 40px -10px rgba(99, 102, 241, 0.3);
     }
 
     .user-info-details {
@@ -658,29 +661,48 @@
 
     .user-info-details >>> .el-image {
         border-radius: var(--radius-full) !important;
-        border: 4px solid var(--color-bg-card);
-        box-shadow: var(--shadow-lg);
-        width: 120px !important;
-        height: 120px !important;
+        border: 4px solid rgba(255,255,255,0.8);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        width: 140px !important;
+        height: 140px !important;
+        transition: transform var(--transition-bounce);
+    }
+    
+    .user-info-details >>> .el-image:hover {
+        transform: scale(1.05) rotate(5deg);
     }
 
     .user-info-details-text {
-        margin-left: 40px;
+        margin-left: 48px;
     }
 
     .user-info-details-text-nickname {
-        font-size: 32px;
+        font-size: 40px;
         font-weight: 800;
-        color: var(--color-text);
+        color: #ffffff;
         margin-bottom: 12px;
-        letter-spacing: -0.5px;
+        letter-spacing: -1px;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
 
     .user-info-details-text-time {
-        font-size: 15px;
-        color: var(--color-text-secondary);
-        margin-bottom: 20px;
-        font-weight: 500;
+        font-size: 16px;
+        color: rgba(255,255,255,0.9);
+        margin-bottom: 24px;
+        font-weight: 600;
+    }
+    
+    .user-info-details-text-edit >>> .el-button {
+        background: var(--glass-bg) !important;
+        backdrop-filter: blur(10px);
+        color: var(--color-primary-dark) !important;
+        border: 1px solid var(--glass-border) !important;
+    }
+    
+    .user-info-details-text-edit >>> .el-button:hover {
+        background: #fff !important;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
     }
 
     .user-info-splace {
@@ -743,11 +765,16 @@
     }
     
     .idle-container-list-item-detile >>> .el-image {
-        width: 140px !important;
-        height: 140px !important;
-        border-radius: var(--radius-md);
-        border: 1px solid var(--color-border-light);
-        box-shadow: var(--shadow-sm);
+        width: 160px !important;
+        height: 160px !important;
+        border-radius: var(--radius-lg);
+        border: none;
+        box-shadow: var(--shadow-md);
+        transition: transform var(--transition-slow);
+    }
+    
+    .idle-container-list-item:hover .idle-container-list-item-detile >>> .el-image {
+        transform: scale(1.05);
     }
 
     .idle-container-list-item-text {
