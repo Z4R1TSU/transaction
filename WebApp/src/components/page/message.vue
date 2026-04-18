@@ -82,50 +82,76 @@
 <style scoped>
     .message-container{
         min-height: 85vh;
-        padding: 0 20px;
+        padding: 20px 40px;
+        background: var(--color-bg-card);
+        border-radius: var(--radius-lg);
     }
     .message-container-title{
-        font-size: 16px;
-        padding: 20px 0;
-        font-weight: 600;
+        font-size: 20px;
+        padding: 0 0 24px 0;
+        font-weight: 700;
+        color: var(--color-text);
+        border-bottom: 1px solid var(--color-border);
     }
     .message-container-list{
         cursor:pointer;
-        height: 110px;
-        border-top: 1px solid #eeeeee;
+        padding: 24px 0;
+        border-bottom: 1px solid var(--color-border-light);
         display: flex;
         justify-content: space-between;
         align-items: center;
+        transition: background-color var(--transition-normal);
+    }
+    .message-container-list:hover {
+        background-color: var(--color-bg);
+        border-radius: var(--radius-md);
+        padding: 24px 16px;
+        margin: 0 -16px;
     }
     .message-container-list-left{
-        width: 800px;
+        flex: 1;
         display: flex;
+        gap: 16px;
+        min-width: 0;
+    }
+    .message-container-list-left >>> .el-image {
+        border-radius: var(--radius-full) !important;
+        border: 1px solid var(--color-border-light);
+        flex-shrink: 0;
     }
     .message-container-list-right{
-        width: 130px;
+        width: 140px;
+        flex-shrink: 0;
+        margin-left: 24px;
+    }
+    .message-container-list-right >>> .el-image {
+        border-radius: var(--radius-md);
+        border: 1px solid var(--color-border-light);
     }
     .message-container-list-text{
-        margin-left: 10px;
+        flex: 1;
+        min-width: 0;
     }
     .message-nickname{
         font-weight: 600;
-        font-size: 18px;
-        padding-bottom: 5px;
+        font-size: 16px;
+        padding-bottom: 8px;
+        color: var(--color-text);
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
     }
     .message-content{
-        font-size: 16px;
-        padding-bottom: 15px;
-        color: #555555;
-        width: 710px;
+        font-size: 15px;
+        padding-bottom: 12px;
+        color: var(--color-text-secondary);
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+        line-height: 1.5;
     }
     .message-time{
         font-size: 13px;
-        color: #555555;
+        color: var(--color-text-muted);
     }
 </style>

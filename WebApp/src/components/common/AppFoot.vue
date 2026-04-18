@@ -15,12 +15,24 @@
         width: 100%;
         display: flex;
         justify-content: center;
-        height: 40px;
-        padding-top: 10px;
+        height: 60px;
+        padding-top: 20px;
+        background-color: var(--color-bg);
     }
 
     .author {
-        color: #999999;
+        color: var(--color-text-muted);
         font-size: 14px;
+        font-weight: 500;
+    }
+    
+    .author a {
+        color: var(--color-primary);
+        text-decoration: none;
+        transition: color var(--transition-normal);
+    }
+    
+    .author a:hover {
+        color: var(--color-primary-dark);
     }
 </style>

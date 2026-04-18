@@ -67,53 +67,78 @@
         align-items: center;
         height: 100vh;
         width: 100%;
-        background: linear-gradient(to right, #7f7fd5, #86a8e7, #91eae4); /* Modern gradient background for admin */
+        background: var(--color-text); /* Dark background for admin login */
     }
 
     .box-card {
-        border-radius: 15px; /* Rounded corners for the card */
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Softer shadow */
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+        border: 1px solid var(--color-border);
     }
 
     .login-body {
-        padding: 40px; /* Increased padding */
-        width: 400px;
+        padding: 48px;
+        width: 420px;
         height: 100%;
     }
 
     .login-title {
-        padding-bottom: 30px;
+        padding-bottom: 40px;
         text-align: center;
-        font-weight: 600;
-        font-size: 24px; /* Slightly larger title */
-        color: #303133; /* Darker color for better contrast */
+        font-weight: 700;
+        font-size: 28px;
+        color: var(--color-text);
+        letter-spacing: -0.5px;
     }
 
     .login-input {
-        margin-bottom: 25px; /* Increased margin */
+        margin-bottom: 24px;
+    }
+    
+    .login-input >>> .el-input__inner {
+        border-radius: 0 var(--radius-md) var(--radius-md) 0;
+        transition: all var(--transition-normal);
+    }
+    
+    .login-input >>> .el-input__inner:focus {
+        border-color: var(--color-primary);
+    }
+    
+    .login-input >>> .el-input-group__prepend {
+        border-radius: var(--radius-md) 0 0 var(--radius-md);
+        background-color: var(--color-bg);
     }
 
     .login-submit {
         display: flex;
         justify-content: center;
-        margin-top: 10px; /* Added margin top */
+        margin-top: 32px;
     }
 
     .login-submit .el-button {
-        width: 100%; /* Full width button */
-        padding: 12px 20px; /* Larger button padding */
-        font-size: 16px; /* Larger button font size */
+        width: 100%;
+        padding: 14px 20px;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: var(--radius-md);
+        transition: all var(--transition-normal);
     }
 
     .sign-in-text {
-        color: #409EFF;
-        font-size: 14px; /* Adjusted font size */
+        color: var(--color-text-secondary);
+        font-size: 14px;
         text-decoration: none;
         line-height:28px;
+        transition: color var(--transition-normal);
     }
+    
+    .sign-in-text:hover {
+        color: var(--color-primary);
+    }
+    
     .other-submit{
         display:flex;
         justify-content: space-between;
-        margin-top: 20px; /* Increased margin top */
+        margin-top: 24px;
     }
 </style>

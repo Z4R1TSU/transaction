@@ -293,58 +293,91 @@
 <style scoped>
     .order-page-container {
         min-height: 85vh;
+        background: var(--color-bg-card);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--color-border);
     }
 
     .idle-info-container {
         width: 100%;
         display: flex;
-        border-bottom: 20px solid #f6f6f6;
-        padding: 20px;
+        border-bottom: 1px solid var(--color-border-light);
+        padding: 32px 40px;
         cursor: pointer;
+        transition: background-color var(--transition-normal);
+        border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+    
+    .idle-info-container:hover {
+        background-color: var(--color-bg);
+    }
+    
+    .idle-info-container >>> .el-image {
+        border-radius: var(--radius-md);
+        border: 1px solid var(--color-border-light);
     }
 
     .idle-info-title {
-        font-size: 18px;
-        font-weight: 600;
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--color-text);
         max-width: 750px;
-        margin-left: 10px;
+        margin-left: 24px;
+        line-height: 1.4;
     }
 
     .idle-info-price {
-        font-size: 18px;
-        color: red;
-        margin-left: 10px;
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--color-danger);
+        margin-left: auto;
     }
 
     .address-container {
         min-height: 60px;
-        padding: 20px;
-        border-bottom: 20px solid #f6f6f6;
-
+        padding: 32px 40px;
+        border-bottom: 1px solid var(--color-border-light);
+        transition: background-color var(--transition-normal);
+    }
+    
+    .address-container[style*="cursor: pointer"]:hover {
+        background-color: var(--color-bg);
     }
 
     .address-title {
         font-size: 18px;
-        font-weight: 600;
-        margin-bottom: 10px;
+        font-weight: 700;
+        color: var(--color-text);
+        margin-bottom: 12px;
     }
 
     .address-detials {
-        font-size: 16px;
-        color: #444444;
+        font-size: 15px;
+        color: var(--color-text-secondary);
+        line-height: 1.6;
+        margin-bottom: 16px;
     }
 
     .order-info-container {
-        padding: 20px;
+        padding: 32px 40px;
+    }
+    
+    .order-info-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--color-text);
+        margin-bottom: 20px;
     }
 
     .order-info-item {
-        margin: 10px 0;
-        font-size: 14px;
-        color: #444444;
+        margin: 12px 0;
+        font-size: 15px;
+        color: var(--color-text-secondary);
     }
 
     .menu {
-        margin-left: 20px;
+        padding: 0 40px 40px 40px;
+        display: flex;
+        gap: 16px;
     }
 </style>

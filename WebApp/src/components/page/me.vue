@@ -640,50 +640,96 @@
 <style scoped>
     .user-info-container {
         width: 100%;
-        height: 200px;
-        border-bottom: 15px solid #f6f6f6;
+        height: auto;
+        background: linear-gradient(135deg, rgba(59,130,246,0.05) 0%, rgba(124,58,237,0.05) 100%);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--color-border);
+        margin-bottom: 32px;
         display: flex;
         align-items: center;
         justify-content: space-between;
+        padding: 48px;
     }
 
     .user-info-details {
         display: flex;
-        height: 140px;
         align-items: center;
-        margin: 20px 40px;
+    }
+
+    .user-info-details >>> .el-image {
+        border-radius: var(--radius-full) !important;
+        border: 4px solid var(--color-bg-card);
+        box-shadow: var(--shadow-lg);
+        width: 120px !important;
+        height: 120px !important;
     }
 
     .user-info-details-text {
-        margin-left: 20px;
+        margin-left: 40px;
     }
 
     .user-info-details-text-nickname {
-        font-size: 26px;
-        font-weight: 600;
-        margin: 10px 0;
+        font-size: 32px;
+        font-weight: 800;
+        color: var(--color-text);
+        margin-bottom: 12px;
+        letter-spacing: -0.5px;
     }
 
     .user-info-details-text-time {
-        font-size: 14px;
-        margin-bottom: 10px;
+        font-size: 15px;
+        color: var(--color-text-secondary);
+        margin-bottom: 20px;
+        font-weight: 500;
     }
 
     .user-info-splace {
-        margin-right: 90px;
+        margin-right: 0;
     }
 
     .idle-container {
-        padding: 0 20px;
+        background: var(--color-bg-card);
+        border-radius: var(--radius-lg);
+        border: none;
+        box-shadow: var(--shadow-sm);
+        padding: 32px 48px;
+    }
+
+    .idle-container >>> .el-tabs__item {
+        font-size: 16px;
+        font-weight: 500;
+        height: 48px;
+        line-height: 48px;
+    }
+
+    .idle-container >>> .el-tabs__item.is-active {
+        font-weight: 700;
+    }
+
+    .idle-container >>> .el-tabs__nav-wrap::after {
+        height: 1px;
+        background-color: var(--color-border-light);
     }
 
     .idle-container-list {
         min-height: 55vh;
+        margin-top: 24px;
     }
 
     .idle-container-list-item {
-        border-bottom: 1px solid #eeeeee;
+        border-bottom: 1px solid var(--color-border-light);
         cursor: pointer;
+        padding: 32px 0;
+        transition: all var(--transition-normal);
+    }
+
+    .idle-container-list-item:hover {
+        background-color: var(--color-bg);
+        border-radius: var(--radius-md);
+        margin: 0 -24px;
+        padding: 32px 24px;
+        box-shadow: var(--shadow-sm);
+        border-color: transparent;
     }
 
     .idle-container-list-item:last-child {
@@ -691,85 +737,118 @@
     }
 
     .idle-container-list-item-detile {
-        height: 120px;
         display: flex;
-        align-items: center;
+        align-items: flex-start;
+        gap: 32px;
+    }
+    
+    .idle-container-list-item-detile >>> .el-image {
+        width: 140px !important;
+        height: 140px !important;
+        border-radius: var(--radius-md);
+        border: 1px solid var(--color-border-light);
+        box-shadow: var(--shadow-sm);
     }
 
     .idle-container-list-item-text {
-        margin-left: 10px;
-        height: 100px;
-        max-width: 800px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 140px;
+        min-width: 0;
     }
 
     .idle-container-list-title {
-        font-weight: 600;
-        font-size: 18px;
+        font-weight: 800;
+        font-size: 20px;
+        color: var(--color-text);
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+        letter-spacing: -0.3px;
     }
 
     .idle-container-list-idle-details {
-        font-size: 14px;
-        color: #555555;
-        padding-top: 5px;
+        font-size: 15px;
+        color: var(--color-text-secondary);
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+        line-height: 1.6;
+        margin-top: 8px;
     }
 
     .idle-container-list-idle-time {
-        font-size: 13px;
-        padding-top: 5px;
+        font-size: 14px;
+        color: var(--color-text-muted);
+        margin-top: auto;
+        margin-bottom: 12px;
     }
 
     .idle-prive {
-        font-size: 15px;
-        padding-top: 5px;
-        color: red;
+        font-size: 22px;
+        font-weight: 800;
+        color: var(--color-danger);
+        letter-spacing: -0.5px;
     }
 
     .edit-tip {
-        font-size: 14px;
-        margin: 10px 5px;
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--color-text);
+        margin: 20px 0 12px 0;
     }
 
     .address-container {
-        padding: 10px 20px;
+        background: var(--color-bg-card);
+        border-radius: var(--radius-lg);
+        border: none;
+        box-shadow: var(--shadow-sm);
+        padding: 40px 48px;
     }
 
     .address-container-back {
-        margin-bottom: 10px;
+        margin-bottom: 32px;
+        padding-bottom: 24px;
+        border-bottom: 1px solid var(--color-border-light);
     }
 
     .address-container-add-title {
-        font-size: 15px;
-        color: #409EFF;
-        padding: 10px;
+        font-size: 20px;
+        font-weight: 800;
+        color: var(--color-text);
+        margin-bottom: 32px;
+        letter-spacing: -0.3px;
     }
 
     .address-container-add-item {
-        margin-bottom: 20px;
+        margin-bottom: 24px;
     }
 
     .demonstration {
-        color: #666666;
-        font-size: 14px;
-        padding: 10px;
+        color: var(--color-text-secondary);
+        font-size: 15px;
+        font-weight: 600;
+        padding-right: 16px;
+        display: inline-block;
+        width: 120px;
     }
 
     .address-container-add {
-        padding: 0 200px;
+        max-width: 600px;
+        margin: 0 auto;
     }
 
     .address-container-list {
-        padding: 30px 100px;
+        margin-top: 48px;
+        padding-top: 40px;
+        border-top: 1px solid var(--color-border-light);
     }
 
     .idle-item-foot {
-        width: 800px;
         display: flex;
         justify-content: space-between;
+        align-items: center;
     }
 </style>

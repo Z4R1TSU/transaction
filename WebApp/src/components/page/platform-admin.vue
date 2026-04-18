@@ -100,7 +100,7 @@
 
 <style scoped>
     .admin-layout {
-        background-color: #f0f2f5; /* Consistent background */
+        background-color: var(--color-bg);
         min-height: 100vh;
     }
     .header {
@@ -108,14 +108,15 @@
         top: 0;
         left: 0;
         right: 0;
-        height: 60px; /* Consistent header height */
-        background: #ffffff;
+        height: 64px;
+        background: var(--color-bg-card);
         display: flex;
         justify-content: space-between;
         align-items: center;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Consistent shadow */
+        box-shadow: var(--shadow-sm);
+        border-bottom: 1px solid var(--color-border);
         z-index: 1000;
-        padding: 0 20px;
+        padding: 0 32px;
     }
     .app-name {
         display: flex;
@@ -123,52 +124,55 @@
         height: 100%;
     }
     .app-name a {
-        color: #303133; /* Darker text */
-        font-size: 20px; /* Adjusted font size */
-        font-weight: 600;
+        color: var(--color-text);
+        font-size: 20px;
+        font-weight: 700;
         text-decoration: none;
+        letter-spacing: -0.5px;
     }
-    .admin-info {
-        display: flex;
-        align-items: center;
-        color: #555;
+    .app-title {
+        color: var(--color-text-secondary);
+        font-size: 15px;
+        font-weight: 500;
     }
-    .admin-info .app-title {
-        margin-right: 20px;
-        font-size: 16px;
-    }
-
     .el-container.is-vertical {
-        padding-top: 60px; /* Account for fixed header */
+        padding-top: 64px;
     }
-
     .mainBody {
         display: flex;
         width: 100%;
-        padding-top: 1px; /* Fix potential overlap issue */
     }
     .el-aside {
-        width: 220px !important; /* Fixed width for aside */
-        background-color: #ffffff;
-        box-shadow: 2px 0 6px rgba(0,21,41,.08);
-        min-height: calc(100vh - 60px); /* Full height minus header */
+        width: 240px !important;
+        background-color: var(--color-bg-card);
+        border-right: 1px solid var(--color-border);
+        min-height: calc(100vh - 64px);
     }
     .el-menu {
-        border-right: none; /* Remove default border */
+        border-right: none;
+        background: transparent;
+    }
+    .el-menu-item {
+        font-weight: 500;
+        margin: 8px 16px;
+        border-radius: var(--radius-md);
+    }
+    .el-menu-item.is-active {
+        background-color: var(--color-bg);
     }
     .el-menu-item i {
-        margin-right: 10px;
+        margin-right: 12px;
+        font-size: 18px;
     }
     .el-main {
-        padding: 20px;
-        background-color: #f0f2f5;
+        padding: 32px;
+        background-color: var(--color-bg);
     }
     .foot {
-        /* Removed fixed positioning for simplicity, assuming AppFoot handles its own styling */
         text-align: center;
-        padding: 15px 0;
-        background-color: #ffffff;
-        border-top: 1px solid #e8e8e8;
-        color: #888;
+        padding: 24px 0;
+        background-color: var(--color-bg-card);
+        border-top: 1px solid var(--color-border);
+        color: var(--color-text-secondary);
     }
 </style>

@@ -324,117 +324,203 @@
 <style scoped>
     .idle-details-container {
         min-height: 85vh;
+        background: var(--color-bg-card);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--color-border);
+        overflow: hidden;
     }
 
     .details-header {
-        height: 80px;
-        border-bottom: 10px solid #f6f6f6;
+        border-bottom: 1px solid var(--color-border-light);
         display: flex;
         justify-content: space-between;
-        padding: 20px;
+        padding: 32px 40px;
         align-items: center;
+        background: var(--color-bg-card);
     }
 
     .details-header-user-info {
         display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .details-header-user-info >>> .el-image {
+        width: 72px !important;
+        height: 72px !important;
+        border-radius: var(--radius-full) !important;
+        border: 1px solid var(--color-border-light);
+        box-shadow: var(--shadow-sm);
     }
 
     .details-header-user-info-nickname {
-        font-weight: 600;
-        font-size: 18px;
-        margin-bottom: 10px;
+        font-weight: 700;
+        font-size: 20px;
+        margin-bottom: 8px;
+        color: var(--color-text);
+        letter-spacing: -0.3px;
     }
 
     .details-header-user-info-time {
-        font-size: 12px;
-        color: #555555;
+        font-size: 14px;
+        color: var(--color-text-secondary);
     }
 
     .details-header-buy {
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        height: 50px;
-        width: 280px;
+        justify-content: flex-end;
+        gap: 20px;
+    }
+
+    .details-header-buy > div {
+        color: var(--color-danger) !important;
+        font-size: 28px !important;
+        font-weight: 800 !important;
+        letter-spacing: -0.5px;
     }
 
     .details-info {
-        padding: 20px 50px;
+        padding: 48px 60px;
     }
 
     .details-info-title {
-        font-size: 22px;
-        font-weight: 600;
-        margin-bottom: 20px;
-
+        font-size: 28px;
+        font-weight: 800;
+        margin-bottom: 32px;
+        color: var(--color-text);
+        line-height: 1.4;
+        letter-spacing: -0.5px;
     }
 
     .details-info-main {
-        font-size: 17px;
-        color: #121212;
-        line-height: 160%;
+        font-size: 16px;
+        color: var(--color-text-secondary);
+        line-height: 1.8;
+        margin-bottom: 40px;
     }
 
     .details-picture {
-        margin: 20px 0;
         display: flex;
         flex-direction: column;
         align-items: center;
+        gap: 24px;
+    }
+
+    .details-picture >>> .el-image {
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--color-border-light);
+        box-shadow: var(--shadow-md);
+        transition: transform var(--transition-normal);
+    }
+    
+    .details-picture >>> .el-image:hover {
+        transform: scale(1.02);
     }
 
     .message-container {
-        min-height: 100px;
-        border-top: 10px solid #f6f6f6;
-        padding: 20px;
+        border-top: 1px solid var(--color-border-light);
+        padding: 48px 60px;
+        background: var(--color-bg);
     }
 
     .message-title {
-        font-size: 20px;
-        font-weight: 600;
-        margin-bottom: 20px;
+        font-size: 24px;
+        font-weight: 800;
+        margin-bottom: 32px;
+        color: var(--color-text);
+        letter-spacing: -0.5px;
     }
-    .message-send{
-        min-height: 60px;
+    
+    .message-send {
+        background: var(--color-bg-card);
+        padding: 24px;
+        border-radius: var(--radius-lg);
+        margin-bottom: 40px;
+        border: 1px solid var(--color-border);
+        box-shadow: var(--shadow-sm);
     }
-    .message-send-button{
-        margin-top: 10px;
+    
+    .message-send >>> .el-textarea__inner {
+        border-radius: var(--radius-md);
+        border: 1px solid var(--color-border-light);
+        padding: 16px;
+        font-size: 15px;
+        font-family: var(--font-sans);
+        transition: all var(--transition-normal);
+        background: var(--color-bg);
+    }
+    
+    .message-send >>> .el-textarea__inner:focus {
+        border-color: var(--color-primary);
+        background: var(--color-bg-card);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    .message-send-button {
+        margin-top: 20px;
         display: flex;
         justify-content: flex-end;
     }
-    .message-container-list{
-        min-height: 60px;
-        border-top: 1px solid #eeeeee;
+    
+    .message-container-list {
+        background: var(--color-bg-card);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--color-border-light);
+        padding: 24px;
+        margin-bottom: 16px;
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        padding: 15px 0;
+        align-items: flex-start;
+        transition: all var(--transition-normal);
     }
-    .message-container-list:first-child{
-        border-top:none;
+    
+    .message-container-list:hover {
+        box-shadow: var(--shadow-md);
+        border-color: var(--color-border);
+        transform: translateY(-2px);
     }
-    .message-container-list-left{
-        width: 850px;
+    
+    .message-container-list-left {
+        width: 100%;
         display: flex;
+        gap: 20px;
     }
-    .message-container-list-right{
-        width: 100px;
+    
+    .message-container-list-left >>> .el-image {
+        width: 56px !important;
+        height: 56px !important;
+        border-radius: var(--radius-full) !important;
+        border: 2px solid var(--color-bg);
+        box-shadow: var(--shadow-sm);
     }
-    .message-container-list-text{
-        margin-left: 10px;
+    
+    .message-container-list-right {
+        flex-shrink: 0;
     }
-    .message-nickname{
-        font-weight: 600;
-        font-size: 18px;
-        padding-bottom: 5px;
+    
+    .message-container-list-text {
+        flex-grow: 1;
     }
-    .message-content{
+    
+    .message-nickname {
+        font-weight: 700;
         font-size: 16px;
-        padding-bottom: 15px;
-        color: #555555;
-        width: 770px;
+        padding-bottom: 8px;
+        color: var(--color-text);
     }
-    .message-time{
+    
+    .message-content {
+        font-size: 15px;
+        padding-bottom: 12px;
+        color: var(--color-text-secondary);
+        line-height: 1.6;
+    }
+    
+    .message-time {
         font-size: 13px;
-        color: #555555;
+        color: var(--color-text-muted);
+        font-weight: 500;
     }
 </style>

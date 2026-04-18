@@ -3,22 +3,41 @@
         <app-head></app-head>
         <app-body>
             <div style="min-height: 85vh;">
-                <div class="category-bar">
-                    <div
-                        v-for="(cat, idx) in categories"
-                        :key="idx"
-                        :class="['category-chip', { active: labelName === String(idx) }]"
-                        @click="switchCategory(String(idx))"
-                    >
-                        <svg v-if="idx === 0" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-                        <svg v-if="idx === 1" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
-                        <svg v-if="idx === 2" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
-                        <svg v-if="idx === 3" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon><line x1="12" y1="22" x2="12" y2="15.5"></line><polyline points="22 8.5 12 15.5 2 8.5"></polyline></svg>
-                        <svg v-if="idx === 4" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-                        <svg v-if="idx === 5" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-                        <span>{{ cat }}</span>
+                <!-- Hero Section -->
+                <div class="hero-section">
+                    <div class="hero-content">
+                        <h1 class="hero-title">发现好物，让闲置重获新生</h1>
+                        <p class="hero-subtitle">安全、便捷的校园二手交易平台</p>
+                        <div class="hero-search">
+                            <el-input placeholder="搜索你想要的闲置物品..." v-model="searchValue" @keyup.enter.native="searchIdle">
+                                <el-button slot="append" icon="el-icon-search" @click="searchIdle"></el-button>
+                            </el-input>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Category Section -->
+                <div class="category-section">
+                    <div class="section-title">全部分类</div>
+                    <div class="category-bar">
+                        <div
+                            v-for="(cat, idx) in categories"
+                            :key="idx"
+                            :class="['category-chip', { active: labelName === String(idx) }]"
+                            @click="switchCategory(String(idx))"
+                        >
+                            <svg v-if="idx === 0" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                            <svg v-if="idx === 1" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+                            <svg v-if="idx === 2" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
+                            <svg v-if="idx === 3" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon><line x1="12" y1="22" x2="12" y2="15.5"></line><polyline points="22 8.5 12 15.5 2 8.5"></polyline></svg>
+                            <svg v-if="idx === 4" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                            <svg v-if="idx === 5" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                            <span>{{ cat }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Goods Grid Section -->
                 <div class="goods-grid">
                     <div
                         v-for="(idle, index) in idleList"
@@ -28,7 +47,7 @@
                     >
                         <div class="card-image-wrapper">
                             <el-image
-                                style="width: 100%; height: 180px"
+                                style="width: 100%; height: 220px"
                                 :src="idle.imgUrl"
                                 fit="cover">
                                 <div slot="error" class="image-error">
@@ -187,10 +206,72 @@
 </script>
 
 <style scoped>
+    .hero-section {
+        background: linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(124,58,237,0.1) 100%);
+        border-radius: var(--radius-lg);
+        padding: 48px 32px;
+        margin-bottom: 32px;
+        text-align: center;
+        border: 1px solid var(--color-border-light);
+    }
+
+    .hero-title {
+        font-size: 36px;
+        font-weight: 800;
+        color: var(--color-text);
+        margin-bottom: 16px;
+        letter-spacing: -1px;
+    }
+
+    .hero-subtitle {
+        font-size: 18px;
+        color: var(--color-text-secondary);
+        margin-bottom: 32px;
+    }
+
+    .hero-search {
+        max-width: 600px;
+        margin: 0 auto;
+        box-shadow: var(--shadow-lg);
+        border-radius: var(--radius-md);
+    }
+
+    .hero-search >>> .el-input__inner {
+        height: 56px;
+        font-size: 16px;
+        border: none !important;
+        padding-left: 24px;
+    }
+
+    .hero-search >>> .el-input-group__append {
+        background: #fff;
+        border: none;
+        padding: 0 24px;
+    }
+
+    .hero-search >>> .el-button {
+        color: var(--color-primary);
+        font-size: 20px;
+    }
+
+    .hero-search >>> .el-button:hover {
+        background: transparent !important;
+        transform: none !important;
+        box-shadow: none !important;
+        color: var(--color-primary-dark);
+    }
+
+    .section-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--color-text);
+        margin-bottom: 20px;
+    }
+
     .category-bar {
         display: flex;
-        gap: 10px;
-        padding: 4px 0 24px;
+        gap: 12px;
+        padding: 0 0 32px 0;
         flex-wrap: wrap;
     }
 
@@ -213,14 +294,14 @@
     .category-chip:hover {
         border-color: var(--color-primary-light);
         color: var(--color-primary);
-        background: rgba(124, 58, 237, 0.04);
+        background: rgba(59, 130, 246, 0.04);
     }
 
     .category-chip.active {
-        background: var(--color-primary);
+        background: var(--color-text);
         color: #fff;
-        border-color: var(--color-primary);
-        box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+        border-color: var(--color-text);
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
     }
 
     .category-chip.active svg {
@@ -230,23 +311,23 @@
     .goods-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 20px;
-        padding: 0 4px;
+        gap: 24px;
+        padding: 0;
     }
 
     .goods-card {
         background: var(--color-bg-card);
         border-radius: var(--radius-lg);
         overflow: hidden;
-        border: 1px solid var(--color-border-light);
+        border: none;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
         cursor: pointer;
         transition: all var(--transition-normal);
     }
 
     .goods-card:hover {
-        transform: translateY(-4px);
-        box-shadow: var(--shadow-lg);
-        border-color: var(--color-primary-light);
+        transform: translateY(-8px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     }
 
     .card-image-wrapper {

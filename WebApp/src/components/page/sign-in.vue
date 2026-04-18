@@ -87,36 +87,76 @@
         align-items: center;
         height: 100vh;
         width: 100%;
-        background-color: #f1f1f1;
+        background-color: var(--color-bg);
+    }
+    
+    .box-card {
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+        border: 1px solid var(--color-border);
     }
 
     .sign-in-body {
-        padding: 30px;
-        width: 400px;
+        padding: 48px;
+        width: 420px;
         height: 100%;
     }
 
     .sign-in-title {
-        padding-bottom: 30px;
+        padding-bottom: 40px;
         text-align: center;
-        font-weight: 600;
-        font-size: 20px;
-        color: #409EFF;
+        font-weight: 700;
+        font-size: 28px;
+        color: var(--color-text);
+        letter-spacing: -0.5px;
     }
 
     .sign-in-input {
-        margin-bottom: 20px;
+        margin-bottom: 24px;
     }
+    
+    .sign-in-input >>> .el-input__inner {
+        border-radius: 0 var(--radius-md) var(--radius-md) 0;
+        transition: all var(--transition-normal);
+    }
+    
+    .sign-in-input >>> .el-input__inner:focus {
+        border-color: var(--color-primary);
+    }
+    
+    .sign-in-input >>> .el-input-group__prepend {
+        border-radius: var(--radius-md) 0 0 var(--radius-md);
+        background-color: var(--color-bg);
+    }
+    
     .sign-in-submit{
         display: flex;
         justify-content: center;
+        margin-top: 32px;
     }
-    .login-container{
-        padding: 0 10px;
-    }
-    .login-text{
-        color: #409EFF;
+    
+    .sign-in-submit .el-button {
+        width: 100%;
+        padding: 14px 20px;
         font-size: 16px;
+        font-weight: 600;
+        border-radius: var(--radius-md);
+        transition: all var(--transition-normal);
+    }
+    
+    .login-container{
+        margin-top: 24px;
+        text-align: center;
+    }
+    
+    .login-text{
+        color: var(--color-text-secondary);
+        font-size: 14px;
         cursor:pointer;
+        transition: color var(--transition-normal);
+    }
+    
+    .login-text:hover {
+        color: var(--color-primary);
     }
 </style>

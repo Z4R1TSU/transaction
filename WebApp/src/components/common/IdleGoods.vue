@@ -199,16 +199,30 @@
 
 <style scoped>
     .main-border{
-        background-color: #FFF;
-        padding: 10px 30px;
-        box-shadow: 0 1px 15px -6px rgba(0,0,0,.5);
-        border-radius: 5px;
+        background-color: var(--color-bg-card);
+        padding: 24px 32px;
+        box-shadow: var(--shadow-sm);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--color-border);
     }
     .block {
         display: flex;
         justify-content:center;
-        padding-top: 15px;
-        padding-bottom: 10px;
+        padding-top: 24px;
+        padding-bottom: 16px;
         width: 100%;
+    }
+    .el-menu-demo {
+        margin-bottom: 24px;
+        border-bottom: 1px solid var(--color-border-light);
+    }
+    .el-menu-demo >>> .el-menu-item {
+        font-size: 15px;
+        font-weight: 500;
+    }
+    .el-table {
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        border: 1px solid var(--color-border-light);
     }
 </style>

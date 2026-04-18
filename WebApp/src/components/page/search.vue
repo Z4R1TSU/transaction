@@ -134,58 +134,79 @@
 <style scoped>
     .idle-card {
         height: 300px;
-        border: #eeeeee solid 1px;
-        margin-bottom: 15px;
+        background: var(--color-bg-card);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        margin-bottom: 24px;
         cursor: pointer;
+        transition: all var(--transition-normal);
+        overflow: hidden;
+    }
+
+    .idle-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--color-primary-light);
     }
 
     .fenye {
         display: flex;
         justify-content: center;
-        height: 60px;
+        height: 80px;
         align-items: center;
     }
 
     .idle-title {
-        font-size: 18px;
+        font-family: var(--font-heading);
+        font-size: 16px;
         font-weight: 600;
+        color: var(--color-text);
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
-        margin: 10px;
+        margin: 12px 16px 8px;
     }
 
     .idle-prive {
-        font-size: 16px;
-        color: red;
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--color-danger);
+        letter-spacing: -0.5px;
     }
 
     .idle-place {
-        font-size: 13px;
-        color: #666666;
+        font-size: 12px;
+        color: var(--color-text-muted);
         float: right;
-        padding-right: 20px;
-
+        padding: 3px 8px;
+        background: var(--color-bg);
+        border-radius: var(--radius-sm);
     }
 
     .idle-time {
-        color: #666666;
+        color: var(--color-text-muted);
         font-size: 12px;
-        margin: 0 10px;
-    }
-
-    .user-nickname {
-        color: #999999;
-        font-size: 12px;
-        display: flex;
-        align-items: center;
-        height: 30px;
-        padding-left: 10px;
+        margin: 8px 16px;
     }
 
     .user-info {
-        padding: 5px 10px;
-        height: 30px;
+        padding: 8px 16px;
+        height: 40px;
         display: flex;
+        align-items: center;
+        border-top: 1px solid var(--color-border-light);
+        gap: 8px;
+    }
+    
+    .user-info >>> .el-image {
+        border-radius: var(--radius-full);
+        border: 1px solid var(--color-border-light);
+    }
+
+    .user-nickname {
+        color: var(--color-text-secondary);
+        font-size: 13px;
+        display: flex;
+        align-items: center;
     }
 </style>
